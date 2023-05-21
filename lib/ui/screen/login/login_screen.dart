@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:investkuy/ui/screen/investor/topup_screen.dart';
-import 'package:investkuy/ui/screen/investor/withdraw_screen.dart';
+import 'package:investkuy/ui/screen/investor/investor_navigation.dart';
 import 'package:investkuy/ui/screen/register/register_screen.dart';
-import 'package:investkuy/ui/screen/visitor/visitor_detail_screen.dart';
 import 'package:investkuy/ui/screen/visitor/visitor_navigation.dart';
 
 class Login extends StatefulWidget {
@@ -95,16 +93,21 @@ class _LoginState extends State<Login> {
                       padding: const EdgeInsets.only(top: 10),
                       child: ElevatedButton(
                         onPressed:  () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const VisitorNavigation(title: 'VisitorNavigation')),
-                          );
-
-                          // if (widget.title == 'investor') {
-                          //
-                          // } else {
-                          //
-                          // }
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(builder: (context) => const VisitorNavigation(title: 'VisitorNavigation')),
+                          // );
+                          if (widget.title == 'investor') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const InvestorNavigation(title: 'Investor Navigation')),
+                            );
+                          } else {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const VisitorNavigation(title: 'Visitor Navigation')),
+                            );
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xff19A7CE),

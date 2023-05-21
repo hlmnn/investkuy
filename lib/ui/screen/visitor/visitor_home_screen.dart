@@ -86,7 +86,7 @@ class _VisitorHomeState extends State<VisitorHome> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: const [
-                                Icon(Icons.crop_square_sharp,
+                                Icon(Icons.add_box_outlined,
                                   color: Colors.black,
                                 ),
                                 Text("Top Up",
@@ -109,7 +109,7 @@ class _VisitorHomeState extends State<VisitorHome> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: const [
-                                Icon(Icons.arrow_forward_ios_rounded,
+                                Icon(Icons.price_change_outlined,
                                   color: Colors.black,
                                 ),
                                 Text("Withdraw",
@@ -132,7 +132,7 @@ class _VisitorHomeState extends State<VisitorHome> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: const [
-                                Icon(Icons.arrow_forward_ios_rounded,
+                                Icon(Icons.sticky_note_2_outlined,
                                   color: Colors.black,
                                 ),
                                 Text("History",

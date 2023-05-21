@@ -1,7 +1,4 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:investkuy/ui/screen/login/login_screen.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 
 import 'login_choice_screen.dart';
 
@@ -74,8 +71,9 @@ class _VisitorProfileState extends State<VisitorProfile> {
               ),
 
               Padding(
-                padding: const EdgeInsets.only(top: 10),
+                padding: const EdgeInsets.only(top: 30),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text("Lainnya",
                       style: TextStyle(
@@ -85,9 +83,6 @@ class _VisitorProfileState extends State<VisitorProfile> {
                     ),
                     TextButton(
                       onPressed: () {},
-                      style: TextButton.styleFrom(
-
-                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: const [
@@ -119,7 +114,7 @@ class _VisitorProfileState extends State<VisitorProfile> {
                           ),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
