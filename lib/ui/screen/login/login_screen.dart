@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:investkuy/ui/screen/investor/topup_screen.dart';
 import 'package:investkuy/ui/screen/investor/withdraw_screen.dart';
 import 'package:investkuy/ui/screen/register/register_screen.dart';
+import 'package:investkuy/ui/screen/visitor/visitor_detail_screen.dart';
+import 'package:investkuy/ui/screen/visitor/visitor_navigation.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key, required this.title});
@@ -95,7 +97,7 @@ class _LoginState extends State<Login> {
                         onPressed:  () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const Withdraw(title: 'Withdraw')),
+                            MaterialPageRoute(builder: (context) => const VisitorNavigation(title: 'VisitorNavigation')),
                           );
 
                           // if (widget.title == 'investor') {

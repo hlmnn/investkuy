@@ -214,7 +214,7 @@ class _RegisterState extends State<Register> {
                     onPressed:  ()  {
                       Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const LoginChoice(title: 'Login'))
+                          MaterialPageRoute(builder: (context) => const LoginChoice(title: 'LoginChoice'))
                       );
                     },
                     style: ElevatedButton.styleFrom(
