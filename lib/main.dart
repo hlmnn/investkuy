@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:investkuy/ui/screen/visitor/visitor_articles_screen.dart';
+import 'package:investkuy/ui/screen/visitor/visitor_detailArticles_screen.dart';
+import 'package:investkuy/ui/screen/visitor/visitor_faq_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,7 +26,9 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const Articles(
+        title: 'Artikel',
+      ),
     );
   }
 }
