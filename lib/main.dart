@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:investkuy/ui/screen/investor/investor_informasi_akun_screen.dart';
+import 'package:investkuy/ui/screen/investor/investor_notifikasi_screen.dart';
+import 'package:investkuy/ui/screen/investor/investor_password_screen.dart';
+import 'package:investkuy/ui/screen/investor/investor_pin_screen.dart';
+import 'package:investkuy/ui/screen/investor/investor_tambah_rekening_screen.dart';
 import 'package:investkuy/ui/screen/visitor/visitor_articles_screen.dart';
 import 'package:investkuy/ui/screen/visitor/visitor_detailArticles_screen.dart';
 import 'package:investkuy/ui/screen/visitor/visitor_faq_screen.dart';
@@ -26,8 +31,8 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const Articles(
-        title: 'Artikel',
+      home: const Notifikasi(
+        title: 'Notifikasi',
       ),
     );
   }
