@@ -49,6 +49,8 @@ dev_dependencies:
   carousel_slider: ^4.2.1
   dropdown_button2: ^2.1.2
   font_awesome_flutter: ^10.4.0
+  file_picker: ^5.3.2
+  intl: ^0.18.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

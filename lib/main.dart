@@ -4,6 +4,9 @@ import 'package:investkuy/ui/screen/investor/investor_notifikasi_screen.dart';
 import 'package:investkuy/ui/screen/investor/investor_password_screen.dart';
 import 'package:investkuy/ui/screen/investor/investor_pin_screen.dart';
 import 'package:investkuy/ui/screen/investor/investor_tambah_rekening_screen.dart';
+import 'package:investkuy/ui/screen/umkm/umkm_bayar_cicilan_screen.dart';
+import 'package:investkuy/ui/screen/umkm/umkm_daftar_investor_screen.dart';
+import 'package:investkuy/ui/screen/umkm/umkm_laporan_keuangan_screen.dart';
 import 'package:investkuy/ui/screen/visitor/visitor_articles_screen.dart';
 import 'package:investkuy/ui/screen/visitor/visitor_detailArticles_screen.dart';
 import 'package:investkuy/ui/screen/visitor/visitor_faq_screen.dart';
@@ -31,8 +34,8 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const Notifikasi(
-        title: 'Notifikasi',
+      home: const Withdraw(
+        title: 'Bayar Cicilan',
       ),
     );
   }
