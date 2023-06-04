@@ -183,6 +183,7 @@ class _RegisterState extends State<Register> {
                               fontSize: 14,
                             ),
                           ),
+                          maxLength: 6,
                         ),
                       ),
                     ],
