@@ -40,15 +40,20 @@ class _LoginState extends State<Login> {
               return const CircularProgressIndicator();
             } else if (state is SuccessState) {
               if (state.data.role == 'Investor') {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const InvestorNavigation(title: 'Investor Navigation')),
-                );
+                Future.delayed(Duration.zero,(){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const InvestorNavigation(title: 'Investor Navigation')),
+                  );
+                });
+
               } else {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const UmkmNavigation(title: 'UMKM Navigation')),
-                );
+                Future.delayed(Duration.zero,(){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const UmkmNavigation(title: 'UMKM Navigation')),
+                  );
+                });
               }
             }  
 
