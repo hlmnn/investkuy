@@ -17,4 +17,14 @@ class LoginCubit extends Cubit<DataState> {
       emit(ErrorState(e.toString()));
     }
   }
+
+  void saveUser(String token) async {
+    try {
+      emit(LoadingState());
+      final data = await repository.saveUser(token);
+      emit(SuccessState<bool>(data));
+    } catch (e) {
+      emit(ErrorState(e.toString()));
+    }
+  }
 }

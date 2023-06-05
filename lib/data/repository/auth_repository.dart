@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:investkuy/data/model/user_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthRepository {
   late final Dio _dio;
@@ -41,6 +42,36 @@ class AuthRepository {
         "pin": pin,
         "role": role
       });
+      return true;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<String> getUser() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final userToken = prefs.getString('token') ?? "";
+      return userToken;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<bool> saveUser(String token) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('token', token);
+      return true;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<bool> deleteUser() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove('token');
       return true;
     } catch (e) {
       rethrow;
