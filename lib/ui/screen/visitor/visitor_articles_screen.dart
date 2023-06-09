@@ -55,9 +55,10 @@ class _ArticleState extends State<Articles> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text(widget.title),
+          backgroundColor: const Color(0xff19A7CE),
         ),
         body: Padding(
-          padding: EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 5),
+          padding: const EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 5),
           child: ListView.builder(
             itemCount: articles.length,
             itemBuilder: (context, index) {
@@ -71,9 +72,9 @@ class _ArticleState extends State<Articles> {
                               const DetailArticles(title: 'Detail Artikel')));
                 },
                 child: Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Container(
-                    padding: EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(16.0),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
                       color: const Color(0xffE4F9FF),
@@ -83,7 +84,7 @@ class _ArticleState extends State<Articles> {
                       children: [
                         Text(
                           article.title,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold,
                           ),

@@ -44,9 +44,10 @@ class _FaqState extends State<Faqs> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text(widget.title),
+          backgroundColor: const Color(0xff19A7CE),
         ),
         body: Padding(
-          padding: EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 5),
+          padding: const EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 5),
           child: ListView.builder(
             itemCount: faq.length,
             itemBuilder: (context, index) {
