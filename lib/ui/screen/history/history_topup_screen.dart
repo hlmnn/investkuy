@@ -16,9 +16,9 @@ class _HistoryTopUpState extends State<HistoryTopUp> {
     return Scaffold(
         backgroundColor: Colors.white,
         body: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.only(left: 20, right: 20, bottom: 5, top: 5),
           child: ListView.builder(
-            itemCount: 5,
+            itemCount: 8,
             itemBuilder: (BuildContext context, int index) {
               return Card(
                 color: const Color(0xffE4F9FF),

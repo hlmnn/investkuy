@@ -1,21 +1,25 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:investkuy/ui/screen/history/history_screen.dart';
+import 'package:investkuy/ui/screen/history/history_withdraw_screen.dart';
+import 'package:investkuy/ui/screen/history/history_withdraw_umkm_screen.dart';
 import 'package:investkuy/ui/screen/investor/topup_screen.dart';
+import 'package:investkuy/ui/screen/notification/notifikasi_screen.dart';
+import 'package:investkuy/ui/screen/umkm/umkm_ajukan_pendanaan_screen.dart';
 import 'package:investkuy/ui/screen/withdraw/withdraw_screen.dart';
 import 'package:investkuy/ui/screen/visitor/visitor_articles_screen.dart';
 import 'package:investkuy/ui/screen/visitor/visitor_faq_screen.dart';
 
-class VisitorHome extends StatefulWidget {
-  const VisitorHome({super.key, required this.title});
+class UmkmHome extends StatefulWidget {
+  const UmkmHome({super.key, required this.title});
 
   final String title;
 
   @override
-  _VisitorHomeState createState() => _VisitorHomeState();
+  _UmkmHomeState createState() => _UmkmHomeState();
 }
 
-class _VisitorHomeState extends State<VisitorHome> {
+class _UmkmHomeState extends State<UmkmHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +34,12 @@ class _VisitorHomeState extends State<VisitorHome> {
             icon: const Icon(Icons.message_rounded),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Notifikasi(title: 'Notifikasi'))
+              );
+            },
             icon: const Icon(Icons.notifications),
           ),
         ],
@@ -42,20 +51,20 @@ class _VisitorHomeState extends State<VisitorHome> {
           child: Column(
             children: [
               Container(
-                padding: const EdgeInsets.all(40),
-                width: double.infinity,
-                color: const Color(0xff90E7FF),
-                margin: const EdgeInsets.only(bottom: 20),
-                child: Column(
-                  children: const [
-                    Text('BANNER',
-                      style: TextStyle(
-                        fontSize: 17,
-                          fontWeight: FontWeight.bold
-                      ),
-                    )
-                  ],
-                )
+                  padding: const EdgeInsets.all(40),
+                  width: double.infinity,
+                  color: const Color(0xff90E7FF),
+                  margin: const EdgeInsets.only(bottom: 20),
+                  child: Column(
+                    children: const [
+                      Text('BANNER',
+                        style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold
+                        ),
+                      )
+                    ],
+                  )
               ),
 
               Container(
@@ -68,7 +77,7 @@ class _VisitorHomeState extends State<VisitorHome> {
                       const Text('Total saldo yang tersedia (Rp)'),
                       const Padding(
                         padding: EdgeInsets.only(top: 5),
-                        child: Text('0',
+                        child: Text('5.000.000',
                           style: TextStyle(
                               fontSize: 35,
                               fontWeight: FontWeight.bold
@@ -78,29 +87,6 @@ class _VisitorHomeState extends State<VisitorHome> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => const TopUp(title: 'Top Up'))
-                              );
-                            },
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                Icon(Icons.add_box_outlined,
-                                  color: Colors.black,
-                                ),
-                                Text("Top Up",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 13
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
                           TextButton(
                             onPressed: () {
                               Navigator.push(
@@ -128,7 +114,7 @@ class _VisitorHomeState extends State<VisitorHome> {
                             onPressed: () {
                               Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => const History(title: 'History'))
+                                  MaterialPageRoute(builder: (context) => const HistoryWithdrawUmkm(title: 'History Withdraw'))
                               );
                             },
                             child: Column(
@@ -183,17 +169,17 @@ class _VisitorHomeState extends State<VisitorHome> {
                     onPressed: () {
                       Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const Articles(title: 'Artikel'))
+                          MaterialPageRoute(builder: (context) => const UmkmAjukanPendanaan(title: 'Ajukan Pendanaan'))
                       );
                     },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: const [
-                        Icon(Icons.article_outlined,
+                        Icon(Icons.add_business_outlined,
                           color: Colors.black,
                           size: 35,
                         ),
-                        Text("Artikel",
+                        Text("Ajukan",
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 15
@@ -206,8 +192,8 @@ class _VisitorHomeState extends State<VisitorHome> {
               ),
 
               const Padding(
-                padding: EdgeInsets.only(top: 10, bottom: 10),
-                child: Text("Rekomendasi UMKM",
+                padding: EdgeInsets.only(top: 10, bottom: 5),
+                child: Text("Rekomendasi Artikel",
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
@@ -236,7 +222,7 @@ class _VisitorHomeState extends State<VisitorHome> {
                           ),
                           child: Center(
                             child: Text(
-                              'REKOMENDASI UMKM $i',
+                              'REKOMENDASI\nARTIKEL $i',
                               style: const TextStyle(
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.bold

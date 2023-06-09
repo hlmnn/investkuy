@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:investkuy/ui/screen/notification/notifikasi_screen.dart';
 import 'package:investkuy/ui/screen/setting/informasi_akun_screen.dart';
 import 'package:investkuy/ui/screen/setting/password_screen.dart';
 import 'package:investkuy/ui/screen/setting/pin_screen.dart';
 import 'package:investkuy/ui/screen/setting/tambah_rekening_screen.dart';
 import 'package:investkuy/ui/screen/setting/verifikasi_akun.dart';
-import 'package:investkuy/ui/screen/visitor/login_choice_screen.dart';
 
-class InvestorProfile extends StatefulWidget {
-  const InvestorProfile({super.key, required this.title});
+class UmkmProfile extends StatefulWidget {
+  const UmkmProfile({super.key, required this.title});
 
   final String title;
 
   @override
-  _InvestorProfileState createState() => _InvestorProfileState();
+  _UmkmProfileState createState() => _UmkmProfileState();
 }
 
-class _InvestorProfileState extends State<InvestorProfile> {
+class _UmkmProfileState extends State<UmkmProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +30,12 @@ class _InvestorProfileState extends State<InvestorProfile> {
             icon: const Icon(Icons.message_rounded),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Notifikasi(title: 'Notifikasi'))
+              );
+            },
             icon: const Icon(Icons.notifications),
           ),
         ],
@@ -53,7 +58,7 @@ class _InvestorProfileState extends State<InvestorProfile> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: const [
                         Text("Alief Muhammad Abdillah"),
-                        Text("Investor",
+                        Text("Pedagang UMKM",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
@@ -124,12 +129,12 @@ class _InvestorProfileState extends State<InvestorProfile> {
                             ),
                           ),
                           Expanded(
-                              child: Text("Alamat",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.normal
-                                ),
+                            child: Text("Alamat",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal
                               ),
+                            ),
                           ),
 
 
@@ -252,8 +257,8 @@ class _InvestorProfileState extends State<InvestorProfile> {
                     TextButton(
                       onPressed: () {
                         Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const VerifikasiAkun(title: 'Verifikasi Akun'))
+                            context,
+                            MaterialPageRoute(builder: (context) => const VerifikasiAkun(title: 'Verifikasi Akun'))
                         );
                       },
                       child: Row(
@@ -335,8 +340,8 @@ class _InvestorProfileState extends State<InvestorProfile> {
                               ),
                               Text("Keluar Aplikasi",
                                 style: TextStyle(
-                                    color: Colors.black,
-                                    decoration: TextDecoration.underline,
+                                  color: Colors.black,
+                                  decoration: TextDecoration.underline,
                                 ),
                               ),
                             ],

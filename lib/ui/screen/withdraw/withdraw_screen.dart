@@ -12,7 +12,7 @@ class Withdraw extends StatefulWidget {
 
 class _WithdrawState extends State<Withdraw> {
   var error = 'Mohon pilih No. rekening tujuan anda!';
-  final List<String> genderItems = [
+  final List<String> bankItems = [
     'Bank BRI',
     'Bank BCA',
     'Bank Mandiri',
@@ -78,7 +78,7 @@ class _WithdrawState extends State<Withdraw> {
                           fontSize: 15,
                         ),
                       ),
-                      items: genderItems.map((item) => DropdownMenuItem<String>(
+                      items: bankItems.map((item) => DropdownMenuItem<String>(
                         value: item,
                         child: Text(
                           item

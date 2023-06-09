@@ -1,8 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:investkuy/ui/screen/investor/history_screen.dart';
+import 'package:investkuy/ui/screen/history/history_screen.dart';
 import 'package:investkuy/ui/screen/investor/topup_screen.dart';
-import 'package:investkuy/ui/screen/investor/withdraw_screen.dart';
+import 'package:investkuy/ui/screen/withdraw/withdraw_screen.dart';
+import 'package:investkuy/ui/screen/visitor/visitor_articles_screen.dart';
+import 'package:investkuy/ui/screen/visitor/visitor_faq_screen.dart';
 
 class InvestorHome extends StatefulWidget {
   const InvestorHome({super.key, required this.title});
@@ -156,10 +158,10 @@ class _InvestorHomeState extends State<InvestorHome> {
                 children: [
                   TextButton(
                     onPressed: () {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(builder: (context) => const History(title: 'History'))
-                      // );
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const Faqs(title: 'FAQ'))
+                      );
                     },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -179,10 +181,10 @@ class _InvestorHomeState extends State<InvestorHome> {
                   ),
                   TextButton(
                     onPressed: () {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(builder: (context) => const History(title: 'History'))
-                      // );
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const Articles(title: 'Artikel'))
+                      );
                     },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -204,7 +206,7 @@ class _InvestorHomeState extends State<InvestorHome> {
               ),
 
               const Padding(
-                padding: EdgeInsets.only(top: 10, bottom: 10),
+                padding: EdgeInsets.only(top: 10, bottom: 5),
                 child: Text("Rekomendasi UMKM",
                   style: TextStyle(
                     fontSize: 15,
