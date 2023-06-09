@@ -192,8 +192,8 @@ class _UmkmHomeState extends State<UmkmHome> {
               ),
 
               const Padding(
-                padding: EdgeInsets.only(top: 10, bottom: 10),
-                child: Text("Rekomendasi UMKM",
+                padding: EdgeInsets.only(top: 10, bottom: 5),
+                child: Text("Rekomendasi Artikel",
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
@@ -222,7 +222,7 @@ class _UmkmHomeState extends State<UmkmHome> {
                           ),
                           child: Center(
                             child: Text(
-                              'REKOMENDASI UMKM $i',
+                              'REKOMENDASI\nARTIKEL $i',
                               style: const TextStyle(
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.bold

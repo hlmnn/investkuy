@@ -1,6 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:investkuy/ui/screen/umkm/umkm_bayar_cicilan_screen.dart';
+import 'package:investkuy/ui/screen/umkm/umkm_daftar_investor_screen.dart';
+import 'package:investkuy/ui/screen/umkm/umkm_laporan_keuangan_screen.dart';
 
 class UmkmDetailCicilan extends StatefulWidget {
   const UmkmDetailCicilan({super.key, required this.title});
@@ -323,7 +326,11 @@ class _UmkmDetailCicilanState extends State<UmkmDetailCicilan> {
                 ),
                 const SizedBox(height: 10),
                 ElevatedButton(
-                  onPressed:  ()  {},
+                  onPressed:  ()  {
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => const UmkmLaporanKeuangan(title: "Tambah Laporan Keuangan"))
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xff19A7CE),
                       fixedSize: const Size(double.maxFinite, 40),
@@ -340,7 +347,11 @@ class _UmkmDetailCicilanState extends State<UmkmDetailCicilan> {
                 ),
                 const SizedBox(height: 5),
                 ElevatedButton(
-                  onPressed:  ()  {},
+                  onPressed:  ()  {
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => const UmkmDaftarInvestor(title: "Daftar Investor"))
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xff19A7CE),
                       fixedSize: const Size(double.maxFinite, 40),
@@ -377,7 +388,11 @@ class _UmkmDetailCicilanState extends State<UmkmDetailCicilan> {
               child: Column (
                 children: [
                   ElevatedButton(
-                    onPressed:  ()  {},
+                    onPressed:  ()  {
+                      Navigator.push(
+                          context, MaterialPageRoute(builder: (context) => const UmkmBayarCicilan(title: "Bayar Cicilan"))
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xff19A7CE),
                         fixedSize: const Size(double.maxFinite, 40),
