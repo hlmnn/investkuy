@@ -206,7 +206,7 @@ class _InvestorHomeState extends State<InvestorHome> {
               ),
 
               const Padding(
-                padding: EdgeInsets.only(top: 10, bottom: 10),
+                padding: EdgeInsets.only(top: 10, bottom: 5),
                 child: Text("Rekomendasi UMKM",
                   style: TextStyle(
                     fontSize: 15,

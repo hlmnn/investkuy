@@ -200,7 +200,7 @@ class _InvestorUmkmState extends State<InvestorUmkm> {
                       onTap: () {
                         Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const InvestorDetailInvesting(title: 'Detail UMKM'))
+                            MaterialPageRoute(builder: (context) => const InvestorDetail(title: 'Detail UMKM'))
                         );
                       },
                       child: Card(
