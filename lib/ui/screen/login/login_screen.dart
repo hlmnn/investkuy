@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:investkuy/data/data_state.dart';
+import 'package:investkuy/ui/cubit/login_cubit.dart';
 import 'package:investkuy/ui/screen/investor/investor_navigation.dart';
 import 'package:investkuy/ui/screen/register/register_screen.dart';
 import 'package:investkuy/ui/screen/umkm/umkm_navigation.dart';
-import 'package:investkuy/ui/screen/visitor/visitor_navigation.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key, required this.title});
@@ -14,13 +16,47 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  bool _isObsecure = true;
+  final TextEditingController _username = TextEditingController();
+  final TextEditingController _password = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  bool _isObscure = true;
+
+  @override
+  void dispose() {
+    _username.dispose();
+    _password.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: Center(
-            child: SingleChildScrollView(
+      backgroundColor: Colors.white,
+      body: Center(
+        child: BlocBuilder<LoginCubit, DataState>(
+          builder: (context, state) {
+            if (state is LoadingState) { // Loading State
+              return const CircularProgressIndicator();
+            } else if (state is SuccessState) { // Success State
+              context.read<LoginCubit>().saveUser(state.data.token, state.data.role);
+              if (state.data.role == 'Investor') {
+                Future.delayed(Duration.zero,() {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const InvestorNavigation(title: 'Investor Navigation')),
+                  );
+                });
+              } else {
+                Future.delayed(Duration.zero,() {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const UmkmNavigation(title: 'UMKM Navigation')),
+                  );
+                });
+              }
+            }
+            
+            return SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Column(
@@ -28,20 +64,27 @@ class _LoginState extends State<Login> {
                   children: [
                     // Image
                     Padding(
-                        padding: const EdgeInsets.only(top: 10, bottom: 10),
-                        child: Image.asset('assets/images/logo.png')
+                      padding: const EdgeInsets.only(top: 10, bottom: 10),
+                      child: Image.asset('assets/images/logo.png'),
                     ),
 
                     Form(
+                      key: _formKey,
                       child: Column(
                         children: [
                           // Username
                           Padding(
                             padding: const EdgeInsets.only(bottom: 5),
                             child: TextFormField(
+                              controller: _username,
+                              validator: (value) {
+                                return (value == null || value.isEmpty) ? 'Username tidak boleh kosong!' : null;
+                              },
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Color(0xff146C94)),
+                                  borderSide: BorderSide(
+                                    color: Color(0xff146C94),
+                                  ),
                                 ),
                                 errorBorder: OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.red),
@@ -60,28 +103,42 @@ class _LoginState extends State<Login> {
                           Padding(
                             padding: const EdgeInsets.only(top: 5),
                             child: TextFormField(
-                              obscureText: _isObsecure,
+                              controller: _password,
+                              obscureText: _isObscure,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Password tidak boleh kosong';
+                                }
+                                if ((value.isNotEmpty) && value.length < 8) {
+                                  return 'Password setidaknya memiliki panjang 8 karakter';
+                                }
+                                return null;
+                              },
                               decoration: InputDecoration(
-                                  border: const OutlineInputBorder(
-                                    borderSide: BorderSide(color: Color(0xff146C94)),
+                                border: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Color(0xff146C94),
                                   ),
-                                  errorBorder: const OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.red),
-                                  ),
-                                  contentPadding: const EdgeInsets.all(10),
-                                  hintText: 'Password',
-                                  hintStyle: const TextStyle(
-                                    color: Color(0xff4A4A4A),
-                                    fontSize: 14,
-                                  ),
-                                  suffixIcon: IconButton(
-                                    icon: Icon(_isObsecure ? Icons.visibility_off : Icons.visibility),
-                                    onPressed: () {
-                                      setState(() {
-                                        _isObsecure = !_isObsecure;
-                                      });
-                                    },
-                                  ),
+                                ),
+                                errorBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.red),
+                                ),
+                                contentPadding: const EdgeInsets.all(10),
+                                hintText: 'Password',
+                                hintStyle: const TextStyle(
+                                  color: Color(0xff4A4A4A),
+                                  fontSize: 14,
+                                ),
+                                suffixIcon: IconButton(
+                                  icon: Icon(_isObscure
+                                      ? Icons.visibility_off
+                                      : Icons.visibility),
+                                  onPressed: () {
+                                    setState(() {
+                                      _isObscure = !_isObscure;
+                                    });
+                                  },
+                                ),
                               ),
                             ),
                           ),
@@ -93,25 +150,24 @@ class _LoginState extends State<Login> {
                     Padding(
                       padding: const EdgeInsets.only(top: 10),
                       child: ElevatedButton(
-                        onPressed:  () {
-                          if (widget.title == 'investor') {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const InvestorNavigation(title: 'Investor Navigation')),
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            context.read<LoginCubit>().login(_username.value.text, _password.value.text);
+                          }
+                          if (state is ErrorState) {
+                            var snackBar = SnackBar(
+                              duration: const Duration(seconds: 5),
+                              content: Text(state.message),
                             );
-                          } else {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const UmkmNavigation(title: 'Visitor Navigation')),
-                            );
+                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xff19A7CE),
-                            fixedSize: const Size(220, 50),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)
-                            )
+                          backgroundColor: const Color(0xff19A7CE),
+                          fixedSize: const Size(220, 50),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                         ),
                         child: const Text(
                           "Masuk",
@@ -121,7 +177,6 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                     ),
-
                     // Text and TextButton
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -131,12 +186,14 @@ class _LoginState extends State<Login> {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => const Register(title: 'Register')),
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    Register(title: widget.title),
+                              ),
                             );
                           },
                           style: TextButton.styleFrom(
-                              backgroundColor: Colors.transparent
-                          ),
+                              backgroundColor: Colors.transparent),
                           child: const Text(
                             "Daftar disini!",
                             style: TextStyle(
@@ -150,8 +207,10 @@ class _LoginState extends State<Login> {
                   ],
                 ),
               ),
-            )
-        )
+            );
+          },
+        ),
+      ),
     );
   }
 }

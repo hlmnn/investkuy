@@ -34,7 +34,7 @@ class _LoginChoiceState extends State<LoginChoice> {
                   onPressed:  () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const Login(title: 'investor')),
+                      MaterialPageRoute(builder: (context) => const Login(title: 'Investor')),
                     );
                   },
                   style: ElevatedButton.styleFrom(
@@ -60,7 +60,7 @@ class _LoginChoiceState extends State<LoginChoice> {
                   onPressed:  () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const Login(title: 'umkm')),
+                      MaterialPageRoute(builder: (context) => const Login(title: 'UMKM')),
                     );
                   },
                   style: ElevatedButton.styleFrom(
