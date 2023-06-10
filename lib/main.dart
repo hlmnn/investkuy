@@ -1,7 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:investkuy/data/data_state.dart';
+import 'package:investkuy/ui/cubit/login_cubit.dart';
+import 'package:investkuy/ui/cubit/register_cubit.dart';
+import 'package:investkuy/ui/cubit/splash_cubit.dart';
 import 'package:investkuy/ui/screen/investor/investor_navigation.dart';
+import 'package:investkuy/ui/screen/umkm/umkm_navigation.dart';
 import 'package:investkuy/ui/screen/visitor/visitor_navigation.dart';
 
 void main() {
@@ -13,8 +19,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: SplashScreen(title: 'SplashScreen'),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<SplashCubit>(
+          create: (context) => SplashCubit(),
+        ),
+        BlocProvider<LoginCubit>(
+          create: (context) => LoginCubit(),
+        ),
+        BlocProvider<RegisterCubit>(
+          create: (context) => RegisterCubit(),
+        ),
+      ],
+      child: const MaterialApp(
+        home: SplashScreen(title: 'SplashScreen'),
+      ),
     );
   }
 }
@@ -30,22 +49,35 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   @override
-  void initState() {
-    super.initState();
-    Timer(const Duration(seconds: 5), () =>
-        Navigator.pushReplacement(
-          context,
-          // MaterialPageRoute(builder: (context) => const InvestorNavigation(title: 'InvestorNavigation'))
-          MaterialPageRoute(builder: (context) => const VisitorNavigation(title: 'VisitorNavigation'))
-      )
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Container(
-        color: Colors.white,
-        child: Image.asset('assets/images/logo.png')
+      color: Colors.white,
+      child: BlocBuilder<SplashCubit, DataState>(
+        builder: (context, state) {
+          Timer(const Duration(seconds: 5), () {
+            if (state is SuccessState) {
+              if (state.data == "Visitor") {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const VisitorNavigation(title: 'VisitorNavigation'))
+                );
+              } else if (state.data == "Investor") {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const InvestorNavigation(title: 'Investor Navigation'))
+                );
+              } else {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const UmkmNavigation(title: 'UMKM Navigation'))
+                );
+              }
+            }
+          });
+
+          return Image.asset('assets/images/logo.png');
+        },
+      ),
     );
   }
 }
