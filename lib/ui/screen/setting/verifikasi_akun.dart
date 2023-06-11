@@ -3,6 +3,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:image_picker/image_picker.dart';
 
 class VerifikasiAkun extends StatefulWidget {
   const VerifikasiAkun({super.key, required this.title});
@@ -26,27 +27,25 @@ class _UmkmVerifikasiAkunState extends State<VerifikasiAkun> {
   String _nama = "";
   String _nik = "";
   String _alamat = "";
-  File? fileLaporan;
 
   String? selectedGenderValue;
   String? selectedGenderValueOut;
 
   var error = 'Mohon pilih No. rekening tujuan anda!';
+  File? image;
 
-
-  void _pickFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: ['jpg','jpeg','png']
-    );
-
-    if (result != null) {
-      setState(() {
-        textEditingFilePickerController.text = result.files.single.name;
-        fileLaporan = File(result.files.single.path.toString());
-      });
-    } else {
-      // User canceled the picker
+  Future pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if(image != null) {
+        final imageTemp = File(image.path);
+        textEditingFilePickerController.text = image.name;
+        setState(() => this.image = imageTemp);
+      } else {
+        print("No image is selected.");
+      }
+    } catch(e) {
+      print('Failed to pick image: $e');
     }
   }
 
@@ -137,6 +136,19 @@ class _UmkmVerifikasiAkunState extends State<VerifikasiAkun> {
                             fontWeight: FontWeight.bold
                         ),
                       ),
+                      const SizedBox(height: 10),
+                      image != null ? Image.file(image!) : Container(
+                        padding: const EdgeInsets.all(16.0),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          border: Border.all(width: 1, color: const Color(0xff146C94)),
+                          borderRadius: const BorderRadius.all(Radius.circular(10)),
+                        ),
+                        child: const Align(
+                          alignment: Alignment.center,
+                          child: Text('No image selected'),
+                        ),
+                      ),
                       // Akad
                       Padding(
                         padding: const EdgeInsets.only(top: 10, bottom: 5),
@@ -155,7 +167,7 @@ class _UmkmVerifikasiAkunState extends State<VerifikasiAkun> {
                                     borderSide: BorderSide(color: Colors.red),
                                   ),
                                   contentPadding: EdgeInsets.all(10),
-                                  hintText: 'Upload File',
+                                  hintText: 'Upload Foto',
                                   hintStyle: TextStyle(
                                     color: Color(0xff4A4A4A),
                                     fontSize: 14,
@@ -172,9 +184,9 @@ class _UmkmVerifikasiAkunState extends State<VerifikasiAkun> {
                                 color: Colors.white,
                                 size: 20.0,
                               ),
-                              label: const Text('Pilih File'),
+                              label: const Text('Pilih Foto'),
                               onPressed: () {
-                                _pickFile();
+                                pickImage();
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Color(0xff19A7CE),
