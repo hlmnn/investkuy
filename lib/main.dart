@@ -6,7 +6,10 @@ import 'package:investkuy/data/data_state.dart';
 import 'package:investkuy/ui/cubit/faq_cubit.dart';
 import 'package:investkuy/ui/cubit/article_cubit.dart';
 import 'package:investkuy/ui/cubit/login_cubit.dart';
+import 'package:investkuy/ui/cubit/profile_cubit.dart';
 import 'package:investkuy/ui/cubit/register_cubit.dart';
+import 'package:investkuy/ui/cubit/rekening_cubit.dart';
+import 'package:investkuy/ui/cubit/setting_cubit.dart';
 import 'package:investkuy/ui/cubit/details_article_cubit.dart';
 import 'package:investkuy/ui/cubit/splash_cubit.dart';
 import 'package:investkuy/ui/screen/investor/investor_navigation.dart';
@@ -33,6 +36,14 @@ class MyApp extends StatelessWidget {
         BlocProvider<RegisterCubit>(
           create: (context) => RegisterCubit(),
         ),
+        BlocProvider<ProfileCubit>(
+          create: (context) => ProfileCubit(),
+        ),
+        BlocProvider<SettingCubit>(
+          create: (context) => SettingCubit(),
+        ),
+        BlocProvider<RekeningCubit>(
+          create: (context) => RekeningCubit(),
         BlocProvider<FaqCubit>(
           create: (context) => FaqCubit(),
         ),

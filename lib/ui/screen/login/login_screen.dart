@@ -38,8 +38,8 @@ class _LoginState extends State<Login> {
             if (state is LoadingState) { // Loading State
               return const CircularProgressIndicator();
             } else if (state is SuccessState) { // Success State
-              context.read<LoginCubit>().saveUser(state.data.token, state.data.role);
               if (state.data.role == 'Investor') {
+                context.read<LoginCubit>().resetState();
                 Future.delayed(Duration.zero,() {
                   Navigator.pushReplacement(
                     context,
@@ -47,6 +47,7 @@ class _LoginState extends State<Login> {
                   );
                 });
               } else {
+                context.read<LoginCubit>().resetState();
                 Future.delayed(Duration.zero,() {
                   Navigator.pushReplacement(
                     context,

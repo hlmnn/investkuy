@@ -74,11 +74,13 @@ class AuthRepository {
     }
   }
 
-  Future<bool> saveUser(String token, String role) async {
+  Future<bool> saveUser(String token, String role, String username, int id) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('token', token);
       await prefs.setString("role", role);
+      await prefs.setString("username", username);
+      await prefs.setInt("id", id);
       return true;
     } catch (e) {
       rethrow;
@@ -90,6 +92,8 @@ class AuthRepository {
       final prefs = await SharedPreferences.getInstance();
       await prefs.remove('token');
       await prefs.remove('role');
+      await prefs.remove('username');
+      await prefs.remove('id');
       return true;
     } catch (e) {
       rethrow;

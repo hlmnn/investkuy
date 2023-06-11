@@ -50,6 +50,7 @@ class _RegisterState extends State<Register> {
             if (state is LoadingState) {
               return const CircularProgressIndicator();
             } else if (state is SuccessState) {
+              context.read<RegisterCubit>().resetState();
               Future.delayed(Duration.zero, () {
                 Navigator.push(
                     context,

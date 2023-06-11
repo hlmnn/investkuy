@@ -1,4 +1,5 @@
 class UserModel {
+  int id;
   String name;
   String username;
   String email;
@@ -7,32 +8,38 @@ class UserModel {
   String role;
   bool isVerified;
   String token;
+  String imgUrl;
 
   UserModel(
-      {required this.name,
+      {required this.id,
+        required this.name,
         required this.username,
         required this.email,
         required this.telp,
         required this.alamat,
         required this.role,
         required this.isVerified,
-        required this.token});
+        required this.token,
+        required this.imgUrl});
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
+      id: json['id'] ?? 0,
       name: json['name'],
-      username: json['username'],
+      username: json['username'] ?? "",
       email: json['email'],
-      telp: json['no_telepon'].toString() ?? "",
+      telp: json['no_telepon'] ?? "",
       alamat: json['alamat'] ?? "",
       role: json['role'],
       isVerified: json['is_verified'],
-      token: json['token'],
+      token: json['token'] ?? "",
+      imgUrl: json['img_url'] ?? ""
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
+      "id": id,
       "name": name,
       "username": username,
       "email": email,
@@ -40,7 +47,8 @@ class UserModel {
       "alamat": alamat,
       "role": role,
       "is_verified": isVerified,
-      "token": token
+      "token": token,
+      "img_url": imgUrl
     };
   }
 }
