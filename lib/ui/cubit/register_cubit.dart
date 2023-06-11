@@ -21,4 +21,8 @@ class RegisterCubit extends Cubit<DataState> {
       emit(ErrorState(e.response!.data['message'].toString()));
     }
   }
+
+  void resetState() async {
+    emit(InitialState());
+  }
 }

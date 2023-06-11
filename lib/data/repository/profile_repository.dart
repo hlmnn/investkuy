@@ -4,11 +4,11 @@ import 'package:dio/dio.dart';
 import 'package:investkuy/data/model/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AuthRepository {
+class ProfileRepository {
   late final Dio _dio;
 
   // Constructor
-  AuthRepository() {
+  ProfileRepository() {
     _dio = Dio(
       BaseOptions(
         baseUrl: "http://18.140.79.85",
@@ -21,10 +21,10 @@ class AuthRepository {
         .add(LogInterceptor(requestBody: true, responseBody: true));
   }
 
-  Future<UserModel> login(String username, String password) async {
+  Future<UserModel> getUser() async {
     try {
-      final response = await _dio.post("/user/login",
-          data: {"username": username, "password": password});
+      final id = await getId();
+      final response = await _dio.get('/user/profile/$id');
       final data = UserModel.fromJson(response.data['data']);
       return data;
     } on DioException catch (e) {
@@ -34,18 +34,29 @@ class AuthRepository {
     }
   }
 
-  Future<bool> register(String name, String email, String username,
-      String password, String confirmPassword, String pin, String role) async {
+  Future<UserModel> updateAccount(String name, String email, String telp, String alamat) async {
     try {
-      await _dio.post("/user/register", data: {
-        "name": name,
-        "email": email,
-        "username": username,
-        "password": password,
-        "confirmPassword": confirmPassword,
-        "pin": pin,
-        "role": role
+      final id = await getId();
+      final response = await _dio.put('');
+      final data = UserModel.fromJson(response.data['data']);
+      return data;
+    } on DioException catch (e) {
+      log(e.response!.statusCode.toString());
+      log(e.message.toString());
+      rethrow;
+    }
+  }
+  
+  Future<bool> changePassword(String oldPass, String newPass, String confNewPass, String pin) async {
+    try {
+      final id = await getId();
+      await _dio.put("/user/profile/ubah-password/$id", data: {
+        "oldPass": oldPass,
+        "newPass": newPass,
+        "confirmNewPass": confNewPass,
+        "pin": pin
       });
+      
       return true;
     } on DioException catch (e) {
       log(e.response!.statusCode.toString());
@@ -74,14 +85,21 @@ class AuthRepository {
     }
   }
 
-  Future<bool> saveUser(String token, String role, String username, int id) async {
+  Future<String> getUsername() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('token', token);
-      await prefs.setString("role", role);
-      await prefs.setString("username", username);
-      await prefs.setInt("id", id);
-      return true;
+      final username = prefs.getString('username') ?? "";
+      return username;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<int> getId() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final id = prefs.getInt('id') ?? 1;
+      return id;
     } catch (e) {
       rethrow;
     }
