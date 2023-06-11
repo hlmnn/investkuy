@@ -3,11 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:investkuy/data/data_state.dart';
+import 'package:investkuy/ui/cubit/faq_cubit.dart';
+import 'package:investkuy/ui/cubit/article_cubit.dart';
 import 'package:investkuy/ui/cubit/login_cubit.dart';
 import 'package:investkuy/ui/cubit/profile_cubit.dart';
 import 'package:investkuy/ui/cubit/register_cubit.dart';
 import 'package:investkuy/ui/cubit/rekening_cubit.dart';
 import 'package:investkuy/ui/cubit/setting_cubit.dart';
+import 'package:investkuy/ui/cubit/details_article_cubit.dart';
 import 'package:investkuy/ui/cubit/splash_cubit.dart';
 import 'package:investkuy/ui/screen/investor/investor_navigation.dart';
 import 'package:investkuy/ui/screen/umkm/umkm_navigation.dart';
@@ -41,6 +44,14 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<RekeningCubit>(
           create: (context) => RekeningCubit(),
+        BlocProvider<FaqCubit>(
+          create: (context) => FaqCubit(),
+        ),
+        BlocProvider<ArticleCubit>(
+          create: (context) => ArticleCubit(),
+        ),
+        BlocProvider<DetailsArticleCubit>(
+          create: (context) => DetailsArticleCubit(),
         )
       ],
       child: const MaterialApp(
@@ -71,18 +82,21 @@ class _SplashScreenState extends State<SplashScreen> {
               if (state.data == "Visitor") {
                 Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => const VisitorNavigation(title: 'VisitorNavigation'))
-                );
+                    MaterialPageRoute(
+                        builder: (context) => const VisitorNavigation(
+                            title: 'VisitorNavigation')));
               } else if (state.data == "Investor") {
                 Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => const InvestorNavigation(title: 'Investor Navigation'))
-                );
+                    MaterialPageRoute(
+                        builder: (context) => const InvestorNavigation(
+                            title: 'Investor Navigation')));
               } else {
                 Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => const UmkmNavigation(title: 'UMKM Navigation'))
-                );
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            const UmkmNavigation(title: 'UMKM Navigation')));
               }
             }
           });
