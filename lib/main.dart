@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:investkuy/data/data_state.dart';
@@ -78,26 +77,38 @@ class _SplashScreenState extends State<SplashScreen> {
       color: Colors.white,
       child: BlocBuilder<SplashCubit, DataState>(
         builder: (context, state) {
+          if (state is InitialState) {
+            context.read<SplashCubit>().getCurrentUserRole();
+          }
           Timer(const Duration(seconds: 5), () {
             if (state is SuccessState) {
               if (state.data == "Visitor") {
+                context.read<SplashCubit>().resetState();
                 Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const VisitorNavigation(
-                            title: 'VisitorNavigation')));
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        const VisitorNavigation(title: 'VisitorNavigation'),
+                  ),
+                );
               } else if (state.data == "Investor") {
+                context.read<SplashCubit>().resetState();
                 Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const InvestorNavigation(
-                            title: 'Investor Navigation')));
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        const InvestorNavigation(title: 'Investor Navigation'),
+                  ),
+                );
               } else {
+                context.read<SplashCubit>().resetState();
                 Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            const UmkmNavigation(title: 'UMKM Navigation')));
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        const UmkmNavigation(title: 'UMKM Navigation'),
+                  ),
+                );
               }
             }
           });

@@ -18,4 +18,8 @@ class SplashCubit extends Cubit<DataState> {
       emit(ErrorState(e.toString()));
     }
   }
+
+  void resetState() {
+    emit(InitialState());
+  }
 }
