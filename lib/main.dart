@@ -44,6 +44,7 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<RekeningCubit>(
           create: (context) => RekeningCubit(),
+        ),
         BlocProvider<FaqCubit>(
           create: (context) => FaqCubit(),
         ),
