@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:investkuy/data/data_state.dart';
+import 'package:investkuy/ui/cubit/faq_cubit.dart';
 import 'package:investkuy/ui/cubit/article_cubit.dart';
 import 'package:investkuy/ui/cubit/login_cubit.dart';
 import 'package:investkuy/ui/cubit/register_cubit.dart';
@@ -31,6 +32,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<RegisterCubit>(
           create: (context) => RegisterCubit(),
+        ),
+        BlocProvider<FaqCubit>(
+          create: (context) => FaqCubit(),
         ),
         BlocProvider<ArticleCubit>(
           create: (context) => ArticleCubit(),
