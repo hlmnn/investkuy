@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class InformasiAkun extends StatefulWidget {
   const InformasiAkun({super.key, required this.title});
@@ -11,6 +13,29 @@ class InformasiAkun extends StatefulWidget {
 
 class _InformasiAkunState extends State<InformasiAkun> {
   final _formKey = GlobalKey<FormState>();
+  final textEditingFilePickerController = TextEditingController();
+  File? image;
+
+  Future pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if(image != null) {
+        final imageTemp = File(image.path);
+        textEditingFilePickerController.text = image.name;
+        setState(() => this.image = imageTemp);
+      } else {
+        print("No image is selected.");
+      }
+    } catch(e) {
+      print('Failed to pick image: $e');
+    }
+  }
+
+  @override
+  void dispose() {
+    textEditingFilePickerController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,98 +45,166 @@ class _InformasiAkunState extends State<InformasiAkun> {
           title: Text(widget.title),
           backgroundColor: const Color(0xff19A7CE),
         ),
-        body: Column(
-          children: [
-            Container(
-              margin: const EdgeInsets.all(20),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    TextFormField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Color(0xff146C94)),
+        body: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            children: [
+              Container(
+                margin: const EdgeInsets.all(20),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      image != null ? Image.file(image!) : Container(
+                        padding: const EdgeInsets.all(16.0),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          border: Border.all(width: 1, color: const Color(0xff146C94)),
+                          borderRadius: const BorderRadius.all(Radius.circular(10)),
                         ),
-                        errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red),
-                        ),
-                        contentPadding:
-                        EdgeInsets.only(left: 15, top: 20, bottom: 20),
-                        hintText: 'Nama',
-                        hintStyle: TextStyle(
-                          fontSize: 15,
+                        child: const Align(
+                          alignment: Alignment.center,
+                          child: Text('No image selected'),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20, bottom: 20),
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: Color(0xff146C94)),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red),
-                          ),
-                          contentPadding:
-                          EdgeInsets.only(left: 15, top: 20, bottom: 20),
-                          hintText: 'Email',
-                          hintStyle: TextStyle(
-                            fontSize: 15,
+                      const SizedBox(height: 5),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10, bottom: 5),
+                        child: Row (
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                readOnly: true,
+                                decoration: const InputDecoration(
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Color(0xff146C94)),
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.red),
+                                  ),
+                                  contentPadding: EdgeInsets.all(10),
+                                  hintText: 'Upload Foto',
+                                  hintStyle: TextStyle(
+                                    color: Color(0xff4A4A4A),
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                controller: textEditingFilePickerController,
+                              ),
+                            ),
+
+                            const SizedBox(width: 5),
+                            ElevatedButton.icon(
+                              icon: const Icon(
+                                Icons.upload_file,
+                                color: Colors.white,
+                                size: 20.0,
+                              ),
+                              label: const Text('Pilih Foto'),
+                              onPressed: () {
+                                pickImage();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xff19A7CE),
+                                minimumSize: const Size(122, 48),
+                                maximumSize: const Size(122, 48),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20, bottom: 20),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(color: Color(0xff146C94)),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.red),
+                            ),
+                            contentPadding: EdgeInsets.only(left: 15, top: 20, bottom: 20),
+                            hintText: 'Nama',
+                            hintStyle: TextStyle(
+                              fontSize: 15,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: Color(0xff146C94)),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red),
-                          ),
-                          contentPadding:
-                          EdgeInsets.only(left: 15, top: 20, bottom: 20),
-                          hintText: 'No. Handphone',
-                          hintStyle: TextStyle(
-                            fontSize: 15,
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(color: Color(0xff146C94)),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.red),
+                            ),
+                            contentPadding:
+                            EdgeInsets.only(left: 15, top: 20, bottom: 20),
+                            hintText: 'Email',
+                            hintStyle: TextStyle(
+                              fontSize: 15,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: Color(0xff146C94)),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red),
-                          ),
-                          contentPadding:
-                          EdgeInsets.only(left: 15, top: 20, bottom: 20),
-                          hintText: 'Alamat',
-                          hintStyle: TextStyle(
-                            fontSize: 15,
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(color: Color(0xff146C94)),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.red),
+                            ),
+                            contentPadding:
+                            EdgeInsets.only(left: 15, top: 20, bottom: 20),
+                            hintText: 'No. Handphone',
+                            hintStyle: TextStyle(
+                              fontSize: 15,
+                            ),
                           ),
                         ),
-                        maxLines: 5,
                       ),
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(color: Color(0xff146C94)),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.red),
+                            ),
+                            contentPadding:
+                            EdgeInsets.only(left: 15, top: 20, bottom: 20),
+                            hintText: 'Alamat',
+                            hintStyle: TextStyle(
+                              fontSize: 15,
+                            ),
+                          ),
+                          maxLines: 5,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         bottomNavigationBar: BottomAppBar(
           child: Container(
