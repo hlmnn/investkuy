@@ -7,6 +7,7 @@ import 'package:investkuy/ui/screen/notification/notifikasi_screen.dart';
 import 'package:investkuy/ui/screen/setting/informasi_akun_screen.dart';
 import 'package:investkuy/ui/screen/setting/password_screen.dart';
 import 'package:investkuy/ui/screen/setting/pin_screen.dart';
+import 'package:investkuy/ui/screen/setting/rekening_bank.dart';
 import 'package:investkuy/ui/screen/setting/tambah_rekening_screen.dart';
 import 'package:investkuy/ui/screen/setting/verifikasi_akun.dart';
 
@@ -193,10 +194,12 @@ class _UmkmProfileState extends State<UmkmProfile> {
                         TextButton(
                           onPressed: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const TambahRekening(
-                                        title: 'Tambah Rekening')));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const RekeningBank(title: 'Rekening Bank'),
+                              ),
+                            );
                           },
                           child: const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,

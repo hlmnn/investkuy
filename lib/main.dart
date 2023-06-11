@@ -6,6 +6,8 @@ import 'package:investkuy/data/data_state.dart';
 import 'package:investkuy/ui/cubit/login_cubit.dart';
 import 'package:investkuy/ui/cubit/profile_cubit.dart';
 import 'package:investkuy/ui/cubit/register_cubit.dart';
+import 'package:investkuy/ui/cubit/rekening_cubit.dart';
+import 'package:investkuy/ui/cubit/setting_cubit.dart';
 import 'package:investkuy/ui/cubit/splash_cubit.dart';
 import 'package:investkuy/ui/screen/investor/investor_navigation.dart';
 import 'package:investkuy/ui/screen/umkm/umkm_navigation.dart';
@@ -34,6 +36,12 @@ class MyApp extends StatelessWidget {
         BlocProvider<ProfileCubit>(
           create: (context) => ProfileCubit(),
         ),
+        BlocProvider<SettingCubit>(
+          create: (context) => SettingCubit(),
+        ),
+        BlocProvider<RekeningCubit>(
+          create: (context) => RekeningCubit(),
+        )
       ],
       child: const MaterialApp(
         home: SplashScreen(title: 'SplashScreen'),

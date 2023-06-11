@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:investkuy/data/model/merchant_model.dart';
+import 'package:investkuy/data/model/rekening_model.dart';
 import 'package:investkuy/data/model/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -34,7 +36,8 @@ class ProfileRepository {
     }
   }
 
-  Future<UserModel> updateAccount(String name, String email, String telp, String alamat) async {
+  Future<UserModel> updateAccount(
+      String name, String email, String telp, String alamat) async {
     try {
       final id = await getId();
       final response = await _dio.put('');
@@ -46,8 +49,9 @@ class ProfileRepository {
       rethrow;
     }
   }
-  
-  Future<bool> changePassword(String oldPass, String newPass, String confNewPass, String pin) async {
+
+  Future<bool> changePassword(
+      String oldPass, String newPass, String confNewPass, String pin) async {
     try {
       final id = await getId();
       await _dio.put("/user/profile/ubah-password/$id", data: {
@@ -56,7 +60,106 @@ class ProfileRepository {
         "confirmNewPass": confNewPass,
         "pin": pin
       });
-      
+
+      return true;
+    } on DioException catch (e) {
+      log(e.response!.statusCode.toString());
+      log(e.message.toString());
+      rethrow;
+    }
+  }
+
+  Future<bool> changePin(
+      String oldPin, String newPin, String confNewPin, String password) async {
+    try {
+      final id = await getId();
+      await _dio.put("/user/profile/ubah-pin/$id", data: {
+        "oldPin": oldPin,
+        "newPin": newPin,
+        "confirmNewPin": confNewPin,
+        "password": password
+      });
+
+      return true;
+    } on DioException catch (e) {
+      log(e.response!.statusCode.toString());
+      log(e.message.toString());
+      rethrow;
+    }
+  }
+
+  Future<List<MerchantModel>> getAllMerchants() async {
+    try {
+      final response = await _dio.get('/merchants');
+      List<MerchantModel> data = [];
+      for (var val in response.data['data']) {
+        data.add(MerchantModel.fromJson(val));
+      }
+      return data;
+    } on DioException catch (e) {
+      log(e.response!.statusCode.toString());
+      log(e.message.toString());
+      rethrow;
+    }
+  }
+
+  Future<bool> addRekening(int merchantId, String noRekening) async {
+    try {
+      final id = await getId();
+      final token = await getToken();
+      await _dio.post(
+        '/rekenings',
+        data: {
+          "userId": id,
+          "merchantId": merchantId,
+          "no_rekening": noRekening
+        },
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $token",
+          },
+        ),
+      );
+      return true;
+    } on DioException catch (e) {
+      log(e.response!.statusCode.toString());
+      log(e.message.toString());
+      rethrow;
+    }
+  }
+
+  Future<List<RekeningModel>> getAllRekening() async {
+    try {
+      final id = await getId();
+      final token = await getToken();
+      final response = await _dio.get(
+        "/rekenings/$id",
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $token",
+          },
+        ),
+      );
+      List<RekeningModel> data = [];
+      for (var val in response.data['data']) {
+        data.add(RekeningModel.fromJson(val));
+      }
+      return data;
+    } on DioException catch (e) {
+      log(e.response!.statusCode.toString());
+      log(e.message.toString());
+      rethrow;
+    }
+  }
+
+  Future<bool> deleteRekening(int id) async {
+    try {
+      final token = await getToken();
+      await _dio.delete("/rekenings/$id", options: Options(
+        headers: {
+          "Authorization": "Bearer $token",
+        },
+      ),);
       return true;
     } on DioException catch (e) {
       log(e.response!.statusCode.toString());

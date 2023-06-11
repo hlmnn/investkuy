@@ -6,6 +6,7 @@ import 'package:investkuy/ui/cubit/profile_cubit.dart';
 import 'package:investkuy/ui/screen/setting/informasi_akun_screen.dart';
 import 'package:investkuy/ui/screen/setting/password_screen.dart';
 import 'package:investkuy/ui/screen/setting/pin_screen.dart';
+import 'package:investkuy/ui/screen/setting/rekening_bank.dart';
 import 'package:investkuy/ui/screen/setting/tambah_rekening_screen.dart';
 import 'package:investkuy/ui/screen/setting/verifikasi_akun.dart';
 
@@ -59,14 +60,19 @@ class _InvestorProfileState extends State<InvestorProfile> {
               Future.delayed(Duration.zero, () {
                 Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => const SplashScreen(title: 'SplashScreen'))
-                );
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            const SplashScreen(title: 'SplashScreen')));
               });
             } else {
               name = state.data.name;
               email = state.data.email;
-              telp = state.data.telp == "" ? "Tidak ada no telepon" : state.data.telp;
-              alamat = state.data.alamat == "" ? "Tidak ada alamat" : state.data.alamat;
+              telp = state.data.telp == ""
+                  ? "Tidak ada no telepon"
+                  : state.data.telp;
+              alamat = state.data.alamat == ""
+                  ? "Tidak ada alamat"
+                  : state.data.alamat;
 
               if (state.data.imgUrl != "") {
                 img = CircleAvatar(
@@ -184,10 +190,12 @@ class _InvestorProfileState extends State<InvestorProfile> {
                         TextButton(
                           onPressed: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const TambahRekening(
-                                        title: 'Tambah Rekening')));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const RekeningBank(title: 'Rekening Bank'),
+                              ),
+                            );
                           },
                           child: const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,

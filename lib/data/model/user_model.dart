@@ -39,6 +39,7 @@ class UserModel {
 
   Map<String, dynamic> toJson() {
     return {
+      "id": id,
       "name": name,
       "username": username,
       "email": email,
@@ -46,7 +47,8 @@ class UserModel {
       "alamat": alamat,
       "role": role,
       "is_verified": isVerified,
-      "token": token
+      "token": token,
+      "img_url": imgUrl
     };
   }
 }
