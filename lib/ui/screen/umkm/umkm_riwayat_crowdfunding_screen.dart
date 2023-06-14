@@ -3,9 +3,10 @@ import 'package:investkuy/ui/screen/umkm/umkm_detail_screen.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class RiwayatCrowdfunding extends StatefulWidget {
-  const RiwayatCrowdfunding({super.key, required this.title});
+  const RiwayatCrowdfunding({super.key, required this.title, required this.username});
 
   final String title;
+  final String? username;
 
   @override
   _RiwayatCrowdfundingState createState() => _RiwayatCrowdfundingState();
@@ -17,7 +18,8 @@ class _RiwayatCrowdfundingState extends State<RiwayatCrowdfunding> {
     return Scaffold(
         backgroundColor: Colors.white,
         body: Padding(
-          padding: const EdgeInsets.only(top: 5,  bottom: 5, left: 20, right: 20),
+          padding:
+              const EdgeInsets.only(top: 5, bottom: 5, left: 20, right: 20),
           child: ListView.builder(
             itemCount: 5,
             itemBuilder: (BuildContext context, int index) {
@@ -25,14 +27,16 @@ class _RiwayatCrowdfundingState extends State<RiwayatCrowdfunding> {
                 onTap: () {
                   Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const UmkmDetail(title: 'Detail UMKM'))
-                  );
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const UmkmDetail(title: 'Detail UMKM')));
                 },
                 child: Card(
                   color: const Color(0xffE4F9FF),
                   elevation: 2.0,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                  child: Padding (
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5)),
+                  child: Padding(
                     padding: const EdgeInsets.all(10),
                     child: Column(
                       children: [
@@ -43,12 +47,14 @@ class _RiwayatCrowdfundingState extends State<RiwayatCrowdfunding> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Column(
                                       children: const [
                                         Text("Plafond"),
-                                        Text("Rp X.000.000",
+                                        Text(
+                                          "Rp X.000.000",
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -58,7 +64,8 @@ class _RiwayatCrowdfundingState extends State<RiwayatCrowdfunding> {
                                     Column(
                                       children: const [
                                         Text("Bagi Hasil"),
-                                        Text("Rp X.000.000",
+                                        Text(
+                                          "Rp X.000.000",
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -68,7 +75,8 @@ class _RiwayatCrowdfundingState extends State<RiwayatCrowdfunding> {
                                     Column(
                                       children: const [
                                         Text("Tenor"),
-                                        Text("X0 Minggu",
+                                        Text(
+                                          "X0 Minggu",
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -78,12 +86,10 @@ class _RiwayatCrowdfundingState extends State<RiwayatCrowdfunding> {
                                   ],
                                 ),
                               ],
-                            )
-                        ),
-
+                            )),
                         Container(
                           padding: const EdgeInsets.all(5),
-                          child:Column(
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Row(
@@ -96,13 +102,15 @@ class _RiwayatCrowdfundingState extends State<RiwayatCrowdfunding> {
                                 ],
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                                padding:
+                                    const EdgeInsets.only(top: 5, bottom: 5),
                                 child: Container(
                                   decoration: const BoxDecoration(
-                                      borderRadius: BorderRadius.all(Radius.circular(10))
-                                  ),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10))),
                                   child: const ClipRRect(
-                                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8)),
                                     child: LinearProgressIndicator(
                                       value: 0.9,
                                       minHeight: 20,
@@ -115,7 +123,6 @@ class _RiwayatCrowdfundingState extends State<RiwayatCrowdfunding> {
                             ],
                           ),
                         ),
-
                         Container(
                           padding: const EdgeInsets.all(5),
                           child: Row(
@@ -127,13 +134,15 @@ class _RiwayatCrowdfundingState extends State<RiwayatCrowdfunding> {
                                     padding: EdgeInsets.only(right: 10),
                                     child: Text("Tanggal"),
                                   ),
-                                  Text(": XX/XX/XXXX",
+                                  Text(
+                                    ": XX/XX/XXXX",
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   Text(" s/d "),
-                                  Text("XX/XX/XXXX",
+                                  Text(
+                                    "XX/XX/XXXX",
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -154,7 +163,8 @@ class _RiwayatCrowdfundingState extends State<RiwayatCrowdfunding> {
                               ),
                               Row(
                                 children: const [
-                                  Text("In Progress",
+                                  Text(
+                                    "In Progress",
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -171,7 +181,6 @@ class _RiwayatCrowdfundingState extends State<RiwayatCrowdfunding> {
               );
             },
           ),
-        )
-    );
+        ));
   }
 }
