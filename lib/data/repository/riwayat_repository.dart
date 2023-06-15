@@ -21,7 +21,7 @@ class RiwayatRepository {
         .add(LogInterceptor(requestBody: true, responseBody: true));
   }
 
-  Future<List<RiwayatCrowdfundingModel>> getAll() async {
+  Future<List<RiwayatCrowdfundingModel>> getAllCf() async {
     try {
       final username = await getUsername();
       final response = await _dio.get('/riwayat-crowdfunding/$username');
@@ -29,6 +29,23 @@ class RiwayatRepository {
       List<RiwayatCrowdfundingModel> data = [];
       for (var value in response.data['data']) {
         data.add(RiwayatCrowdfundingModel.fromJson(value));
+      }
+      return data;
+    } on DioException catch (e) {
+      log(e.response!.statusCode.toString());
+      log(e.message.toString());
+      rethrow;
+    }
+  }
+
+  Future<List<RiwayatPaymentModel>> getAllPayment() async {
+    try {
+      final username = await getUsername();
+      final response = await _dio.get('/riwayat-payment/$username');
+
+      List<RiwayatPaymentModel> data = [];
+      for (var value in response.data['data']) {
+        data.add(RiwayatPaymentModel.fromJson(value));
       }
       return data;
     } on DioException catch (e) {

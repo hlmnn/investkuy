@@ -186,3 +186,40 @@ class RiwayatCrowdfundingModel {
     );
   }
 }
+class RiwayatPaymentModel {
+  int id;
+  int plafond;
+  int bagiHasil;
+  int tenor;
+  int jumlahPendanaan;
+  String tanggalMulaiBayar;
+  int jumlahAngsuran;
+  String status;
+  String jatuhTempo;
+
+  RiwayatPaymentModel({
+    required this.id,
+    required this.plafond,
+    required this.bagiHasil,
+    required this.tenor,
+    required this.jumlahPendanaan,
+    required this.tanggalMulaiBayar,
+    required this.jumlahAngsuran,
+    required this.status,
+    required this.jatuhTempo,
+  });
+
+  factory RiwayatPaymentModel.fromJson(Map<String, dynamic> json) {
+    return RiwayatPaymentModel(
+      id: json['id'],
+      plafond: json['plafond'],
+      bagiHasil: json['bagi_hasil'],
+      tenor: json['tenor'],
+      jumlahPendanaan: json['jml_pendanaan'],
+      tanggalMulaiBayar: json['tgl_mulai_bayar'],
+      jumlahAngsuran: json['jml_angsuran'],
+      status: json['status'],
+      jatuhTempo: json['jatuh_tempo'],
+    );
+  }
+}

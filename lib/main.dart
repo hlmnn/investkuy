@@ -70,8 +70,11 @@ class MyApp extends StatelessWidget {
         BlocProvider<UpdateAccountCubit>(
           create: (context) => UpdateAccountCubit(),
         ),
-        BlocProvider<UmkmRiwayatCubit>(
-          create: (context) => UmkmRiwayatCubit(),
+        BlocProvider<UmkmRiwayatCfCubit>(
+          create: (context) => UmkmRiwayatCfCubit(),
+        ),
+        BlocProvider<UmkmRiwayatPaymentCubit>(
+          create: (context) => UmkmRiwayatPaymentCubit(),
         ),
       ],
       child: const MaterialApp(
