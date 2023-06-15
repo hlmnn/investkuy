@@ -14,6 +14,7 @@ import 'package:investkuy/ui/cubit/rekening_cubit.dart';
 import 'package:investkuy/ui/cubit/setting_cubit.dart';
 import 'package:investkuy/ui/cubit/details_article_cubit.dart';
 import 'package:investkuy/ui/cubit/splash_cubit.dart';
+import 'package:investkuy/ui/cubit/umkm_riwayat_cubit.dart';
 import 'package:investkuy/ui/cubit/update_account_cubit.dart';
 import 'package:investkuy/ui/screen/investor/investor_navigation.dart';
 import 'package:investkuy/ui/screen/umkm/umkm_navigation.dart';
@@ -68,6 +69,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<UpdateAccountCubit>(
           create: (context) => UpdateAccountCubit(),
+        ),
+        BlocProvider<UmkmRiwayatCubit>(
+          create: (context) => UmkmRiwayatCubit(),
         ),
       ],
       child: const MaterialApp(
