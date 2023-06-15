@@ -31,9 +31,7 @@ class _UmkmAjukanPendanaanState extends State<UmkmAjukanPendanaan> {
   String _deskripsi = "";
   String _akad = "";
   File? fileLaporan;
-  Uint8List? fileLaporanBytes;
   List<File>? fileImages;
-  List<Uint8List>? fileImagesBytes;
 
   String? selectedSectorValue,
       selectedAngsuranValue,
@@ -59,10 +57,6 @@ class _UmkmAjukanPendanaanState extends State<UmkmAjukanPendanaan> {
         textEditingFilePickerController.text = result.files.single.name;
         fileLaporan = File(result.files.single.path.toString());
       });
-
-      PlatformFile platformFiles = result.files.single;
-      File file = File(platformFiles.path!);
-      fileLaporanBytes = file.readAsBytes() as Uint8List?;
     } else {
       // User canceled the picker
     }
@@ -84,10 +78,6 @@ class _UmkmAjukanPendanaanState extends State<UmkmAjukanPendanaan> {
           .map((platformFile) => File(platformFile.path!))
           .toList();
       fileImages = files;
-
-      for (File file in files) {
-        fileImagesBytes?.add(file.readAsBytes() as Uint8List);
-      }
     } else {
       // User canceled the picker
     }
@@ -207,23 +197,8 @@ class _UmkmAjukanPendanaanState extends State<UmkmAjukanPendanaan> {
       ),
       body: BlocBuilder<AddNewPengajuanCubit, DataState>(
           builder: (context, state) {
-        
-        if (state is InitialState) {
-          context.read<AddNewPengajuanCubit>().getUsername();
-        }
-
         if (state is LoadingState) {
           return const Center(child: CircularProgressIndicator());
-        } else if (state is SuccessState) {
-          final String username = state.data;
-          context.read<AddNewPengajuanCubit>().resetState();
-          Future.delayed(Duration.zero, () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => RiwayatCrowdfunding(
-                        title: 'Riwayat Crowdfunding', username: username)));
-          });
         }
 
         return SingleChildScrollView(
@@ -774,23 +749,26 @@ class _UmkmAjukanPendanaanState extends State<UmkmAjukanPendanaan> {
                           ]);
 
                           /* context.read<AddNewPengajuanCubit>().addPengajuan(
-                              formData, fileImagesBytes!, fileLaporanBytes!); */
+                              formData, fileImages, fileLaporan); */
 
-                          context.read<AddNewPengajuanCubit>().addPengajuan(
-                              formData, fileImages!, fileLaporan!);
+                          context
+                              .read<AddNewPengajuanCubit>()
+                              .addPengajuan(formData);
                         }
                         if (state is ErrorState) {
                           snackBar = SnackBar(
                             duration: const Duration(seconds: 5),
                             content: Text(state.message),
                           );
+                        } else if (state is SuccessState) {
+                          snackBar = SnackBar(
+                            duration: const Duration(seconds: 5),
+                            content: Text(state.data),
+                          );
+                          context.read<AddNewPengajuanCubit>().resetState();
+                          Navigator.pop(context);
                         }
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(builder: (context) => const LoginChoice(title: 'LoginChoice'))
-                        // );
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xff19A7CE),

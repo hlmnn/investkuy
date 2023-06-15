@@ -23,9 +23,9 @@ class UmkmRepository {
   }
 
   Future<String> addPengajuan(
-      FormData formData, List<File> fileImages, File fileLaporan) async {
+      FormData formData) async {
     try {
-      formData.files.addAll([
+      /* formData.files.addAll([
         MapEntry(
             'image1', await MultipartFile.fromFile(fileImages[0].toString())),
         MapEntry(
@@ -34,7 +34,7 @@ class UmkmRepository {
             'image3', await MultipartFile.fromFile(fileImages[2].toString())),
         MapEntry(
             'laporan', await MultipartFile.fromFile(fileLaporan.toString())),
-      ]);
+      ]); */
 
       formData.fields.add(MapEntry('username', await getUsername()));
       log(formData.toString());
