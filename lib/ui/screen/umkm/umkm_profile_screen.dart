@@ -23,6 +23,8 @@ class UmkmProfile extends StatefulWidget {
 class _UmkmProfileState extends State<UmkmProfile> {
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<ProfileCubit>(context).getUser();
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -37,10 +39,11 @@ class _UmkmProfileState extends State<UmkmProfile> {
           IconButton(
             onPressed: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          const Notifikasi(title: 'Notifikasi')));
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const Notifikasi(title: 'Notifikasi'),
+                ),
+              );
             },
             icon: const Icon(Icons.notifications),
           ),
@@ -66,10 +69,12 @@ class _UmkmProfileState extends State<UmkmProfile> {
               context.read<ProfileCubit>().resetState();
               Future.delayed(Duration.zero, () {
                 Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            const SplashScreen(title: 'SplashScreen')));
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        const SplashScreen(title: 'SplashScreen'),
+                  ),
+                );
               });
             } else {
               name = state.data.name;
@@ -143,8 +148,9 @@ class _UmkmProfileState extends State<UmkmProfile> {
                               Text(
                                 email,
                                 style: const TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.normal),
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal,
+                                ),
                               ),
                             ],
                           ),
@@ -163,8 +169,9 @@ class _UmkmProfileState extends State<UmkmProfile> {
                               Text(
                                 telp,
                                 style: const TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.normal),
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal,
+                                ),
                               ),
                             ],
                           ),
@@ -184,8 +191,11 @@ class _UmkmProfileState extends State<UmkmProfile> {
                                 child: Text(
                                   alamat,
                                   style: const TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.normal),
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ],
@@ -216,8 +226,9 @@ class _UmkmProfileState extends State<UmkmProfile> {
                                   Text(
                                     "Rekening Bank",
                                     style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.normal),
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.normal,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -246,10 +257,12 @@ class _UmkmProfileState extends State<UmkmProfile> {
                         TextButton(
                           onPressed: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const InformasiAkun(
-                                        title: 'Ubah Informasi Akun')));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const InformasiAkun(
+                                    title: 'Ubah Informasi Akun'),
+                              ),
+                            );
                           },
                           child: const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -257,8 +270,9 @@ class _UmkmProfileState extends State<UmkmProfile> {
                               Text(
                                 "Ubah Informasi Akun",
                                 style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.normal),
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal,
+                                ),
                               ),
                               Icon(
                                 Icons.arrow_forward_ios_rounded,
@@ -270,10 +284,12 @@ class _UmkmProfileState extends State<UmkmProfile> {
                         TextButton(
                           onPressed: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const Password(
-                                        title: 'Ubah Password')));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const Password(title: 'Ubah Password'),
+                              ),
+                            );
                           },
                           child: const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -281,8 +297,9 @@ class _UmkmProfileState extends State<UmkmProfile> {
                               Text(
                                 "Ubah Password",
                                 style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.normal),
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal,
+                                ),
                               ),
                               Icon(
                                 Icons.arrow_forward_ios_rounded,
@@ -294,10 +311,12 @@ class _UmkmProfileState extends State<UmkmProfile> {
                         TextButton(
                           onPressed: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const Pin(title: 'Ubah PIN')));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const Pin(title: 'Ubah PIN'),
+                              ),
+                            );
                           },
                           child: const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -305,8 +324,9 @@ class _UmkmProfileState extends State<UmkmProfile> {
                               Text(
                                 "Ubah PIN",
                                 style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.normal),
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal,
+                                ),
                               ),
                               Icon(
                                 Icons.arrow_forward_ios_rounded,
@@ -318,10 +338,12 @@ class _UmkmProfileState extends State<UmkmProfile> {
                         TextButton(
                           onPressed: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const VerifikasiAkun(
-                                        title: 'Verifikasi Akun')));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const VerifikasiAkun(
+                                    title: 'Verifikasi Akun'),
+                              ),
+                            );
                           },
                           child: const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -329,8 +351,9 @@ class _UmkmProfileState extends State<UmkmProfile> {
                               Text(
                                 "Verifikasi Akun",
                                 style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.normal),
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal,
+                                ),
                               ),
                               Icon(
                                 Icons.arrow_forward_ios_rounded,
@@ -362,8 +385,9 @@ class _UmkmProfileState extends State<UmkmProfile> {
                               Text(
                                 "Pusat Bantuan",
                                 style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.normal),
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal,
+                                ),
                               ),
                               Icon(
                                 Icons.arrow_forward_ios_rounded,
@@ -380,8 +404,9 @@ class _UmkmProfileState extends State<UmkmProfile> {
                               Text(
                                 "Tentang Aplikasi",
                                 style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.normal),
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal,
+                                ),
                               ),
                               Icon(
                                 Icons.arrow_forward_ios_rounded,

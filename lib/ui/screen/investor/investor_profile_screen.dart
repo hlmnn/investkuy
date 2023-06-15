@@ -22,6 +22,8 @@ class InvestorProfile extends StatefulWidget {
 class _InvestorProfileState extends State<InvestorProfile> {
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<ProfileCubit>(context).getUser();
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -59,10 +61,12 @@ class _InvestorProfileState extends State<InvestorProfile> {
               context.read<ProfileCubit>().resetState();
               Future.delayed(Duration.zero, () {
                 Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            const SplashScreen(title: 'SplashScreen')));
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        const SplashScreen(title: 'SplashScreen'),
+                  ),
+                );
               });
             } else {
               name = state.data.name;
@@ -182,6 +186,8 @@ class _InvestorProfileState extends State<InvestorProfile> {
                                     color: Colors.black,
                                     fontWeight: FontWeight.normal,
                                   ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ],
@@ -243,10 +249,12 @@ class _InvestorProfileState extends State<InvestorProfile> {
                         TextButton(
                           onPressed: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const InformasiAkun(
-                                        title: 'Ubah Informasi Akun')));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const InformasiAkun(
+                                    title: 'Ubah Informasi Akun'),
+                              ),
+                            );
                           },
                           child: const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -268,10 +276,12 @@ class _InvestorProfileState extends State<InvestorProfile> {
                         TextButton(
                           onPressed: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const Password(
-                                        title: 'Ubah Password')));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const Password(title: 'Ubah Password'),
+                              ),
+                            );
                           },
                           child: const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -293,10 +303,12 @@ class _InvestorProfileState extends State<InvestorProfile> {
                         TextButton(
                           onPressed: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const Pin(title: 'Ubah PIN')));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const Pin(title: 'Ubah PIN'),
+                              ),
+                            );
                           },
                           child: const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -318,10 +330,12 @@ class _InvestorProfileState extends State<InvestorProfile> {
                         TextButton(
                           onPressed: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const VerifikasiAkun(
-                                        title: 'Verifikasi Akun')));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const VerifikasiAkun(
+                                    title: 'Verifikasi Akun'),
+                              ),
+                            );
                           },
                           child: const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
