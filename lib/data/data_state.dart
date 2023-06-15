@@ -21,6 +21,16 @@ class SuccessState<T> extends DataState {
   List<T> get props => [data];
 }
 
+class LoadingPaginationState<T> extends DataState {
+  final T oldData;
+  final bool isFirstFetch;
+
+  LoadingPaginationState(this.oldData, {this.isFirstFetch = false});
+
+  @override
+  List<Object> get props => [];
+}
+
 class ErrorState extends DataState {
   final String message;
 

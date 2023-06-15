@@ -2,8 +2,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:investkuy/data/data_state.dart';
+import 'package:investkuy/ui/cubit/detail_umkm_cubit.dart';
 import 'package:investkuy/ui/cubit/faq_cubit.dart';
 import 'package:investkuy/ui/cubit/article_cubit.dart';
+import 'package:investkuy/ui/cubit/list_umkm_cubit.dart';
 import 'package:investkuy/ui/cubit/login_cubit.dart';
 import 'package:investkuy/ui/cubit/profile_cubit.dart';
 import 'package:investkuy/ui/cubit/register_cubit.dart';
@@ -52,7 +54,13 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<DetailsArticleCubit>(
           create: (context) => DetailsArticleCubit(),
-        )
+        ),
+        BlocProvider<ListUmkmCubit>(
+          create: (context) => ListUmkmCubit(),
+        ),
+        BlocProvider<DetailUmkmCubit>(
+          create: (context) => DetailUmkmCubit(),
+        ),
       ],
       child: const MaterialApp(
         home: SplashScreen(title: 'SplashScreen'),
