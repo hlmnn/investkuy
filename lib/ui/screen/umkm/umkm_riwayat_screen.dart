@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:investkuy/ui/screen/notification/notifikasi_screen.dart';
 import 'package:investkuy/ui/screen/umkm/umkm_riwayat_crowdfunding_screen.dart';
 import 'package:investkuy/ui/screen/umkm/umkm_riwayat_payment_screen.dart';
 
-import '../../../data/data_state.dart';
-import '../../cubit/addnewpengajuan.cubit.dart';
 
 class UmkmRiwayat extends StatefulWidget {
   const UmkmRiwayat({super.key, required this.title});
@@ -49,29 +46,12 @@ class _UmkmRiwayatState extends State<UmkmRiwayat> {
             ],
           ),
         ),
-        body: BlocBuilder<AddNewPengajuanCubit, DataState>(
-          builder: (context, state) {
-           String? username;
-
-          if (state is InitialState) {
-            context.read<AddNewPengajuanCubit>().getUsername();
-          }
-
-          if (state is LoadingState) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is SuccessState) {
-            username = state.data;
-            context.read<AddNewPengajuanCubit>().resetState();
-          }
-
-          return TabBarView(
-            children: [
-              RiwayatCrowdfunding(title: 'Riwayat Crowdfunding', username: username),
-              RiwayatPayment(title: 'Riwayat Payment'),
-            ],
-          );
-        }
-        )     
+        body: const TabBarView(
+          children: [
+            RiwayatCrowdfunding(title: 'Riwayat Crowdfunding'),
+            RiwayatPayment(title: 'Riwayat Payment'),
+          ],
+        ),
       ),
     );
   }

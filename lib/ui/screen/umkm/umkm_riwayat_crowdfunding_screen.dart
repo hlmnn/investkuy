@@ -3,10 +3,9 @@ import 'package:investkuy/ui/screen/umkm/umkm_detail_screen.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class RiwayatCrowdfunding extends StatefulWidget {
-  const RiwayatCrowdfunding({super.key, required this.title, required this.username});
+  const RiwayatCrowdfunding({super.key, required this.title});
 
   final String title;
-  final String? username;
 
   @override
   _RiwayatCrowdfundingState createState() => _RiwayatCrowdfundingState();

@@ -12,11 +12,11 @@ class AddNewPengajuanCubit extends Cubit<DataState> {
   AddNewPengajuanCubit() : super(InitialState());
 
   void addPengajuan(
-      FormData formData) async {
+      FormData formData, List<String> fileImages, String fileLaporan) async {
     try {
       emit(LoadingState());
       final data =
-          await repository.addPengajuan(formData);
+          await repository.addPengajuan(formData, fileImages, fileLaporan);
       emit(SuccessState<String>(data));
     } on DioException catch (e) {
       log(e.response!.data['message'].toString());

@@ -1,12 +1,10 @@
-import 'dart:io';
-import 'dart:typed_data';
+import 'dart:developer';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:investkuy/ui/cubit/addnewpengajuan.cubit.dart';
 import 'package:investkuy/data/data_state.dart';
-import 'package:investkuy/ui/screen/umkm/umkm_riwayat_crowdfunding_screen.dart';
 
 class UmkmAjukanPendanaan extends StatefulWidget {
   const UmkmAjukanPendanaan({super.key, required this.title});
@@ -23,15 +21,16 @@ class _UmkmAjukanPendanaanState extends State<UmkmAjukanPendanaan> {
   final textEditingPekerjaanController = TextEditingController();
   final textEditingPenghasilanController = TextEditingController();
   final textEditingDeskripsiController = TextEditingController();
-  final textEditingAkadController = TextEditingController();
   final textEditingFilePickerController = TextEditingController();
   final textEditingImagePickerController = TextEditingController();
-
+  TextEditingController textEditingAkadController = TextEditingController();
+  
   String _pekerjaan = "";
   String _deskripsi = "";
   String _akad = "";
-  File? fileLaporan;
-  List<File>? fileImages;
+  String? fileLaporan;
+  List<String>? fileImages;
+  List<String>? fileImagesName;
 
   String? selectedSectorValue,
       selectedAngsuranValue,
@@ -55,7 +54,7 @@ class _UmkmAjukanPendanaanState extends State<UmkmAjukanPendanaan> {
     if (result != null) {
       setState(() {
         textEditingFilePickerController.text = result.files.single.name;
-        fileLaporan = File(result.files.single.path.toString());
+        fileLaporan = result.files.single.path;
       });
     } else {
       // User canceled the picker
@@ -69,15 +68,14 @@ class _UmkmAjukanPendanaanState extends State<UmkmAjukanPendanaan> {
         allowMultiple: true);
 
     if (result != null) {
-      String fileNames = result.files.map((file) => file.name).join(", ");
-      textEditingImagePickerController.text = fileNames;
-      fileImages = result.paths.map((path) => File(path!)).toList();
+      String fileNamesPlaceHolder =
+          result.files.map((file) => file.name).join(", ");
+      textEditingImagePickerController.text = fileNamesPlaceHolder;
 
-      List<PlatformFile> platformFiles = result.files;
-      List<File> files = platformFiles
-          .map((platformFile) => File(platformFile.path!))
-          .toList();
-      fileImages = files;
+      fileImagesName = result.files.map((file) => file.name).toList();
+      fileImages = result.paths.map((path) => path!).toList();
+      log(fileImages![0]);
+      log(fileImagesName![0]);
     } else {
       // User canceled the picker
     }
@@ -88,13 +86,14 @@ class _UmkmAjukanPendanaanState extends State<UmkmAjukanPendanaan> {
     textEditingPekerjaanController.dispose();
     textEditingPenghasilanController.dispose();
     textEditingDeskripsiController.dispose();
-    textEditingAkadController.dispose();
     textEditingFilePickerController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    textEditingAkadController.text = "Jual Beli";
+
     List<DropdownMenuItem<String>> sectorItems = [
       const DropdownMenuItem<String>(
         value: "perdagangan",
@@ -197,9 +196,11 @@ class _UmkmAjukanPendanaanState extends State<UmkmAjukanPendanaan> {
       ),
       body: BlocBuilder<AddNewPengajuanCubit, DataState>(
           builder: (context, state) {
-        if (state is LoadingState) {
+            
+        /* if (state is LoadingState) {
+          log("TES");
           return const Center(child: CircularProgressIndicator());
-        }
+        } */
 
         return SingleChildScrollView(
           scrollDirection: Axis.vertical,
@@ -375,7 +376,7 @@ class _UmkmAjukanPendanaanState extends State<UmkmAjukanPendanaan> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          "Tambahkan foto UMKM",
+                          "Tambahkan foto UMKM (3 Foto)",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Padding(
@@ -405,6 +406,12 @@ class _UmkmAjukanPendanaanState extends State<UmkmAjukanPendanaan> {
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return 'Foto UMKM tidak boleh kosong!';
+                                    } else {
+                                      List<String> splitValue =
+                                          value.split(", ");
+                                      if (splitValue.length != 3) {
+                                        return 'Anda Harus memasukan tepat 3 Foto UMKM Anda';
+                                      }
                                     }
                                     return null;
                                   },
@@ -632,6 +639,7 @@ class _UmkmAjukanPendanaanState extends State<UmkmAjukanPendanaan> {
                                 color: Color(0xff4A4A4A),
                                 fontSize: 14,
                               ),
+                              enabled: false,
                             ),
                             controller: textEditingAkadController,
                           ),
@@ -715,7 +723,7 @@ class _UmkmAjukanPendanaanState extends State<UmkmAjukanPendanaan> {
                     padding: const EdgeInsets.only(top: 10),
                     child: ElevatedButton(
                       onPressed: () {
-                        var snackBar;
+                        // var snackBar;
                         if (_formKey.currentState!.validate()) {
                           setState(() {
                             _pekerjaan = textEditingPekerjaanController.text;
@@ -748,26 +756,29 @@ class _UmkmAjukanPendanaanState extends State<UmkmAjukanPendanaan> {
                             MapEntry('akad', _akad),
                           ]);
 
-                          /* context.read<AddNewPengajuanCubit>().addPengajuan(
-                              formData, fileImages, fileLaporan); */
-
-                          context
-                              .read<AddNewPengajuanCubit>()
-                              .addPengajuan(formData);
+                          context.read<AddNewPengajuanCubit>().addPengajuan(
+                              formData, fileImages!, fileLaporan!);
+                          
                         }
+
+                        var snackBar;
                         if (state is ErrorState) {
+                          log("TES3");
                           snackBar = SnackBar(
                             duration: const Duration(seconds: 5),
                             content: Text(state.message),
                           );
-                        } else if (state is SuccessState) {
+                          context.read<AddNewPengajuanCubit>().resetState();
+                        } if (state is SuccessState) {
+                          log("TES2");
                           snackBar = SnackBar(
                             duration: const Duration(seconds: 5),
                             content: Text(state.data),
                           );
-                          context.read<AddNewPengajuanCubit>().resetState();
                           Navigator.pop(context);
+                          context.read<AddNewPengajuanCubit>().resetState();
                         }
+                        
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       },
                       style: ElevatedButton.styleFrom(
