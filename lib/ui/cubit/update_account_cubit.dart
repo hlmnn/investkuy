@@ -4,10 +4,21 @@ import 'package:investkuy/data/data_state.dart';
 import 'package:investkuy/data/model/user_model.dart';
 import 'package:investkuy/data/repository/profile_repository.dart';
 
-class ProfileCubit extends Cubit<DataState> {
+class UpdateAccountCubit extends Cubit<DataState> {
   final ProfileRepository repository = ProfileRepository();
 
-  ProfileCubit() : super(InitialState());
+  UpdateAccountCubit() : super(InitialState());
+
+  void updateAccount(FormData formData, String img) async {
+    try {
+      emit(LoadingState());
+      final data = await repository.updateAccount(formData, img);
+      emit(SuccessState<bool>(data));
+    } on DioException catch (e) {
+      emit(ErrorState(e.response!.data['message'].toString()));
+      rethrow;
+    }
+  }
 
   void getUser() async {
     try {
@@ -16,17 +27,6 @@ class ProfileCubit extends Cubit<DataState> {
       emit(SuccessState<UserModel>(data));
     } on DioException catch (e) {
       emit(ErrorState(e.response!.data['message'].toString()));
-      rethrow;
-    }
-  }
-
-  void logout() async {
-    try {
-      emit(LoadingState());
-      final data = await repository.deleteUser();
-      emit(SuccessState<bool>(data));
-    } catch (e) {
-      emit(ErrorState(e.toString()));
       rethrow;
     }
   }

@@ -36,13 +36,15 @@ class ProfileRepository {
     }
   }
 
-  Future<UserModel> updateAccount(
-      String name, String email, String telp, String alamat) async {
+  Future<bool> updateAccount(FormData formData, String img) async {
     try {
       final id = await getId();
-      final response = await _dio.put('');
-      final data = UserModel.fromJson(response.data['data']);
-      return data;
+      formData.files.add(
+        MapEntry('img_profile', await MultipartFile.fromFile(img))
+      );
+      await _dio.put("/user/profile/ubah-info-akun/$id", data: formData);
+
+      return true;
     } on DioException catch (e) {
       log(e.response!.statusCode.toString());
       log(e.message.toString());
