@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:investkuy/data/model/umkm_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,6 +18,31 @@ class UmkmRepository {
     // Log Interceptor
     _dio.interceptors
         .add(LogInterceptor(requestBody: true, responseBody: true));
+  }
+
+  Future<String> addPengajuan(
+      FormData formData, List<String> fileImages, String fileLaporan) async {
+    try {
+      formData.files.addAll([
+        MapEntry(
+            'image1', await MultipartFile.fromFile(fileImages[0])),
+        MapEntry(
+            'image2', await MultipartFile.fromFile(fileImages[1])),
+        MapEntry(
+            'image3', await MultipartFile.fromFile(fileImages[2])),
+        MapEntry(
+            'laporan', await MultipartFile.fromFile(fileLaporan)),
+      ]);
+
+      formData.fields.add(MapEntry('username', await getUsername()));
+      log(formData.toString());
+      final response = await _dio.post('/pengajuan', data: formData);
+      return response.data['message'];
+    } on DioException catch (e) {
+      log(e.response!.statusCode.toString());
+      log(e.message.toString());
+      rethrow;
+    }
   }
 
   Future<List<UmkmModel>> getAllPengajuan(
@@ -54,6 +78,16 @@ class UmkmRepository {
     } on DioException catch (e) {
       log(e.response!.statusCode.toString());
       log(e.message.toString());
+      rethrow;
+    }
+  }
+
+  Future<String> getUsername() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final username = prefs.getString('username') ?? "";
+      return username;
+    } catch (e) {
       rethrow;
     }
   }
