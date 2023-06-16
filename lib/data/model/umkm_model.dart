@@ -251,10 +251,22 @@ class InvestorDetailsModel {
   InvestorDetailsModel({required this.name, required this.imgUrl});
 
   factory InvestorDetailsModel.fromJson(Map<String, dynamic> json) {
-    return InvestorDetailsModel(name: json['name'], imgUrl: json['img_url'] ?? "");
+    return InvestorDetailsModel(
+        name: json['name'], imgUrl: json['img_url'] ?? "");
   }
 
   Map<String, dynamic> tojson() {
     return {"name": name, "img_url": imgUrl};
+  }
+}
+
+class LaporanModel {
+  int id;
+  String laporanUrl;
+
+  LaporanModel({required this.id, required this.laporanUrl});
+
+  factory LaporanModel.fromJson(Map<String, dynamic> json){
+    return LaporanModel(id: json['id'], laporanUrl: json['laporan_url']);
   }
 }

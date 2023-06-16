@@ -92,6 +92,37 @@ class UmkmRepository {
       rethrow;
     }
   }
+  
+  Future<String> addLaporan(
+      String fileLaporan, int id) async {
+    try {
+      FormData formData = FormData();
+
+      formData.files.add(MapEntry('laporan', await MultipartFile.fromFile(fileLaporan)));
+      log(formData.toString());
+      final response = await _dio.post('/pengajuan/$id/tambah-laporan', data: formData);
+      return response.data['message'];
+    } on DioException catch (e) {
+      log(e.response!.statusCode.toString());
+      log(e.message.toString());
+      rethrow;
+    }
+  }
+
+  Future<List<LaporanModel>> getListLaporan(int id) async {
+    try {
+      final response = await _dio.get("/pengajuan/$id/laporan-keuangan");
+      List<LaporanModel> data = [];
+      for (var value in response.data['data']) {
+        data.add(LaporanModel.fromJson(value));
+      }
+      return data;
+    } on DioException catch (e) {
+      log(e.response!.statusCode.toString());
+      log(e.message.toString());
+      rethrow;
+    }
+  }
 
   Future<String> getUsername() async {
     try {
