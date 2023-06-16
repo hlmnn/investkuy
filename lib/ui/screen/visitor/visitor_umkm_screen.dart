@@ -602,7 +602,7 @@ class _VisitorUmkmState extends State<VisitorUmkm> {
                                                 children: [
                                                   const Text("Tenor"),
                                                   Text(
-                                                    "X${item.tenor.toString()} Minggu",
+                                                    "${item.tenor.toString()} Minggu",
                                                     style: const TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
