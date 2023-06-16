@@ -4,7 +4,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:investkuy/data/model/umkm_model.dart';
 import 'package:investkuy/ui/screen/umkm/umkm_daftar_investor_screen.dart';
-import 'package:investkuy/ui/screen/umkm/umkm_laporan_keuangan_screen.dart';
 import 'package:investkuy/data/data_state.dart';
 import '../../../utils/currency_format.dart';
 import '../../../utils/date_formatter.dart';
@@ -60,7 +59,6 @@ class _UmkmDetailState extends State<UmkmDetail> {
               Icons.account_circle_rounded,
               size: 70,
             );
-            int _currentIndex = 0;
 
             if (state is LoadingState) {
               return const Center(child: CircularProgressIndicator());
@@ -429,7 +427,7 @@ class _UmkmDetailState extends State<UmkmDetail> {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    ElevatedButton(
+                    /* ElevatedButton(
                       onPressed: () {
                         Navigator.push(
                             context,
@@ -450,7 +448,7 @@ class _UmkmDetailState extends State<UmkmDetail> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 5),
+                    const SizedBox(height: 5), */
                     ElevatedButton(
                       onPressed: () {
                         Navigator.push(
