@@ -170,14 +170,14 @@ class _RiwayatPaymentState extends State<RiwayatPayment>
                                     decoration: const BoxDecoration(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(10))),
-                                    child: const ClipRRect(
+                                    child: ClipRRect(
                                       borderRadius:
-                                          BorderRadius.all(Radius.circular(8)),
+                                          const BorderRadius.all(Radius.circular(8)),
                                       child: LinearProgressIndicator(
-                                        value: 0.9,
+                                        value: itemRiwayatPayment.jumlahPendanaan / itemRiwayatPayment.plafond,
                                         minHeight: 20,
-                                        color: Color(0xff19A7CE),
-                                        backgroundColor: Color(0xff90E7FF),
+                                        color: const Color(0xff19A7CE),
+                                        backgroundColor: const Color(0xff90E7FF),
                                       ),
                                     ),
                                   ),
