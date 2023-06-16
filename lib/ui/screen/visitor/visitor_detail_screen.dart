@@ -64,7 +64,7 @@ class _VisitorDetailState extends State<VisitorDetail> {
               child: CircularProgressIndicator(),
             );
           } else if (state is SuccessState) {
-            final data = state.data as DetailUmkmModel;
+            final data = state.data['data'] as DetailUmkmModel;
             sektor = data.sektor;
             plafond = data.plafond;
             bagiHasil = data.bagiHasil.toString();
@@ -166,11 +166,13 @@ class _VisitorDetailState extends State<VisitorDetail> {
                     margin: const EdgeInsets.only(bottom: 10),
                     child: CarouselSlider(
                       options: CarouselOptions(
-                        height: 150.0,
-                        viewportFraction: 0.6,
+                        height: 200.0,
+                        aspectRatio: 16 / 9,
+                        enlargeCenterPage: true,
+                        viewportFraction: 1.0,
                         enableInfiniteScroll: false,
-                        autoPlay: false,
-                        initialPage: 1,
+                        autoPlay: true,
+                        initialPage: 0,
                       ),
                       items:
                           [imgUmkmUrl1, imgUmkmUrl2, imgUmkmUrl3].map((imgUrl) {
@@ -186,7 +188,7 @@ class _VisitorDetailState extends State<VisitorDetail> {
                               ),
                               child: Image.network(
                                 imgUrl,
-                                fit: BoxFit.fill,
+                                fit: BoxFit.cover,
                               ),
                             );
                           },
@@ -233,7 +235,7 @@ class _VisitorDetailState extends State<VisitorDetail> {
                                 children: [
                                   const Text("Tenor"),
                                   Text(
-                                    "X$tenor Minggu",
+                                    "$tenor Minggu",
                                     style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -282,7 +284,7 @@ class _VisitorDetailState extends State<VisitorDetail> {
                           children: [
                             const Text("Tenor Pendanaan"),
                             Text(
-                              "X$tenor Minggu",
+                              "$tenor Minggu",
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),

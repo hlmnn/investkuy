@@ -608,7 +608,7 @@ class _InvestorUmkmState extends State<InvestorUmkm> {
                                                   children: [
                                                     const Text("Tenor"),
                                                     Text(
-                                                      "X${item.tenor.toString()} Minggu",
+                                                      "${item.tenor.toString()} Minggu",
                                                       style: const TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,

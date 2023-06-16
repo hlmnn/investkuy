@@ -92,27 +92,7 @@ class UmkmRepository {
       rethrow;
     }
   }
-
-  Future<String> getUsername() async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      final username = prefs.getString('username') ?? "";
-      return username;
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<int> getId() async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      final id = prefs.getInt('id') ?? 0;
-      return id;
-    } catch (e) {
-      rethrow;
-    }
-  }
-
+  
   Future<String> addLaporan(
       String fileLaporan, int id) async {
     try {
@@ -140,6 +120,36 @@ class UmkmRepository {
     } on DioException catch (e) {
       log(e.response!.statusCode.toString());
       log(e.message.toString());
+      rethrow;
+    }
+  }
+
+  Future<String> getUsername() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final username = prefs.getString('username') ?? "";
+      return username;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<int> getId() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final id = prefs.getInt('id') ?? 0;
+      return id;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<bool> getVerified() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final isVerified = prefs.getBool('isVerified') ?? false;
+      return isVerified;
+    } catch (e) {
       rethrow;
     }
   }

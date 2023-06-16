@@ -73,7 +73,7 @@ class _InvestorDetailState extends State<InvestorDetail> {
               child: CircularProgressIndicator(),
             );
           } else if (state is SuccessState) {
-            final data = state.data as DetailUmkmModel;
+            final data = state.data['data'] as DetailUmkmModel;
             sektor = data.sektor;
             plafond = data.plafond;
             bagiHasil = data.bagiHasil.toString();
@@ -175,11 +175,13 @@ class _InvestorDetailState extends State<InvestorDetail> {
                     margin: const EdgeInsets.only(bottom: 10),
                     child: CarouselSlider(
                       options: CarouselOptions(
-                        height: 150.0,
-                        viewportFraction: 0.6,
+                        height: 200.0,
+                        aspectRatio: 16 / 9,
+                        enlargeCenterPage: true,
+                        viewportFraction: 1.0,
                         enableInfiniteScroll: false,
-                        autoPlay: false,
-                        initialPage: 1,
+                        autoPlay: true,
+                        initialPage: 0,
                       ),
                       items:
                           [imgUmkmUrl1, imgUmkmUrl2, imgUmkmUrl3].map((imgUrl) {
@@ -195,7 +197,7 @@ class _InvestorDetailState extends State<InvestorDetail> {
                               ),
                               child: Image.network(
                                 imgUrl,
-                                fit: BoxFit.fill,
+                                fit: BoxFit.cover,
                               ),
                             );
                           },
@@ -204,171 +206,173 @@ class _InvestorDetailState extends State<InvestorDetail> {
                     ),
                   ),
                   Container(
-                      padding: const EdgeInsets.all(10),
-                      margin: const EdgeInsets.only(bottom: 10),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                children: [
-                                  const Text("Plafond"),
-                                  Text(
-                                    plafond != 0
-                                        ? CurrencyFormat.convertToIdr(
-                                            plafond, 0)
-                                        : "",
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                    padding: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.only(bottom: 10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              children: [
+                                const Text("Plafond"),
+                                Text(
+                                  plafond != 0
+                                      ? CurrencyFormat.convertToIdr(plafond, 0)
+                                      : "",
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  const Text("Bagi Hasil"),
-                                  Text(
-                                    "$bagiHasil%",
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  const Text("Tenor"),
-                                  Text(
-                                    "X$tenor Minggu",
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      )),
-                  Container(
-                      color: const Color(0xffE4F9FF),
-                      padding: const EdgeInsets.all(10),
-                      margin: const EdgeInsets.only(bottom: 10),
-                      height: 125,
-                      width: MediaQuery.of(context).size.width,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Tentang UMKM',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
+                                ),
+                              ],
                             ),
-                          ),
-                          const SizedBox(
-                            height: 8.0,
-                          ),
-                          Text(
-                            deskripsi,
-                            maxLines: 5,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      )),
+                            Column(
+                              children: [
+                                const Text("Bagi Hasil"),
+                                Text(
+                                  "$bagiHasil%",
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                const Text("Tenor"),
+                                Text(
+                                  "$tenor Minggu",
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                   Container(
-                      color: const Color(0xffE4F9FF),
-                      padding: const EdgeInsets.all(10),
-                      margin: const EdgeInsets.only(bottom: 10),
-                      height: 150,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text("Tenor Pendanaan"),
-                              Text(
-                                "X$tenor Minggu",
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
+                    color: const Color(0xffE4F9FF),
+                    padding: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.only(bottom: 10),
+                    height: 125,
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Tentang UMKM',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text("Imbal Hasil (%)"),
-                              Text(
-                                "$bagiHasil%",
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
+                        ),
+                        const SizedBox(
+                          height: 8.0,
+                        ),
+                        Text(
+                          deskripsi,
+                          maxLines: 5,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    color: const Color(0xffE4F9FF),
+                    padding: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.only(bottom: 10),
+                    height: 150,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text("Tenor Pendanaan"),
+                            Text(
+                              "$tenor Minggu",
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
                               ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text("Jenis Angsuran"),
-                              Text(
-                                jenisAngsuran != ""
-                                    ? StringFormat.capitalizeAllWord(
-                                        jenisAngsuran)
-                                    : "",
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text("Imbal Hasil (%)"),
+                            Text(
+                              "$bagiHasil%",
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
                               ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text("Jumlah Angsuran"),
-                              Text(
-                                jumlahAngsuran != 0
-                                    ? CurrencyFormat.convertToIdr(
-                                        jumlahAngsuran, 0)
-                                    : "0",
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text("Jenis Angsuran"),
+                            Text(
+                              jenisAngsuran != ""
+                                  ? StringFormat.capitalizeAllWord(
+                                      jenisAngsuran)
+                                  : "",
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
                               ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text("Penghasilan Perbulan"),
-                              Text(
-                                penghasilan,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text("Jumlah Angsuran"),
+                            Text(
+                              jumlahAngsuran != 0
+                                  ? CurrencyFormat.convertToIdr(
+                                      jumlahAngsuran, 0)
+                                  : "0",
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
                               ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text("Pekerjaan"),
-                              Text(
-                                pekerjaan != ""
-                                    ? StringFormat.capitalizeAllWord(pekerjaan)
-                                    : "",
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text("Penghasilan Perbulan"),
+                            Text(
+                              penghasilan,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
                               ),
-                            ],
-                          ),
-                        ],
-                      )),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text("Pekerjaan"),
+                            Text(
+                              pekerjaan != ""
+                                  ? StringFormat.capitalizeAllWord(pekerjaan)
+                                  : "",
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                   ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
@@ -471,8 +475,14 @@ class _InvestorDetailState extends State<InvestorDetail> {
           child: BlocBuilder<DetailUmkmCubit, DataState>(
             builder: (context, state) {
               bool isFunded = false;
+              bool isWithdraw = false;
+              bool isVerified = false;
+              String status = "";
               if (state is SuccessState) {
-                isFunded = state.data.isFunded;
+                isFunded = state.data['data'].isFunded;
+                isWithdraw = state.data['data'].isWithdraw;
+                isVerified = state.data['isVerified'];
+                status = state.data['data'].status;
               }
               Widget data = Column(
                 children: [
@@ -483,7 +493,10 @@ class _InvestorDetailState extends State<InvestorDetail> {
                       children: [
                         const Text('Total Tagihan'),
                         Text(
-                          selectedValue != '0' ? CurrencyFormat.convertToIdr(int.parse(selectedValue), 0) : "Rp 0",
+                          selectedValue != '0'
+                              ? CurrencyFormat.convertToIdr(
+                                  int.parse(selectedValue), 0)
+                              : "Rp 0",
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
@@ -513,23 +526,53 @@ class _InvestorDetailState extends State<InvestorDetail> {
                   ),
                 ],
               );
+              // TODO
               if (isFunded) {
-                data = ElevatedButton(
-                  onPressed: () {
-
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xff19A7CE),
-                    fixedSize: const Size(double.maxFinite, 30),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                if (status == 'Payment Period' ||
+                    status == 'Lunas' ||
+                    status == 'Lunas Dini' ||
+                    status == 'Tepat Waktu') {
+                  data = ElevatedButton(
+                    onPressed: isWithdraw ? null : () {},
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xff19A7CE),
+                        fixedSize: const Size(double.maxFinite, 30),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        disabledBackgroundColor: const Color(0xff5b7882)),
+                    child: const Text(
+                      "Withdraw Profit",
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
                     ),
-                  ),
-                  child: const Text(
-                    "Batalkan Investasi",
-                    style: TextStyle(
-                      fontSize: 15,
+                  );
+                } else {
+                  data = ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xff19A7CE),
+                      fixedSize: const Size(double.maxFinite, 30),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
+                    child: const Text(
+                      "Batalkan Investasi",
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
+                    ),
+                  );
+                }
+              }
+              if (!isVerified) {
+                data = const Center(
+                  child: Text(
+                    "Akun anda belum terverifikasi, silahkan melakukan verifikasi akun terlebih dahulu.",
+                    maxLines: 2,
+                    textAlign: TextAlign.center,
                   ),
                 );
               }

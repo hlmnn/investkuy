@@ -15,7 +15,7 @@ class LoginCubit extends Cubit<DataState> {
     try {
       emit(LoadingState());
       final data = await repository.login(username, password);
-      final res = await repository.saveUser(data.token, data.role, data.username, data.id);
+      final res = await repository.saveUser(data.token, data.role, data.username, data.id, data.isVerified);
       emit(SuccessState<UserModel>(data));
     } on DioException catch (e) {
       log(e.message.toString());
