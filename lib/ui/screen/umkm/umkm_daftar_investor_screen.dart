@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class UmkmDaftarInvestor extends StatefulWidget {
-  const UmkmDaftarInvestor({super.key, required this.title});
+  const UmkmDaftarInvestor({super.key, required this.title, required this.id});
 
   final String title;
+  final int id;
 
   @override
   _UmkmDaftarInvestorState createState() => _UmkmDaftarInvestorState();

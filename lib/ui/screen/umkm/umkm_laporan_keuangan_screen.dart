@@ -3,9 +3,10 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 class UmkmLaporanKeuangan extends StatefulWidget {
-  const UmkmLaporanKeuangan({super.key, required this.title});
+  const UmkmLaporanKeuangan({super.key, required this.title, required this.id});
 
   final String title;
+  final int id;
 
   @override
   _UmkmLaporanKeuanganState createState() => _UmkmLaporanKeuanganState();
@@ -77,7 +78,7 @@ class _UmkmLaporanKeuanganState extends State<UmkmLaporanKeuangan> {
                                     fillColor: Colors.white,
                                     border: OutlineInputBorder(
                                       borderSide:
-                                      BorderSide(color: Color(0xff146C94)),
+                                          BorderSide(color: Color(0xff146C94)),
                                     ),
                                     errorBorder: OutlineInputBorder(
                                       borderSide: BorderSide(color: Colors.red),
@@ -164,9 +165,7 @@ class _UmkmLaporanKeuanganState extends State<UmkmLaporanKeuangan> {
                     ),
                   ),
                 ],
-              )
-          ),
-        )
-    );
+              )),
+        ));
   }
 }

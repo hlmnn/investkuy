@@ -339,7 +339,8 @@ class _UmkmDetailCicilanState extends State<UmkmDetailCicilan> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => const UmkmLaporanKeuangan(
-                                title: "Tambah Laporan Keuangan")));
+                                title: "Tambah Laporan Keuangan",
+                                id: 0)));
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xff19A7CE),
@@ -360,7 +361,8 @@ class _UmkmDetailCicilanState extends State<UmkmDetailCicilan> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => const UmkmDaftarInvestor(
-                                title: "Daftar Investor")));
+                                title: "Daftar Investor",
+                                id: 0)));
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xff19A7CE),
