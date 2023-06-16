@@ -74,58 +74,56 @@ class DetailUmkmModel extends UmkmModel {
   int jumlahAngsuran;
   FotoUmkmModel fotoUmkm;
 
-  DetailUmkmModel({
-    required super.id,
-    required super.sektor,
-    required super.plafond,
-    required super.bagiHasil,
-    required super.tenor,
-    required super.jumlahPendanaan,
-    required super.tanggalMulai,
-    required super.tanggalBerakhir,
-    required super.lunasDiniCount,
-    required super.detailPemilik,
-    required this.isFunded,
-    required this.pekerjaan,
-    required this.akad,
-    required this.angsuranDibayar,
-    required this.deskripsi,
-    required this.fotoUmkm,
-    required this.isWithdraw,
-    required this.jenisAngsuran,
-    required this.pemilikId,
-    required this.penghasilan,
-    required this.status,
-    required this.tanggalMulaiBayar,
-    required this.jumlahAngsuran
-  });
+  DetailUmkmModel(
+      {required super.id,
+      required super.sektor,
+      required super.plafond,
+      required super.bagiHasil,
+      required super.tenor,
+      required super.jumlahPendanaan,
+      required super.tanggalMulai,
+      required super.tanggalBerakhir,
+      required super.lunasDiniCount,
+      required super.detailPemilik,
+      required this.isFunded,
+      required this.pekerjaan,
+      required this.akad,
+      required this.angsuranDibayar,
+      required this.deskripsi,
+      required this.fotoUmkm,
+      required this.isWithdraw,
+      required this.jenisAngsuran,
+      required this.pemilikId,
+      required this.penghasilan,
+      required this.status,
+      required this.tanggalMulaiBayar,
+      required this.jumlahAngsuran});
 
   factory DetailUmkmModel.fromJson(Map<String, dynamic> json) {
     return DetailUmkmModel(
-      id: json['id'],
-      sektor: json['sektor'],
-      plafond: json['plafond'],
-      bagiHasil: json['bagi_hasil'],
-      tenor: json['tenor'],
-      jumlahPendanaan: json['jml_pendanaan'],
-      tanggalMulai: json['tgl_mulai'],
-      tanggalBerakhir: json['tgl_berakhir'],
-      lunasDiniCount: json['lunas_dini_count'] ?? 0,
-      detailPemilik: DetailPemilikUmkmModel.fromJson(json['pemilikDetails']),
-      isFunded: json['isFunded'],
-      pekerjaan: json['pekerjaan'],
-      akad: json['akad'],
-      angsuranDibayar: json['angsuran_dibayar'],
-      deskripsi: json['deskripsi'],
-      fotoUmkm: FotoUmkmModel.fromJson(json['foto_umkm']),
-      isWithdraw: json['is_withdraw'],
-      jenisAngsuran: json['jenis_angsuran'],
-      pemilikId: json['pemilikId'],
-      penghasilan: json['penghasilan'],
-      status: json['status'],
-      tanggalMulaiBayar: json['tgl_mulai_bayar'],
-      jumlahAngsuran: json['jml_angsuran']
-    );
+        id: json['id'],
+        sektor: json['sektor'],
+        plafond: json['plafond'],
+        bagiHasil: json['bagi_hasil'],
+        tenor: json['tenor'],
+        jumlahPendanaan: json['jml_pendanaan'],
+        tanggalMulai: json['tgl_mulai'],
+        tanggalBerakhir: json['tgl_berakhir'],
+        lunasDiniCount: json['lunas_dini_count'] ?? 0,
+        detailPemilik: DetailPemilikUmkmModel.fromJson(json['pemilikDetails']),
+        isFunded: json['isFunded'],
+        pekerjaan: json['pekerjaan'],
+        akad: json['akad'],
+        angsuranDibayar: json['angsuran_dibayar'],
+        deskripsi: json['deskripsi'],
+        fotoUmkm: FotoUmkmModel.fromJson(json['foto_umkm']),
+        isWithdraw: json['is_withdraw'],
+        jenisAngsuran: json['jenis_angsuran'],
+        pemilikId: json['pemilikId'],
+        penghasilan: json['penghasilan'],
+        status: json['status'],
+        tanggalMulaiBayar: json['tgl_mulai_bayar'],
+        jumlahAngsuran: json['jml_angsuran']);
   }
 }
 
@@ -151,5 +149,77 @@ class FotoUmkmModel {
       "image2_url": imgUrl2,
       "image3_url": imgUrl3
     };
+  }
+}
+
+class RiwayatCrowdfundingModel {
+  int id;
+  int plafond;
+  int bagiHasil;
+  int tenor;
+  int jumlahPendanaan;
+  String tanggalMulai;
+  String tanggalBerakhir;
+  String status;
+
+  RiwayatCrowdfundingModel({
+    required this.id,
+    required this.plafond,
+    required this.bagiHasil,
+    required this.tenor,
+    required this.jumlahPendanaan,
+    required this.tanggalMulai,
+    required this.tanggalBerakhir,
+    required this.status,
+  });
+
+  factory RiwayatCrowdfundingModel.fromJson(Map<String, dynamic> json) {
+    return RiwayatCrowdfundingModel(
+      id: json['id'],
+      plafond: json['plafond'],
+      bagiHasil: json['bagi_hasil'],
+      tenor: json['tenor'],
+      jumlahPendanaan: json['jml_pendanaan'],
+      tanggalMulai: json['tgl_mulai'],
+      tanggalBerakhir: json['tgl_berakhir'],
+      status: json['status'],
+    );
+  }
+}
+class RiwayatPaymentModel {
+  int id;
+  int plafond;
+  int bagiHasil;
+  int tenor;
+  int jumlahPendanaan;
+  String tanggalMulaiBayar;
+  int jumlahAngsuran;
+  String status;
+  String jatuhTempo;
+
+  RiwayatPaymentModel({
+    required this.id,
+    required this.plafond,
+    required this.bagiHasil,
+    required this.tenor,
+    required this.jumlahPendanaan,
+    required this.tanggalMulaiBayar,
+    required this.jumlahAngsuran,
+    required this.status,
+    required this.jatuhTempo,
+  });
+
+  factory RiwayatPaymentModel.fromJson(Map<String, dynamic> json) {
+    return RiwayatPaymentModel(
+      id: json['id'],
+      plafond: json['plafond'],
+      bagiHasil: json['bagi_hasil'],
+      tenor: json['tenor'],
+      jumlahPendanaan: json['jml_pendanaan'],
+      tanggalMulaiBayar: json['tgl_mulai_bayar'],
+      jumlahAngsuran: json['jml_angsuran'],
+      status: json['status'],
+      jatuhTempo: json['jatuh_tempo'],
+    );
   }
 }
