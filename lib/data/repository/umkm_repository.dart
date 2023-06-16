@@ -24,14 +24,10 @@ class UmkmRepository {
       FormData formData, List<String> fileImages, String fileLaporan) async {
     try {
       formData.files.addAll([
-        MapEntry(
-            'image1', await MultipartFile.fromFile(fileImages[0])),
-        MapEntry(
-            'image2', await MultipartFile.fromFile(fileImages[1])),
-        MapEntry(
-            'image3', await MultipartFile.fromFile(fileImages[2])),
-        MapEntry(
-            'laporan', await MultipartFile.fromFile(fileLaporan)),
+        MapEntry('image1', await MultipartFile.fromFile(fileImages[0])),
+        MapEntry('image2', await MultipartFile.fromFile(fileImages[1])),
+        MapEntry('image3', await MultipartFile.fromFile(fileImages[2])),
+        MapEntry('laporan', await MultipartFile.fromFile(fileLaporan)),
       ]);
 
       formData.fields.add(MapEntry('username', await getUsername()));
@@ -68,12 +64,27 @@ class UmkmRepository {
       rethrow;
     }
   }
-  
+
   Future<DetailUmkmModel> getDetailUmkm(String id) async {
     try {
       final userId = await getId();
       final response = await _dio.get("/pengajuan-details/$id/$userId");
       final data = DetailUmkmModel.fromJson(response.data['data']);
+      return data;
+    } on DioException catch (e) {
+      log(e.response!.statusCode.toString());
+      log(e.message.toString());
+      rethrow;
+    }
+  }
+
+  Future<List<DaftarInvestorModel>> getListInvestor(int id) async {
+    try {
+      final response = await _dio.get("/pengajuan/$id/list-investor");
+      List<DaftarInvestorModel> data = [];
+      for (var value in response.data['data']) {
+        data.add(DaftarInvestorModel.fromJson(value));
+      }
       return data;
     } on DioException catch (e) {
       log(e.response!.statusCode.toString());

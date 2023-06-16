@@ -186,6 +186,7 @@ class RiwayatCrowdfundingModel {
     );
   }
 }
+
 class RiwayatPaymentModel {
   int id;
   int plafond;
@@ -221,5 +222,39 @@ class RiwayatPaymentModel {
       status: json['status'],
       jatuhTempo: json['jatuh_tempo'],
     );
+  }
+}
+
+class DaftarInvestorModel {
+  int investorId;
+  int nominal;
+  InvestorDetailsModel investorDetails;
+
+  DaftarInvestorModel(
+      {required this.investorId,
+      required this.nominal,
+      required this.investorDetails});
+
+  factory DaftarInvestorModel.fromJson(Map<String, dynamic> json) {
+    return DaftarInvestorModel(
+      investorId: json['investorId'],
+      nominal: json['nominal'],
+      investorDetails: InvestorDetailsModel.fromJson(json['investorDetails']),
+    );
+  }
+}
+
+class InvestorDetailsModel {
+  String name;
+  String imgUrl;
+
+  InvestorDetailsModel({required this.name, required this.imgUrl});
+
+  factory InvestorDetailsModel.fromJson(Map<String, dynamic> json) {
+    return InvestorDetailsModel(name: json['name'], imgUrl: json['img_url'] ?? "");
+  }
+
+  Map<String, dynamic> tojson() {
+    return {"name": name, "img_url": imgUrl};
   }
 }
