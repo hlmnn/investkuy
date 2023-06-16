@@ -15,8 +15,13 @@ class RekeningBank extends StatefulWidget {
 }
 
 class _RekeningBankState extends State<RekeningBank> {
+  Future refresh() async {
+    BlocProvider.of<SettingCubit>(context).getAllRekening();
+  }
+
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<SettingCubit>(context).getAllRekening();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -26,9 +31,7 @@ class _RekeningBankState extends State<RekeningBank> {
       body: BlocBuilder<SettingCubit, DataState>(
         builder: (context, state) {
           List<RekeningModel> data = [];
-          if (state is InitialState) {
-            context.read<SettingCubit>().getAllRekening();
-          } else if (state is LoadingState) {
+          if (state is LoadingState) {
             return const Center(
               child: CircularProgressIndicator(),
             );
@@ -43,33 +46,36 @@ class _RekeningBankState extends State<RekeningBank> {
           return Padding(
             padding:
                 const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
-            child: ListView.builder(
-              itemCount: data.length,
-              itemBuilder: (context, index) {
-                String nomorRekCensored =
-                    "${data[index].noRekening.substring(0, data[index].noRekening.length - 4)}****"; // sensor 4 angka dibelakang
-                return Card(
-                  color: const Color(0xffE4F9FF),
-                  child: ListTile(
-                    title: Text(data[index].merchant.name),
-                    subtitle: Text(nomorRekCensored),
-                    trailing: IconButton(
-                      onPressed: () {
-                        context.read<SettingCubit>().deleteRekening(data[index].id);
-                        if (state is SuccessState && state.data is bool) {
-                          SnackBar snackBar = const SnackBar(
-                            duration: Duration(seconds: 5),
-                            content: Text('Anda berhasil menghapus rekening.'),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                          context.read<SettingCubit>().resetState();
-                        }
-                      },
-                      icon: const Icon(Icons.delete),
+            child: RefreshIndicator(
+              onRefresh: refresh,
+              child: ListView.builder(
+                itemCount: data.length,
+                itemBuilder: (context, index) {
+                  String nomorRekCensored =
+                      "${data[index].noRekening.substring(0, data[index].noRekening.length - 4)}****"; // sensor 4 angka dibelakang
+                  return Card(
+                    color: const Color(0xffE4F9FF),
+                    child: ListTile(
+                      title: Text(data[index].merchant.name),
+                      subtitle: Text(nomorRekCensored),
+                      trailing: IconButton(
+                        onPressed: () {
+                          context.read<SettingCubit>().deleteRekening(data[index].id);
+                          if (state is SuccessState && state.data is bool) {
+                            SnackBar snackBar = const SnackBar(
+                              duration: Duration(seconds: 5),
+                              content: Text('Anda berhasil menghapus rekening.'),
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                            context.read<SettingCubit>().resetState();
+                          }
+                        },
+                        icon: const Icon(Icons.delete),
+                      ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           );
         },
@@ -93,7 +99,6 @@ class _RekeningBankState extends State<RekeningBank> {
             builder: (context, state) {
               return ElevatedButton(
                 onPressed: () {
-                  context.read<SettingCubit>().resetState();
                   Navigator.push(
                     context,
                     MaterialPageRoute(

@@ -414,8 +414,11 @@ class _InvestorUmkmState extends State<InvestorUmkm> {
                 child: BlocBuilder<ListUmkmCubit, DataState>(
                   builder: (context, state) {
                     if (state is LoadingPaginationState && state.isFirstFetch) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
+                      return RefreshIndicator(
+                        onRefresh: refresh,
+                        child: const Center(
+                          child: CircularProgressIndicator(),
+                        ),
                       );
                     }
 
@@ -430,8 +433,11 @@ class _InvestorUmkmState extends State<InvestorUmkm> {
                     }
 
                     if (items.isEmpty) {
-                      return const Center(
-                        child: Text("Tidak ada data."),
+                      return RefreshIndicator(
+                        onRefresh: refresh,
+                        child: const Center(
+                          child: Text("Tidak ada data."),
+                        ),
                       );
                     }
 
