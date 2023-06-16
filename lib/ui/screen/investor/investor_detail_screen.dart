@@ -73,7 +73,7 @@ class _InvestorDetailState extends State<InvestorDetail> {
               child: CircularProgressIndicator(),
             );
           } else if (state is SuccessState) {
-            final data = state.data as DetailUmkmModel;
+            final data = state.data['data'] as DetailUmkmModel;
             sektor = data.sektor;
             plafond = data.plafond;
             bagiHasil = data.bagiHasil.toString();
@@ -476,11 +476,13 @@ class _InvestorDetailState extends State<InvestorDetail> {
             builder: (context, state) {
               bool isFunded = false;
               bool isWithdraw = false;
+              bool isVerified = false;
               String status = "";
               if (state is SuccessState) {
-                isFunded = state.data.isFunded;
-                isWithdraw = state.data.isWithdraw;
-                status = state.data.status;
+                isFunded = state.data['data'].isFunded;
+                isWithdraw = state.data['data'].isWithdraw;
+                isVerified = state.data['isVerified'];
+                status = state.data['data'].status;
               }
               Widget data = Column(
                 children: [
@@ -526,17 +528,19 @@ class _InvestorDetailState extends State<InvestorDetail> {
               );
               // TODO
               if (isFunded) {
-                if (status == 'Payment Period' || status == 'Lunas' || status == 'Lunas Dini' || status == 'Tepat Waktu') {
+                if (status == 'Payment Period' ||
+                    status == 'Lunas' ||
+                    status == 'Lunas Dini' ||
+                    status == 'Tepat Waktu') {
                   data = ElevatedButton(
                     onPressed: isWithdraw ? null : () {},
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xff19A7CE),
-                      fixedSize: const Size(double.maxFinite, 30),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      disabledBackgroundColor: const Color(0xff5b7882)
-                    ),
+                        backgroundColor: const Color(0xff19A7CE),
+                        fixedSize: const Size(double.maxFinite, 30),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        disabledBackgroundColor: const Color(0xff5b7882)),
                     child: const Text(
                       "Withdraw Profit",
                       style: TextStyle(
@@ -562,6 +566,15 @@ class _InvestorDetailState extends State<InvestorDetail> {
                     ),
                   );
                 }
+              }
+              if (!isVerified) {
+                data = const Center(
+                  child: Text(
+                    "Akun anda belum terverifikasi, silahkan melakukan verifikasi akun terlebih dahulu.",
+                    maxLines: 2,
+                    textAlign: TextAlign.center,
+                  ),
+                );
               }
               return data;
             },

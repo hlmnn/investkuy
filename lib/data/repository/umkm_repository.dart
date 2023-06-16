@@ -112,4 +112,14 @@ class UmkmRepository {
       rethrow;
     }
   }
+
+  Future<bool> getVerified() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final isVerified = prefs.getBool('isVerified') ?? false;
+      return isVerified;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

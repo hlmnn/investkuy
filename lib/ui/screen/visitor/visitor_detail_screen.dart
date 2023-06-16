@@ -64,7 +64,7 @@ class _VisitorDetailState extends State<VisitorDetail> {
               child: CircularProgressIndicator(),
             );
           } else if (state is SuccessState) {
-            final data = state.data as DetailUmkmModel;
+            final data = state.data['data'] as DetailUmkmModel;
             sektor = data.sektor;
             plafond = data.plafond;
             bagiHasil = data.bagiHasil.toString();
