@@ -21,7 +21,7 @@ class InvestorDetail extends StatefulWidget {
 }
 
 class _InvestorDetailState extends State<InvestorDetail> {
-  final List<String> genderItems = ['100000', '250000', '500000', '1000000'];
+  final List<String> nominal = ['100000', '250000', '500000', '1000000'];
 
   String selectedValue = '0';
 
@@ -219,7 +219,7 @@ class _InvestorDetailState extends State<InvestorDetail> {
                                   Text(
                                     plafond != 0
                                         ? CurrencyFormat.convertToIdr(
-                                            plafond, 2)
+                                            plafond, 0)
                                         : "",
                                     style: const TextStyle(
                                       fontWeight: FontWeight.bold,
@@ -333,7 +333,7 @@ class _InvestorDetailState extends State<InvestorDetail> {
                               Text(
                                 jumlahAngsuran != 0
                                     ? CurrencyFormat.convertToIdr(
-                                        jumlahAngsuran, 2)
+                                        jumlahAngsuran, 0)
                                     : "0",
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
@@ -346,10 +346,7 @@ class _InvestorDetailState extends State<InvestorDetail> {
                             children: [
                               const Text("Penghasilan Perbulan"),
                               Text(
-                                penghasilan != ""
-                                    ? CurrencyFormat.convertToIdr(
-                                        int.parse(penghasilan), 2)
-                                    : "0",
+                                penghasilan,
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -406,14 +403,14 @@ class _InvestorDetailState extends State<InvestorDetail> {
                               fontSize: 15,
                             ),
                           ),
-                          items: genderItems
+                          items: nominal
                               .map(
                                 (item) => DropdownMenuItem<String>(
                                   value: item,
                                   child: Text(
                                     CurrencyFormat.convertToIdr(
                                       int.parse(item),
-                                      2,
+                                      0,
                                     ),
                                   ),
                                 ),
@@ -486,7 +483,7 @@ class _InvestorDetailState extends State<InvestorDetail> {
                       children: [
                         const Text('Total Tagihan'),
                         Text(
-                          selectedValue != '0' ? CurrencyFormat.convertToIdr(int.parse(selectedValue), 2) : "Rp 0,00",
+                          selectedValue != '0' ? CurrencyFormat.convertToIdr(int.parse(selectedValue), 0) : "Rp 0",
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                           ),

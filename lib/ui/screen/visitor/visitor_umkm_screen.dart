@@ -578,7 +578,7 @@ class _VisitorUmkmState extends State<VisitorUmkm> {
                                                   const Text("Plafond"),
                                                   Text(
                                                     CurrencyFormat.convertToIdr(
-                                                        item.plafond, 2),
+                                                        item.plafond, 0),
                                                     style: const TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
