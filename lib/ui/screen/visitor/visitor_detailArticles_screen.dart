@@ -19,42 +19,50 @@ class DetailArticles extends StatefulWidget {
 }
 
 class _DetailArticleState extends State<DetailArticles> {
+  Future refresh() async {
+    BlocProvider.of<DetailsArticleCubit>(context).getDetailsArticle(widget.id);
+  }
+
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<DetailsArticleCubit>(context).getDetailsArticle(widget.id);
     return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: Text(widget.title),
-          backgroundColor: const Color(0xff19A7CE),
-        ),
-        body: BlocBuilder<DetailsArticleCubit, DataState>(
-          builder: (context, state) {
-            String title = "";
-            String tglTerbit = "";
-            String konten = "";
-            String imgUrl = "";
-            String adminName = "";
-            String formattedDate = "";
-            if (state is InitialState) {
-              context.read<DetailsArticleCubit>().getDetailsArticle(widget.id);
-            } else if (state is LoadingState) {
-              return const Center(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text(widget.title),
+        backgroundColor: const Color(0xff19A7CE),
+      ),
+      body: BlocBuilder<DetailsArticleCubit, DataState>(
+        builder: (context, state) {
+          String title = "";
+          String tglTerbit = "";
+          String konten = "";
+          String imgUrl = "";
+          String adminName = "";
+          String formattedDate = "";
+          if (state is LoadingState) {
+            return RefreshIndicator(
+              onRefresh: refresh,
+              child: const Center(
                 child: CircularProgressIndicator(),
-              );
-            } else if (state is SuccessState) {
-              if (state.data is ArticleModel) {
-                title = state.data.title;
-                tglTerbit = state.data.tglTerbit;
-                DateTime date = DateTime.parse(tglTerbit);
-                formattedDate = DateFormat('EEEE, dd MMMM yyyy').format(date);
-                konten = state.data.konten;
-                imgUrl = state.data.imgUrl;
-                log(imgUrl);
-                adminName = state.data.adminName;
-              }
+              ),
+            );
+          } else if (state is SuccessState) {
+            if (state.data is ArticleModel) {
+              title = state.data.title;
+              tglTerbit = state.data.tglTerbit;
+              DateTime date = DateTime.parse(tglTerbit);
+              formattedDate = DateFormat('EEEE, dd MMMM yyyy').format(date);
+              konten = state.data.konten;
+              imgUrl = state.data.imgUrl;
+              log(imgUrl);
+              adminName = state.data.adminName;
             }
+          }
 
-            return SingleChildScrollView(
+          return RefreshIndicator(
+            onRefresh: refresh,
+            child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -62,7 +70,11 @@ class _DetailArticleState extends State<DetailArticles> {
                     width: double.infinity,
                     height: 300,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10.0),
+                      borderRadius: const BorderRadius.vertical(
+                        bottom: Radius.circular(
+                          25.0,
+                        ),
+                      ),
                       child: CachedNetworkImage(
                         imageUrl: imgUrl,
                         placeholder: (context, url) =>
@@ -74,40 +86,50 @@ class _DetailArticleState extends State<DetailArticles> {
                     ),
                   ),
                   Padding(
-                      padding: const EdgeInsets.only(
-                          left: 20, right: 20, top: 20, bottom: 5),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            title,
-                            style: const TextStyle(
-                              fontSize: 24.0,
-                              fontWeight: FontWeight.bold,
-                            ),
+                    padding: const EdgeInsets.only(
+                      left: 20,
+                      right: 20,
+                      top: 20,
+                      bottom: 5,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          title,
+                          style: const TextStyle(
+                            fontSize: 24.0,
+                            fontWeight: FontWeight.bold,
                           ),
-                          const SizedBox(height: 8.0),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                right: 20, top: 5, bottom: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(adminName),
-                                Text(formattedDate),
-                              ],
-                            ),
+                        ),
+                        const SizedBox(height: 8.0),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            right: 20,
+                            top: 5,
+                            bottom: 5,
                           ),
-                          const SizedBox(height: 8.0),
-                          Text(konten),
-                          const SizedBox(height: 8.0),
-                        ],
-                      )),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(adminName),
+                              Text(formattedDate),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 8.0),
+                        Text(konten),
+                        const SizedBox(height: 8.0),
+                      ],
+                    ),
+                  ),
                 ],
               ),
-            );
-          },
-        ));
+            ),
+          );
+        },
+      ),
+    );
   }
 }

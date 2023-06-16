@@ -1,10 +1,7 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:investkuy/data/data_state.dart';
 import 'package:investkuy/data/model/faq_model.dart';
-import 'package:investkuy/main.dart';
 import 'package:investkuy/ui/cubit/faq_cubit.dart';
 
 class Faqs extends StatefulWidget {
@@ -17,26 +14,38 @@ class Faqs extends StatefulWidget {
 }
 
 class _FaqState extends State<Faqs> {
+  Future refresh() async {
+    BlocProvider.of<FaqCubit>(context).getFaq();
+  }
+
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<FaqCubit>(context).getFaq();
     return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: Text(widget.title),
-          backgroundColor: const Color(0xff19A7CE),
-        ),
-        body: BlocBuilder<FaqCubit, DataState>(
-          builder: (context, state) {
-            List<FaqModel> listFaq = [];
-            if (state is InitialState) { // Initial State
-              context.read<FaqCubit>().getFaq();
-            } else if (state is LoadingState) { // Loading State
-              return const CircularProgressIndicator();
-            } else if (state is SuccessState) { // Success State
-              listFaq = state.data;
-            }
-            return Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text(widget.title),
+        backgroundColor: const Color(0xff19A7CE),
+      ),
+      body: BlocBuilder<FaqCubit, DataState>(
+        builder: (context, state) {
+          List<FaqModel> listFaq = [];
+          if (state is LoadingState) {
+            // Loading State
+            return const CircularProgressIndicator();
+          } else if (state is SuccessState) {
+            // Success State
+            listFaq = state.data;
+          }
+          return RefreshIndicator(
+            onRefresh: refresh,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: 10,
+                right: 10,
+                top: 5,
+                bottom: 5,
+              ),
               child: ListView.builder(
                 itemCount: listFaq.length,
                 itemBuilder: (context, index) {
@@ -61,7 +70,7 @@ class _FaqState extends State<Faqs> {
                               ),
                             ),
                             const SizedBox(height: 8.0),
-                            Text(listFaq[index].answer)
+                            Text(listFaq[index].answer),
                           ],
                         ),
                       ),
@@ -69,9 +78,10 @@ class _FaqState extends State<Faqs> {
                   );
                 },
               ),
-            );
-          }
-        )
+            ),
+          );
+        },
+      ),
     );
   }
 }

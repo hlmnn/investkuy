@@ -29,6 +29,7 @@ class _TambahRekeningState extends State<TambahRekening> {
 
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<RekeningCubit>(context).getAllMerchants();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -38,9 +39,7 @@ class _TambahRekeningState extends State<TambahRekening> {
       body: BlocBuilder<RekeningCubit, DataState>(
         builder: (context, state) {
           List<MerchantModel> data = [];
-          if (state is InitialState) {
-            context.read<RekeningCubit>().getAllMerchants();
-          } else if (state is LoadingState) {
+          if (state is LoadingState) {
             return const Center(
               child: CircularProgressIndicator(),
             );
@@ -168,7 +167,7 @@ class _TambahRekeningState extends State<TambahRekening> {
                     context.read<RekeningCubit>().addRekening(int.parse(selectedValue!), _rekening.value.text);
                   }
                   if (state is SuccessState) {
-                    context.read<SettingCubit>().resetState();
+                    BlocProvider.of<SettingCubit>(context).getAllRekening();
                     SnackBar snackBar = const SnackBar(
                       duration: Duration(seconds: 5),
                       content: Text('Anda berhasil menambahkan rekening baru.'),
