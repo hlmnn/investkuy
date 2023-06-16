@@ -28,6 +28,7 @@ class ProfileRepository {
       final id = await getId();
       final response = await _dio.get('/user/profile/$id');
       final data = UserModel.fromJson(response.data['data']);
+      await setVerified(data.isVerified);
       return data;
     } on DioException catch (e) {
       log(e.response!.statusCode.toString());
@@ -190,6 +191,26 @@ class ProfileRepository {
     }
   }
 
+  Future setVerified(bool isVerified) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final userToken = prefs.setBool('isVerified', isVerified);
+      return userToken;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<bool> getVerified() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final isVerified = prefs.getBool('isVerified') ?? false;
+      return isVerified;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<String> getToken() async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -237,6 +258,7 @@ class ProfileRepository {
       await prefs.remove('role');
       await prefs.remove('username');
       await prefs.remove('id');
+      await prefs.remove('isVerified');
       return true;
     } catch (e) {
       rethrow;
