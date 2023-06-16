@@ -5,6 +5,7 @@ import 'package:investkuy/data/model/pendanaan_model.dart';
 import 'package:investkuy/ui/cubit/investor_riwayat_cubit.dart';
 import 'package:investkuy/ui/screen/investor/investor_detail_screen.dart';
 import 'package:investkuy/utils/currency_format.dart';
+import 'package:investkuy/utils/date_formatter.dart';
 import 'package:investkuy/utils/string_format.dart';
 
 class RiwayatCompleted extends StatefulWidget {
@@ -225,8 +226,8 @@ class _RiwayatCompletedState extends State<RiwayatCompleted> {
                                               child: Text("Selesai"),
                                             ),
                                             Text(
-                                              ": XX/XX/XXX",
-                                              style: TextStyle(
+                                              ": ${DateFormatter.convertToDate(item.tanggalSelesai)}",
+                                              style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
