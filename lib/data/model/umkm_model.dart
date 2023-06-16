@@ -139,7 +139,7 @@ class FotoUmkmModel {
     return FotoUmkmModel(
       imgUrl1: json['image1_url'],
       imgUrl2: json['image2_url'],
-      imgUrl3: json['image2_url'],
+      imgUrl3: json['image3_url'],
     );
   }
 
