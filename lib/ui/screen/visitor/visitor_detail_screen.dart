@@ -210,7 +210,7 @@ class _VisitorDetailState extends State<VisitorDetail> {
                                   Text(
                                     plafond != 0
                                         ? CurrencyFormat.convertToIdr(
-                                            plafond, 2)
+                                            plafond, 0)
                                         : "",
                                     style: const TextStyle(
                                       fontWeight: FontWeight.bold,
@@ -323,7 +323,7 @@ class _VisitorDetailState extends State<VisitorDetail> {
                             Text(
                               jumlahAngsuran != 0
                                   ? CurrencyFormat.convertToIdr(
-                                      jumlahAngsuran, 2)
+                                      jumlahAngsuran, 0)
                                   : "0",
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
@@ -336,10 +336,7 @@ class _VisitorDetailState extends State<VisitorDetail> {
                           children: [
                             const Text("Penghasilan Perbulan"),
                             Text(
-                              penghasilan != ""
-                                  ? CurrencyFormat.convertToIdr(
-                                      int.parse(penghasilan), 2)
-                                  : "0",
+                              penghasilan,
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),

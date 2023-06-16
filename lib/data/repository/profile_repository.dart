@@ -39,9 +39,8 @@ class ProfileRepository {
   Future<bool> updateAccount(FormData formData, String img) async {
     try {
       final id = await getId();
-      formData.files.add(
-        MapEntry('img_profile', await MultipartFile.fromFile(img))
-      );
+      formData.files
+          .add(MapEntry('img_profile', await MultipartFile.fromFile(img)));
       await _dio.put("/user/profile/ubah-info-akun/$id", data: formData);
 
       return true;
@@ -157,11 +156,32 @@ class ProfileRepository {
   Future<bool> deleteRekening(int id) async {
     try {
       final token = await getToken();
-      await _dio.delete("/rekenings/$id", options: Options(
-        headers: {
-          "Authorization": "Bearer $token",
-        },
-      ),);
+      await _dio.delete(
+        "/rekenings/$id",
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $token",
+          },
+        ),
+      );
+      return true;
+    } on DioException catch (e) {
+      log(e.response!.statusCode.toString());
+      log(e.message.toString());
+      rethrow;
+    }
+  }
+
+  Future<bool> accountVerification(
+      FormData formData, String imgKtp, String imgSelf) async {
+    try {
+      final username = await getUsername();
+      formData.files.addAll([
+        MapEntry('ktpImg', await MultipartFile.fromFile(imgKtp)),
+        MapEntry('pasFoto', await MultipartFile.fromFile(imgSelf))
+      ]);
+      await _dio.post("/verification/$username", data: formData);
+
       return true;
     } on DioException catch (e) {
       log(e.response!.statusCode.toString());

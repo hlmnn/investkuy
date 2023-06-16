@@ -461,7 +461,9 @@ class _InvestorUmkmState extends State<InvestorUmkm> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => InvestorDetail(
-                                        title: 'Detail UMKM', id: item.id.toString(),),
+                                      title: 'Detail UMKM',
+                                      id: item.id.toString(),
+                                    ),
                                   ),
                                 );
                               },
@@ -492,7 +494,8 @@ class _InvestorUmkmState extends State<InvestorUmkm> {
                                                 child: Padding(
                                                   padding:
                                                       const EdgeInsets.only(
-                                                          left: 5),
+                                                    left: 5,
+                                                  ),
                                                   child: Column(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
@@ -504,8 +507,9 @@ class _InvestorUmkmState extends State<InvestorUmkm> {
                                                       Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .only(
-                                                                bottom: 6),
+                                                                .only(
+                                                          bottom: 6,
+                                                        ),
                                                         child: Text(
                                                           item.detailPemilik
                                                               .name,
@@ -520,12 +524,14 @@ class _InvestorUmkmState extends State<InvestorUmkm> {
                                                       Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .only(
-                                                                bottom: 6),
+                                                                .only(
+                                                          bottom: 6,
+                                                        ),
                                                         child: Text(
                                                           StringFormat
                                                               .capitalizeAllWord(
-                                                                  item.sektor),
+                                                            item.sektor,
+                                                          ),
                                                           style:
                                                               const TextStyle(
                                                             fontWeight:
@@ -536,13 +542,15 @@ class _InvestorUmkmState extends State<InvestorUmkm> {
                                                       Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .only(
-                                                                bottom: 6),
+                                                                .only(
+                                                          bottom: 6,
+                                                        ),
                                                         child: Text(
                                                           StringFormat
-                                                              .capitalizeAllWord(item
-                                                                  .detailPemilik
-                                                                  .alamat),
+                                                              .capitalizeAllWord(
+                                                            item.detailPemilik
+                                                                .alamat,
+                                                          ),
                                                           style:
                                                               const TextStyle(
                                                             fontSize: 13,
@@ -574,7 +582,9 @@ class _InvestorUmkmState extends State<InvestorUmkm> {
                                                     Text(
                                                       CurrencyFormat
                                                           .convertToIdr(
-                                                              item.plafond, 2),
+                                                        item.plafond,
+                                                        0,
+                                                      ),
                                                       style: const TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
