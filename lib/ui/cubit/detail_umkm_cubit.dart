@@ -13,7 +13,13 @@ class DetailUmkmCubit extends Cubit<DataState> {
     try {
       emit(LoadingState());
       final data = await repository.getDetailUmkm(id);
-      emit(SuccessState<DetailUmkmModel>(data));
+      final isVerified = await repository.getVerified();
+      emit(SuccessState<Map<String, dynamic>>(
+        {
+          'data': data,
+          'isVerified': isVerified,
+        },
+      ));
     } on DioException catch (e) {
       emit(ErrorState(e.response!.data['message'].toString()));
       rethrow;
