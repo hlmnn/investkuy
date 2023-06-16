@@ -7,6 +7,7 @@ import 'package:investkuy/ui/cubit/detail_umkm_cubit.dart';
 import 'package:investkuy/ui/cubit/faq_cubit.dart';
 import 'package:investkuy/ui/cubit/article_cubit.dart';
 import 'package:investkuy/ui/cubit/investor_riwayat_cubit.dart';
+import 'package:investkuy/ui/cubit/list_investor_cubit.dart';
 import 'package:investkuy/ui/cubit/list_umkm_cubit.dart';
 import 'package:investkuy/ui/cubit/login_cubit.dart';
 import 'package:investkuy/ui/cubit/profile_cubit.dart';
@@ -86,6 +87,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<InvestorRiwayatCompletedCubit>(
           create: (context) => InvestorRiwayatCompletedCubit(),
+        ),
+        BlocProvider<ListInvestorCubit>(
+          create: (context) => ListInvestorCubit(),
         ),
       ],
       child: const MaterialApp(
