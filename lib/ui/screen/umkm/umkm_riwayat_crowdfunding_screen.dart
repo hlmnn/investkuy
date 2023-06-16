@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:investkuy/ui/cubit/umkm_riwayat_cubit.dart';
 import 'package:investkuy/ui/screen/umkm/umkm_detail_screen.dart';
 import 'package:investkuy/utils/currency_format.dart';
+import 'package:investkuy/utils/date_formatter.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:investkuy/data/data_state.dart';
 
@@ -20,13 +21,15 @@ class RiwayatCrowdfunding extends StatefulWidget {
   _RiwayatCrowdfundingState createState() => _RiwayatCrowdfundingState();
 }
 
-class _RiwayatCrowdfundingState extends State<RiwayatCrowdfunding> {
+class _RiwayatCrowdfundingState extends State<RiwayatCrowdfunding>
+    with AutomaticKeepAliveClientMixin<RiwayatCrowdfunding> {
   Future refresh() async {
     BlocProvider.of<UmkmRiwayatCfCubit>(context).getAllRiwayatCrowdfunding();
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     BlocProvider.of<UmkmRiwayatCfCubit>(context).getAllRiwayatCrowdfunding();
     return Scaffold(
         backgroundColor: Colors.white,
@@ -35,16 +38,38 @@ class _RiwayatCrowdfundingState extends State<RiwayatCrowdfunding> {
           List<RiwayatCrowdfundingModel> listRiwayatCrowdfunding = [];
 
           if (state is LoadingState) {
-            log("TES");
             return const Center(
               child: CircularProgressIndicator(),
             );
           } else if (state is SuccessState) {
-            log("TES2");
             if (state.data is List<RiwayatCrowdfundingModel>) {
               listRiwayatCrowdfunding = state.data;
-              context.read<UmkmRiwayatPaymentCubit>().resetState();
             }
+          }
+
+          if (listRiwayatCrowdfunding.isEmpty) {
+            return RefreshIndicator(
+                onRefresh: refresh,
+                child: ListView ( 
+                  children: [ Center(
+                    child: Padding(
+                        padding: const EdgeInsets.only(
+                            top: 50, bottom: 5, left: 20, right: 20),
+                        child: Column(
+                          children: [
+                            const Text(
+                                "Anda tidak memiliki riwayat crowdfunding saat ini!",
+                                style: TextStyle(fontSize: 15)),
+                            Image.network(
+                              'https://thumb1.shutterstock.com/mosaic_250/255170779/2172684639/stock-vector-document-file-not-found-search-no-result-concept-illustration-flat-design-vector-eps-modern-2172684639.jpg',
+                              fit: BoxFit.fill,
+                            ),
+                          ],
+                        )
+                      )
+                    )
+                  ]
+                ));
           }
 
           return RefreshIndicator(
@@ -56,26 +81,15 @@ class _RiwayatCrowdfundingState extends State<RiwayatCrowdfunding> {
                   itemCount: listRiwayatCrowdfunding.length,
                   itemBuilder: (context, index) {
                     final itemRiwayatCF = listRiwayatCrowdfunding[index];
-                    double jmlBagiHasil =
-                        (itemRiwayatCF.plafond / itemRiwayatCF.tenor) *
-                            (itemRiwayatCF.bagiHasil / 100) *
-                            itemRiwayatCF.tenor;
-                    DateTime dateStart =
-                        DateTime.parse(itemRiwayatCF.tanggalMulai);
-                    String formattedDateStart =
-                        DateFormat('dd/MM/yyyy').format(dateStart);
-                    DateTime dateFinish =
-                        DateTime.parse(itemRiwayatCF.tanggalBerakhir);
-                    String formattedDateFinish =
-                        DateFormat('dd/MM/yyyy').format(dateFinish);
 
                     return InkWell(
                       onTap: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    const UmkmDetail(title: 'Detail UMKM')));
+                                builder: (context) => UmkmDetail(
+                                    title: 'Detail UMKM',
+                                    id: itemRiwayatCF.id)));
                       },
                       child: Card(
                         color: const Color(0xffE4F9FF),
@@ -114,8 +128,7 @@ class _RiwayatCrowdfundingState extends State<RiwayatCrowdfunding> {
                                             children: [
                                               const Text("Bagi Hasil"),
                                               Text(
-                                                CurrencyFormat.convertToIdr(
-                                                    jmlBagiHasil, 0),
+                                                "${itemRiwayatCF.bagiHasil}%",
                                                 style: const TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                 ),
@@ -190,14 +203,15 @@ class _RiwayatCrowdfundingState extends State<RiwayatCrowdfunding> {
                                           child: Text("Tanggal"),
                                         ),
                                         Text(
-                                          ": $formattedDateStart",
+                                          ": ${DateFormatter.convertToDate(itemRiwayatCF.tanggalMulai)}",
                                           style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                         const Text(" s/d "),
                                         Text(
-                                          formattedDateFinish,
+                                          DateFormatter.convertToDate(
+                                              itemRiwayatCF.tanggalBerakhir),
                                           style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -240,4 +254,7 @@ class _RiwayatCrowdfundingState extends State<RiwayatCrowdfunding> {
               ));
         }));
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

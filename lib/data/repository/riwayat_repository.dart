@@ -27,8 +27,10 @@ class RiwayatRepository {
       final response = await _dio.get('/riwayat-crowdfunding/$username');
 
       List<RiwayatCrowdfundingModel> data = [];
-      for (var value in response.data['data']) {
-        data.add(RiwayatCrowdfundingModel.fromJson(value));
+      if (response.data['data'] != null) {   
+        for (var value in response.data['data']) {
+          data.add(RiwayatCrowdfundingModel.fromJson(value));
+        }
       }
       return data;
     } on DioException catch (e) {
@@ -44,8 +46,10 @@ class RiwayatRepository {
       final response = await _dio.get('/riwayat-payment/$username');
 
       List<RiwayatPaymentModel> data = [];
-      for (var value in response.data['data']) {
-        data.add(RiwayatPaymentModel.fromJson(value));
+      if (response.data['data'] != null) {    
+        for (var value in response.data['data']) {
+          data.add(RiwayatPaymentModel.fromJson(value));
+        }
       }
       return data;
     } on DioException catch (e) {

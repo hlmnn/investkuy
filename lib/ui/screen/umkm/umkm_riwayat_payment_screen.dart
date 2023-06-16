@@ -8,6 +8,7 @@ import 'package:investkuy/ui/cubit/umkm_riwayat_cubit.dart';
 import 'package:investkuy/ui/screen/umkm/umkm_detail_cicilan_screen.dart';
 import 'package:investkuy/data/data_state.dart';
 import 'package:investkuy/utils/currency_format.dart';
+import 'package:investkuy/utils/date_formatter.dart';
 
 class RiwayatPayment extends StatefulWidget {
   const RiwayatPayment({super.key, required this.title});
@@ -18,7 +19,8 @@ class RiwayatPayment extends StatefulWidget {
   _RiwayatPaymentState createState() => _RiwayatPaymentState();
 }
 
-class _RiwayatPaymentState extends State<RiwayatPayment> {
+class _RiwayatPaymentState extends State<RiwayatPayment>
+    with AutomaticKeepAliveClientMixin {
   Future refresh() async {
     BlocProvider.of<UmkmRiwayatPaymentCubit>(context).getAllRiwayatPayment();
   }
@@ -34,15 +36,39 @@ class _RiwayatPaymentState extends State<RiwayatPayment> {
         List<RiwayatPaymentModel> listRiwayatPayment = [];
 
         if (state is LoadingState) {
-          log("TES3");
           return const Center(
             child: CircularProgressIndicator(),
           );
         } else if (state is SuccessState) {
-          log(state.data[0].status);
-          if (state.data is List<RiwayatPayment>) {
+          if (state.data is List<RiwayatPaymentModel>) {
             listRiwayatPayment = state.data;
           }
+        }
+
+        if (listRiwayatPayment.isEmpty) {
+          return RefreshIndicator(
+              onRefresh: refresh,
+              child: ListView(
+                  children : [Center(
+                    child: Padding(
+                        padding: const EdgeInsets.only(
+                            top: 50, bottom: 5, left: 20, right: 20),
+                        child: Column(
+                          children: [
+                            const Text(
+                                "Anda tidak memiliki riwayat payment saat ini!",
+                                style: TextStyle(fontSize: 15)),
+                            Image.network(
+                              'https://thumb1.shutterstock.com/mosaic_250/255170779/2172684639/stock-vector-document-file-not-found-search-no-result-concept-illustration-flat-design-vector-eps-modern-2172684639.jpg',
+                              fit: BoxFit.fill,
+                            ),
+                          ],
+                        )
+                      )
+                    )
+                  ]
+                )
+              );
         }
 
         return RefreshIndicator(
@@ -54,26 +80,15 @@ class _RiwayatPaymentState extends State<RiwayatPayment> {
               itemCount: listRiwayatPayment.length,
               itemBuilder: (BuildContext context, int index) {
                 final itemRiwayatPayment = listRiwayatPayment[index];
-                double jmlBagiHasil =
-                    (itemRiwayatPayment.plafond / itemRiwayatPayment.tenor) *
-                        (itemRiwayatPayment.bagiHasil / 100) *
-                        itemRiwayatPayment.tenor;
-                DateTime dateStartPayment =
-                    DateTime.parse(itemRiwayatPayment.tanggalMulaiBayar);
-                String formattedDateStartPayment =
-                    DateFormat('dd/MM/yyyy').format(dateStartPayment);
-                DateTime dateJatuhTempo =
-                    DateTime.parse(itemRiwayatPayment.jatuhTempo);
-                String formattedDateJatuhTempo =
-                    DateFormat('dd/MM/yyyy').format(dateJatuhTempo);
 
                 return InkWell(
                   onTap: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                const UmkmDetailCicilan(title: 'Detail UMKM')));
+                            builder: (context) => UmkmDetailCicilan(
+                                title: 'Detail UMKM',
+                                id: itemRiwayatPayment.id)));
                   },
                   child: Card(
                     color: const Color(0xffE4F9FF),
@@ -100,7 +115,7 @@ class _RiwayatPaymentState extends State<RiwayatPayment> {
                                           const Text("Plafond"),
                                           Text(
                                             CurrencyFormat.convertToIdr(
-                                                itemRiwayatPayment, 0),
+                                                itemRiwayatPayment.plafond, 0),
                                             style: const TextStyle(
                                               fontWeight: FontWeight.bold,
                                             ),
@@ -111,8 +126,7 @@ class _RiwayatPaymentState extends State<RiwayatPayment> {
                                         children: [
                                           const Text("Bagi Hasil"),
                                           Text(
-                                            CurrencyFormat.convertToIdr(
-                                                jmlBagiHasil, 0),
+                                            "${itemRiwayatPayment.bagiHasil}%",
                                             style: const TextStyle(
                                               fontWeight: FontWeight.bold,
                                             ),
@@ -183,7 +197,8 @@ class _RiwayatPaymentState extends State<RiwayatPayment> {
                                       child: Text("Jatuh Tempo"),
                                     ),
                                     Text(
-                                      formattedDateJatuhTempo,
+                                      DateFormatter.convertToDate(
+                                          itemRiwayatPayment.jatuhTempo),
                                       style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -245,4 +260,8 @@ class _RiwayatPaymentState extends State<RiwayatPayment> {
       }),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

@@ -5,9 +5,10 @@ import 'package:investkuy/ui/screen/umkm/umkm_daftar_investor_screen.dart';
 import 'package:investkuy/ui/screen/umkm/umkm_laporan_keuangan_screen.dart';
 
 class UmkmDetail extends StatefulWidget {
-  const UmkmDetail({super.key, required this.title});
+  const UmkmDetail({super.key, required this.title, required this.id});
 
   final String title;
+  final int id;
 
   @override
   _UmkmDetailState createState() => _UmkmDetailState();
@@ -34,46 +35,50 @@ class _UmkmDetailState extends State<UmkmDetail> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Icon(Icons.account_circle_rounded,
+                        const Icon(
+                          Icons.account_circle_rounded,
                           size: 70,
                         ),
                         Expanded(
                           child: Padding(
                               padding: const EdgeInsets.only(left: 5),
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: const [
-                                  Padding(padding: EdgeInsets.only(bottom: 6),
-                                    child: Text("Nama Pedagang",
+                                  Padding(
+                                    padding: EdgeInsets.only(bottom: 6),
+                                    child: Text(
+                                      "Nama Pedagang",
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16,
                                       ),
                                     ),
                                   ),
-                                  Padding(padding: EdgeInsets.only(bottom: 6),
-                                    child: Text("Sektor UMKM",
+                                  Padding(
+                                    padding: EdgeInsets.only(bottom: 6),
+                                    child: Text(
+                                      "Sektor UMKM",
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
                                   ),
-                                  Padding(padding: EdgeInsets.only(bottom: 6),
-                                      child: Text('Alamat UMKM',
+                                  Padding(
+                                      padding: EdgeInsets.only(bottom: 6),
+                                      child: Text(
+                                        'Alamat UMKM',
                                         style: TextStyle(
                                           fontSize: 13,
                                         ),
-                                      )
-                                  ),
+                                      )),
                                 ],
-                              )
-                          ),
+                              )),
                         )
                       ],
-                    )
-                ),
-
+                    )),
                 Container(
                   padding: const EdgeInsets.all(10),
                   margin: const EdgeInsets.only(bottom: 10),
@@ -85,32 +90,28 @@ class _UmkmDetailState extends State<UmkmDetail> {
                       autoPlay: false,
                       initialPage: 1,
                     ),
-                    items: [1,2,3,4].map((i) {
+                    items: [1, 2, 3, 4].map((i) {
                       return Builder(
                         builder: (BuildContext context) {
                           return Container(
                             width: MediaQuery.of(context).size.width,
                             margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                            decoration: const BoxDecoration(
-                                color: Color(0xffE4F9FF)
-                            ),
+                            decoration:
+                                const BoxDecoration(color: Color(0xffE4F9FF)),
                             child: Center(
                               child: Text(
                                 'FOTO $i',
                                 style: const TextStyle(
                                     fontSize: 16.0,
-                                    fontWeight: FontWeight.bold
-                                ),
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
                           );
                         },
                       );
-                    }
-                    ).toList(),
+                    }).toList(),
                   ),
                 ),
-
                 Container(
                     padding: const EdgeInsets.all(10),
                     margin: const EdgeInsets.only(bottom: 10),
@@ -124,7 +125,8 @@ class _UmkmDetailState extends State<UmkmDetail> {
                             Column(
                               children: const [
                                 Text("Plafond"),
-                                Text("Rp X.000.000",
+                                Text(
+                                  "Rp X.000.000",
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -134,7 +136,8 @@ class _UmkmDetailState extends State<UmkmDetail> {
                             Column(
                               children: const [
                                 Text("Bagi Hasil"),
-                                Text("Rp X.00.000",
+                                Text(
+                                  "Rp X.00.000",
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -144,7 +147,8 @@ class _UmkmDetailState extends State<UmkmDetail> {
                             Column(
                               children: const [
                                 Text("Tenor"),
-                                Text("X0 Minggu",
+                                Text(
+                                  "X0 Minggu",
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -154,9 +158,7 @@ class _UmkmDetailState extends State<UmkmDetail> {
                           ],
                         ),
                       ],
-                    )
-                ),
-
+                    )),
                 Container(
                     color: const Color(0xffE4F9FF),
                     padding: const EdgeInsets.all(10),
@@ -166,16 +168,16 @@ class _UmkmDetailState extends State<UmkmDetail> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: const [
-                        Text('Tentang UMKM',
+                        Text(
+                          'Tentang UMKM',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Text('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce hendrerit elit a cursus varius. Nullam quam augue, auctor ac purus at, lacinia mollis dolor. Praesent placerat suscipit hendrerit. Nullam pellentesque purus a metus viverra facilisis....')
+                        Text(
+                            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce hendrerit elit a cursus varius. Nullam quam augue, auctor ac purus at, lacinia mollis dolor. Praesent placerat suscipit hendrerit. Nullam pellentesque purus a metus viverra facilisis....')
                       ],
-                    )
-                ),
-
+                    )),
                 Container(
                     color: const Color(0xffE4F9FF),
                     padding: const EdgeInsets.all(10),
@@ -188,7 +190,8 @@ class _UmkmDetailState extends State<UmkmDetail> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: const [
                             Text("Tenor Pendanaan"),
-                            Text("X0 Minggu",
+                            Text(
+                              "X0 Minggu",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
@@ -199,7 +202,8 @@ class _UmkmDetailState extends State<UmkmDetail> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: const [
                             Text("Imbal Hasil (%)"),
-                            Text("XX%",
+                            Text(
+                              "XX%",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
@@ -210,7 +214,8 @@ class _UmkmDetailState extends State<UmkmDetail> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: const [
                             Text("Jenis Angsuran"),
-                            Text("Bulanan",
+                            Text(
+                              "Bulanan",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
@@ -221,7 +226,8 @@ class _UmkmDetailState extends State<UmkmDetail> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: const [
                             Text("Jumlah Angsuran"),
-                            Text("Rp. XX.XXX",
+                            Text(
+                              "Rp. XX.XXX",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
@@ -232,7 +238,8 @@ class _UmkmDetailState extends State<UmkmDetail> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: const [
                             Text("Penghasilan Perbulan"),
-                            Text("Rp.XXX.XXX",
+                            Text(
+                              "Rp.XXX.XXX",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
@@ -243,7 +250,8 @@ class _UmkmDetailState extends State<UmkmDetail> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: const [
                             Text("Pekerjaan"),
-                            Text("XXXXXXXX",
+                            Text(
+                              "XXXXXXXX",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
@@ -251,11 +259,10 @@ class _UmkmDetailState extends State<UmkmDetail> {
                           ],
                         ),
                       ],
-                    )
-                ),
+                    )),
                 Container(
                   padding: const EdgeInsets.all(5),
-                  child:Column(
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Row(
@@ -265,7 +272,8 @@ class _UmkmDetailState extends State<UmkmDetail> {
                           SizedBox(
                             width: 10,
                           ),
-                          Text("RpX0.000.000",
+                          Text(
+                            "RpX0.000.000",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                             ),
@@ -276,8 +284,8 @@ class _UmkmDetailState extends State<UmkmDetail> {
                         padding: const EdgeInsets.only(top: 5, bottom: 5),
                         child: Container(
                           decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(10))
-                          ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
                           child: const ClipRRect(
                             borderRadius: BorderRadius.all(Radius.circular(8)),
                             child: LinearProgressIndicator(
@@ -298,13 +306,15 @@ class _UmkmDetailState extends State<UmkmDetail> {
                                 padding: EdgeInsets.only(right: 10),
                                 child: Text("Tanggal"),
                               ),
-                              Text(": XX/XX/XXXX",
+                              Text(
+                                ": XX/XX/XXXX",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               Text(" s/d "),
-                              Text("XX/XX/XXXX",
+                              Text(
+                                "XX/XX/XXXX",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -318,18 +328,18 @@ class _UmkmDetailState extends State<UmkmDetail> {
                 ),
                 const SizedBox(height: 10),
                 ElevatedButton(
-                  onPressed:  ()  {
+                  onPressed: () {
                     Navigator.push(
-                        context, MaterialPageRoute(builder: (context) => const UmkmLaporanKeuangan(title: "Tambah Laporan Keuangan"))
-                    );
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const UmkmLaporanKeuangan(
+                                title: "Tambah Laporan Keuangan")));
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xff19A7CE),
                       fixedSize: const Size(double.maxFinite, 40),
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)
-                      )
-                  ),
+                          borderRadius: BorderRadius.circular(10))),
                   child: const Text(
                     "Tambah Laporan Keuangan",
                     style: TextStyle(
@@ -339,18 +349,18 @@ class _UmkmDetailState extends State<UmkmDetail> {
                 ),
                 const SizedBox(height: 5),
                 ElevatedButton(
-                  onPressed:  ()  {
+                  onPressed: () {
                     Navigator.push(
-                        context, MaterialPageRoute(builder: (context) => const UmkmDaftarInvestor(title: "Daftar Investor"))
-                    );
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const UmkmDaftarInvestor(
+                                title: "Daftar Investor")));
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xff19A7CE),
                       fixedSize: const Size(double.maxFinite, 40),
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)
-                      )
-                  ),
+                          borderRadius: BorderRadius.circular(10))),
                   child: const Text(
                     "Lihat Daftar Investor",
                     style: TextStyle(
@@ -377,17 +387,15 @@ class _UmkmDetailState extends State<UmkmDetail> {
                   ),
                 ],
               ),
-              child: Column (
+              child: Column(
                 children: [
                   ElevatedButton(
-                    onPressed:  ()  {},
+                    onPressed: () {},
                     style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xff19A7CE),
                         fixedSize: const Size(double.maxFinite, 40),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)
-                        )
-                    ),
+                            borderRadius: BorderRadius.circular(10))),
                     child: const Text(
                       "Batalkan Pengajuan",
                       style: TextStyle(
@@ -396,9 +404,7 @@ class _UmkmDetailState extends State<UmkmDetail> {
                     ),
                   ),
                 ],
-              )
-          ),
-        )
-    );
+              )),
+        ));
   }
 }

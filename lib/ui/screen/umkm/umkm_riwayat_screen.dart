@@ -3,7 +3,6 @@ import 'package:investkuy/ui/screen/notification/notifikasi_screen.dart';
 import 'package:investkuy/ui/screen/umkm/umkm_riwayat_crowdfunding_screen.dart';
 import 'package:investkuy/ui/screen/umkm/umkm_riwayat_payment_screen.dart';
 
-
 class UmkmRiwayat extends StatefulWidget {
   const UmkmRiwayat({super.key, required this.title});
 
@@ -18,7 +17,7 @@ class _UmkmRiwayatState extends State<UmkmRiwayat> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
@@ -32,8 +31,9 @@ class _UmkmRiwayatState extends State<UmkmRiwayat> {
               onPressed: () {
                 Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const Notifikasi(title: 'Notifikasi'))
-                );
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            const Notifikasi(title: 'Notifikasi')));
               },
               icon: const Icon(Icons.notifications),
             ),
@@ -43,7 +43,9 @@ class _UmkmRiwayatState extends State<UmkmRiwayat> {
             indicatorWeight: 5,
             tabs: [
               Tab(text: 'Crowdfunding'),
-              Tab(text: 'Payment',),
+              Tab(
+                text: 'Payment',
+              ),
             ],
           ),
         ),
