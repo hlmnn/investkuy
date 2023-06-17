@@ -7,6 +7,7 @@ import 'package:investkuy/ui/cubit/detail_umkm_cubit.dart';
 import 'package:investkuy/ui/screen/login/login_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:investkuy/ui/screen/visitor/visitor_laporan_screen.dart';
 import 'package:investkuy/utils/currency_format.dart';
 import 'package:investkuy/utils/string_format.dart';
 
@@ -138,7 +139,8 @@ class _InvestorDetailState extends State<InvestorDetail> {
                             child: Padding(
                               padding: const EdgeInsets.only(left: 5),
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
@@ -155,7 +157,8 @@ class _InvestorDetailState extends State<InvestorDetail> {
                                     padding: const EdgeInsets.only(bottom: 6),
                                     child: Text(
                                       sektor != ""
-                                          ? StringFormat.capitalizeAllWord(sektor)
+                                          ? StringFormat.capitalizeAllWord(
+                                              sektor)
                                           : sektor,
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w500,
@@ -166,7 +169,8 @@ class _InvestorDetailState extends State<InvestorDetail> {
                                     padding: const EdgeInsets.only(bottom: 6),
                                     child: Text(
                                       alamat != ""
-                                          ? StringFormat.capitalizeAllWord(alamat)
+                                          ? StringFormat.capitalizeAllWord(
+                                              alamat)
                                           : alamat,
                                       style: const TextStyle(
                                         fontSize: 13,
@@ -193,8 +197,8 @@ class _InvestorDetailState extends State<InvestorDetail> {
                           autoPlay: true,
                           initialPage: 0,
                         ),
-                        items:
-                            [imgUmkmUrl1, imgUmkmUrl2, imgUmkmUrl3].map((imgUrl) {
+                        items: [imgUmkmUrl1, imgUmkmUrl2, imgUmkmUrl3]
+                            .map((imgUrl) {
                           return Builder(
                             builder: (BuildContext context) {
                               return Container(
@@ -230,7 +234,8 @@ class _InvestorDetailState extends State<InvestorDetail> {
                                   const Text("Plafond"),
                                   Text(
                                     plafond != 0
-                                        ? CurrencyFormat.convertToIdr(plafond, 0)
+                                        ? CurrencyFormat.convertToIdr(
+                                            plafond, 0)
                                         : "",
                                     style: const TextStyle(
                                       fontWeight: FontWeight.bold,
@@ -384,7 +389,16 @@ class _InvestorDetailState extends State<InvestorDetail> {
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => VisitorLaporanScreen(
+                                id: widget.id,
+                                title: "Daftar Laporan Keuangan"),
+                          ),
+                        );
+                      },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xff19A7CE),
                           fixedSize: const Size(double.maxFinite, 20),
