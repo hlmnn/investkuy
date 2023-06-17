@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:investkuy/data/model/umkm_model.dart';
 import 'package:investkuy/ui/screen/umkm/umkm_daftar_investor_screen.dart';
 import 'package:investkuy/data/data_state.dart';
@@ -63,7 +66,7 @@ class _UmkmDetailState extends State<UmkmDetail> {
             if (state is LoadingState) {
               return const Center(child: CircularProgressIndicator());
             } else if (state is SuccessState) {
-              final data = state.data as DetailUmkmModel;
+              final data = state.data['data'] as DetailUmkmModel;
               id = data.id;
               nama = data.detailPemilik.name;
               alamat = data.detailPemilik.alamat;
@@ -166,7 +169,7 @@ class _UmkmDetailState extends State<UmkmDetail> {
                       child: CarouselSlider(
                         options: CarouselOptions(
                           height: 200.0,
-                          aspectRatio: 2.0,
+                          aspectRatio: 16 / 9,
                           enlargeCenterPage: true,
                           viewportFraction: 1.0,
                           enableInfiniteScroll: false,
@@ -427,36 +430,13 @@ class _UmkmDetailState extends State<UmkmDetail> {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    /* ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => UmkmLaporanKeuangan(
-                                    title: "Tambah Laporan Keuangan",
-                                    id: id)));
-                      },
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xff19A7CE),
-                          fixedSize: const Size(double.maxFinite, 40),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10))),
-                      child: const Text(
-                        "Tambah Laporan Keuangan",
-                        style: TextStyle(
-                          fontSize: 15,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 5), */
                     ElevatedButton(
                       onPressed: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => UmkmDaftarInvestor(
-                                    title: "Daftar Investor",
-                                    id: id)));
+                                    title: "Daftar Investor", id: id)));
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xff19A7CE),
@@ -491,23 +471,59 @@ class _UmkmDetailState extends State<UmkmDetail> {
                   ),
                 ],
               ),
-              child: Column(
-                children: [
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xff19A7CE),
-                        fixedSize: const Size(double.maxFinite, 40),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10))),
-                    child: const Text(
-                      "Batalkan Pengajuan",
-                      style: TextStyle(
-                        fontSize: 15,
+              child: BlocBuilder<DetailUmkmCubit, DataState>(
+                builder: ((context, state) {
+                  String formattedTanggalBerakhir = "";
+                  String formattedDateNow = "";
+                  bool crowdfundingState = false;
+                  bool isButtonEnabled = true;
+
+                  if (state is SuccessState) {
+                    formattedTanggalBerakhir = DateFormatter.convertToDate(
+                        state.data['data'].tanggalBerakhir);
+                    DateTime now = DateTime.now();
+                    formattedDateNow = DateFormat("dd MMMM yyyy").format(now);
+
+                    crowdfundingState =
+                        (formattedTanggalBerakhir == formattedDateNow) ||
+                            (state.data['data'].plafond ==
+                                state.data['data'].jumlahPendanaan);
+
+                    isButtonEnabled =
+                        state.data['data'].isWithdraw ? false : true;
+                  }
+
+                  return Column(
+                    children: [
+                      ElevatedButton(
+                        onPressed: isButtonEnabled
+                            ? () {
+                                if (crowdfundingState) {
+                                  log(crowdfundingState.toString());
+                                } else {
+                                  log(crowdfundingState.toString());
+                                }
+                              }
+                            : null,
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: isButtonEnabled
+                                ? const Color(0xff19A7CE)
+                                : Colors.grey,
+                            fixedSize: const Size(double.maxFinite, 40),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10))),
+                        child: Text(
+                          crowdfundingState
+                              ? "Tarik Dana"
+                              : "Batalkan Pendanaan",
+                          style: const TextStyle(
+                            fontSize: 15,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ],
+                    ],
+                  );
+                }),
               )),
         ));
   }
