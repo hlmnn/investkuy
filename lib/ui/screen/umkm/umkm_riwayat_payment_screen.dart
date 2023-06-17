@@ -48,8 +48,8 @@ class _RiwayatPaymentState extends State<RiwayatPayment>
         if (listRiwayatPayment.isEmpty) {
           return RefreshIndicator(
               onRefresh: refresh,
-              child: ListView(
-                  children : [Center(
+              child: ListView(children: [
+                Center(
                     child: Padding(
                         padding: const EdgeInsets.only(
                             top: 50, bottom: 5, left: 20, right: 20),
@@ -58,17 +58,13 @@ class _RiwayatPaymentState extends State<RiwayatPayment>
                             const Text(
                                 "Anda tidak memiliki riwayat payment saat ini!",
                                 style: TextStyle(fontSize: 15)),
-                            Image.network(
-                              'https://thumb1.shutterstock.com/mosaic_250/255170779/2172684639/stock-vector-document-file-not-found-search-no-result-concept-illustration-flat-design-vector-eps-modern-2172684639.jpg',
+                            Image.asset(
+                              'assets/images/empty.png',
                               fit: BoxFit.fill,
                             ),
                           ],
-                        )
-                      )
-                    )
-                  ]
-                )
-              );
+                        )))
+              ]));
         }
 
         return RefreshIndicator(
@@ -88,7 +84,7 @@ class _RiwayatPaymentState extends State<RiwayatPayment>
                         MaterialPageRoute(
                             builder: (context) => UmkmDetailCicilan(
                                 title: 'Detail UMKM',
-                                id: itemRiwayatPayment.id)));
+                                id: itemRiwayatPayment.id.toString())));
                   },
                   child: Card(
                     color: const Color(0xffE4F9FF),
@@ -171,13 +167,16 @@ class _RiwayatPaymentState extends State<RiwayatPayment>
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(10))),
                                     child: ClipRRect(
-                                      borderRadius:
-                                          const BorderRadius.all(Radius.circular(8)),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(8)),
                                       child: LinearProgressIndicator(
-                                        value: itemRiwayatPayment.jumlahPendanaan / itemRiwayatPayment.plafond,
+                                        value:
+                                            itemRiwayatPayment.jumlahPendanaan /
+                                                itemRiwayatPayment.plafond,
                                         minHeight: 20,
                                         color: const Color(0xff19A7CE),
-                                        backgroundColor: const Color(0xff90E7FF),
+                                        backgroundColor:
+                                            const Color(0xff90E7FF),
                                       ),
                                     ),
                                   ),

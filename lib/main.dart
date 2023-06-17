@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:investkuy/data/data_state.dart';
 import 'package:investkuy/ui/cubit/add_laporan_cubit.dart';
 import 'package:investkuy/ui/cubit/addnewpengajuan.cubit.dart';
+import 'package:investkuy/ui/cubit/bayar_cicilan_cubit.dart';
+import 'package:investkuy/ui/cubit/cancel_pengajuan_cubit.dart';
 import 'package:investkuy/ui/cubit/detail_umkm_cubit.dart';
 import 'package:investkuy/ui/cubit/faq_cubit.dart';
 import 'package:investkuy/ui/cubit/article_cubit.dart';
@@ -17,6 +19,7 @@ import 'package:investkuy/ui/cubit/rekening_cubit.dart';
 import 'package:investkuy/ui/cubit/setting_cubit.dart';
 import 'package:investkuy/ui/cubit/details_article_cubit.dart';
 import 'package:investkuy/ui/cubit/splash_cubit.dart';
+import 'package:investkuy/ui/cubit/tarik_dana_cubit.dart';
 import 'package:investkuy/ui/cubit/umkm_home_cubit.dart';
 import 'package:investkuy/ui/cubit/umkm_riwayat_cubit.dart';
 import 'package:investkuy/ui/cubit/update_account_cubit.dart';
@@ -99,6 +102,15 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<UmkmHomeCubit>(
           create: (context) => UmkmHomeCubit(),
+        ),
+        BlocProvider<CancelPengajuanCubit>(
+          create: (context) => CancelPengajuanCubit(),
+        ),
+        BlocProvider<TarikDanaCubit>(
+          create: (context) => TarikDanaCubit(),
+        ),
+        BlocProvider<BayarCicilanCubit>(
+          create: (context) => BayarCicilanCubit(),
         ),
       ],
       child: const MaterialApp(
