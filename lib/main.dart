@@ -24,7 +24,6 @@ import 'package:investkuy/ui/cubit/umkm_riwayat_cubit.dart';
 import 'package:investkuy/ui/cubit/update_account_cubit.dart';
 import 'package:investkuy/ui/cubit/verification_cubit.dart';
 import 'package:investkuy/ui/screen/investor/investor_navigation.dart';
-import 'package:investkuy/ui/screen/umkm/umkm_home_screen.dart';
 import 'package:investkuy/ui/screen/umkm/umkm_navigation.dart';
 import 'package:investkuy/ui/screen/visitor/visitor_navigation.dart';
 

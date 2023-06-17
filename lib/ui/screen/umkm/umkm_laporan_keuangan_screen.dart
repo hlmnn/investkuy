@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:investkuy/data/data_state.dart';
 import 'package:investkuy/data/model/umkm_model.dart';
 import 'package:investkuy/ui/cubit/add_laporan_cubit.dart';
+import 'package:investkuy/ui/screen/investor/visitor_pdf_screen.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -178,8 +179,7 @@ class _UmkmLaporanKeuanganState extends State<UmkmLaporanKeuangan> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => PDFViewerScreen(
-                                  'https://cdn.syncfusion.com/content/PDFViewer/flutter-succinctly.pdf'),
+                              builder: (context) => VisitorPdfScreen(url: pdfFile.laporanUrl),
                             ),
                           );
                         },
@@ -241,21 +241,5 @@ class _UmkmLaporanKeuanganState extends State<UmkmLaporanKeuangan> {
         ),
       ),
     );
-  }
-}
-
-class PDFViewerScreen extends StatelessWidget {
-  final String pdfFile;
-
-  PDFViewerScreen(this.pdfFile);
-
-  @override
-  Widget build(BuildContext context) {
-    log(pdfFile);
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('PDF Viewer'),
-        ),
-        body: SfPdfViewer.network(pdfFile));
   }
 }
