@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:investkuy/data/data_state.dart';
 import 'package:investkuy/data/model/umkm_model.dart';
 import 'package:investkuy/ui/cubit/detail_umkm_cubit.dart';
+import 'package:investkuy/ui/screen/visitor/visitor_laporan_screen.dart';
 import 'package:investkuy/utils/currency_format.dart';
 import 'package:investkuy/utils/string_format.dart';
 
@@ -373,10 +374,14 @@ class _VisitorDetailState extends State<VisitorDetail> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(builder: (context) => const LoginChoice(title: 'Login'))
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => VisitorLaporanScreen(
+                                id: widget.id,
+                                title: "Daftar Laporan Keuangan"),
+                          ),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xff19A7CE),
