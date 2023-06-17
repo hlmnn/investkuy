@@ -12,12 +12,13 @@ import '../../../utils/currency_format.dart';
 import '../../../utils/date_formatter.dart';
 import '../../../utils/string_format.dart';
 import '../../cubit/detail_umkm_cubit.dart';
+import 'confirmation_bayar_cicilan_screen.dart';
 
 class UmkmDetailCicilan extends StatefulWidget {
   const UmkmDetailCicilan({super.key, required this.title, required this.id});
 
   final String title;
-  final int id;
+  final String id;
 
   @override
   _UmkmDetailCicilanState createState() => _UmkmDetailCicilanState();
@@ -37,7 +38,7 @@ class _UmkmDetailCicilanState extends State<UmkmDetailCicilan> {
       ),
       body: BlocBuilder<DetailUmkmCubit, DataState>(
         builder: (context, state) {
-          int id = 0;
+          String id = "";
           String nama = "";
           String alamat = "";
           String imgUrl = "";
@@ -67,7 +68,7 @@ class _UmkmDetailCicilanState extends State<UmkmDetailCicilan> {
             return const Center(child: CircularProgressIndicator());
           } else if (state is SuccessState) {
             final data = state.data['data'] as DetailUmkmModel;
-            id = data.id;
+            id = data.id.toString();
             nama = data.detailPemilik.name;
             alamat = data.detailPemilik.alamat;
             imgUrl = data.detailPemilik.img;
@@ -495,9 +496,13 @@ class _UmkmDetailCicilanState extends State<UmkmDetailCicilan> {
             BlocBuilder<DetailUmkmCubit, DataState>(builder: (context, state) {
           String status = "";
           bool isLunas = false;
+          int jmlAngsuran = 0;
+          String id = "";
 
           if (state is SuccessState) {
             status = state.data['data'].status;
+            jmlAngsuran = state.data['data'].jumlahAngsuran;
+            id = state.data['data'].id.toString();
 
             if (status == "Lunas" ||
                 status == "Lunas Dini" ||
@@ -513,8 +518,8 @@ class _UmkmDetailCicilanState extends State<UmkmDetailCicilan> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              const UmkmBayarCicilan(title: "Bayar Cicilan")));
+                          builder: (context) => ConfirmationBayarCicilanScreen(
+                              id: id, angsuran: jmlAngsuran)));
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xff19A7CE),

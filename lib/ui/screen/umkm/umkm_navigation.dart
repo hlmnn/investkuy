@@ -4,9 +4,10 @@ import 'package:investkuy/ui/screen/umkm/umkm_profile_screen.dart';
 import 'package:investkuy/ui/screen/umkm/umkm_riwayat_screen.dart';
 
 class UmkmNavigation extends StatefulWidget {
-  const UmkmNavigation({super.key, required this.title});
+  const UmkmNavigation({super.key, required this.title, this.indexOther});
 
   final String title;
+  final int? indexOther;
 
   @override
   _UmkmNavigationState createState() => _UmkmNavigationState();
@@ -23,31 +24,26 @@ class _UmkmNavigationState extends State<UmkmNavigation> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.indexOther != null) {
+      onItemTap(widget.indexOther!);
+    }
     return MaterialApp(
         home: Scaffold(
-          body: pages(pageIndex),
-          bottomNavigationBar: BottomNavigationBar(
-              currentIndex: pageIndex,
-              selectedItemColor: const Color(0xff19A7CE),
-              type: BottomNavigationBarType.fixed,
-              onTap: onItemTap, //event saat button di tap
-              items: const <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.home_filled),
-                    label: 'Beranda'
-                ),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.credit_card),
-                    label: "Riwayat"
-                ),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.account_circle_rounded),
-                    label: "Profile"
-                ),
-              ]
-          ),
-        )
-    );
+      body: pages(pageIndex),
+      bottomNavigationBar: BottomNavigationBar(
+          currentIndex: pageIndex,
+          selectedItemColor: const Color(0xff19A7CE),
+          type: BottomNavigationBarType.fixed,
+          onTap: onItemTap, //event saat button di tap
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+                icon: Icon(Icons.home_filled), label: 'Beranda'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.credit_card), label: "Riwayat"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.account_circle_rounded), label: "Profile"),
+          ]),
+    ));
   }
 
   pages(int pageIndex) {

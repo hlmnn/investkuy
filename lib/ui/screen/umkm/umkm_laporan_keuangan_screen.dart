@@ -13,7 +13,7 @@ class UmkmLaporanKeuangan extends StatefulWidget {
   const UmkmLaporanKeuangan({super.key, required this.title, required this.id});
 
   final String title;
-  final int id;
+  final String id;
 
   @override
   _UmkmLaporanKeuanganState createState() => _UmkmLaporanKeuanganState();

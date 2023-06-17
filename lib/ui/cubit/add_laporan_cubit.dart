@@ -12,7 +12,7 @@ class AddLaporanCubit extends Cubit<DataState> {
 
   AddLaporanCubit() : super(InitialState());
 
-  void addLaporan(String fileLaporan, int id) async {
+  void addLaporan(String fileLaporan, String id) async {
     try {
       emit(LoadingState());
       final data = await repository.addLaporan(fileLaporan, id);
@@ -23,7 +23,7 @@ class AddLaporanCubit extends Cubit<DataState> {
     }
   }
 
-  void getAllLaporan(int id) async {
+  void getAllLaporan(String id) async {
     try {
       emit(LoadingState());
       final data = await repository.getListLaporan(id);
