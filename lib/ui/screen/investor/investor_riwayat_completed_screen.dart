@@ -43,6 +43,30 @@ class _RiwayatCompletedState extends State<RiwayatCompleted> {
             data = state.data;
           }
 
+          if (data.isEmpty) {
+            return RefreshIndicator(
+              onRefresh: refresh,
+              child: ListView(children: [
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        top: 50, bottom: 5, left: 20, right: 20),
+                    child: Column(
+                      children: [
+                        const Text("Tidak ada daftar pengajuan saat ini!",
+                            style: TextStyle(fontSize: 15)),
+                        Image.asset(
+                          'assets/images/empty.png',
+                          fit: BoxFit.fill,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ]),
+            );
+          }
+
           return RefreshIndicator(
             onRefresh: refresh,
             child: Padding(

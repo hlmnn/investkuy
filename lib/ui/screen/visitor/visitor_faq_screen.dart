@@ -37,6 +37,30 @@ class _FaqState extends State<Faqs> {
             // Success State
             listFaq = state.data;
           }
+
+          if (listFaq.isEmpty) {
+            return RefreshIndicator(
+              onRefresh: refresh,
+              child: ListView(children: [
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        top: 50, bottom: 5, left: 20, right: 20),
+                    child: Column(
+                      children: [
+                        const Text("Tidak ada daftar pengajuan saat ini!",
+                            style: TextStyle(fontSize: 15)),
+                        Image.asset(
+                          'assets/images/empty.png',
+                          fit: BoxFit.fill,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ]),
+            );
+          }
           return RefreshIndicator(
             onRefresh: refresh,
             child: Padding(
