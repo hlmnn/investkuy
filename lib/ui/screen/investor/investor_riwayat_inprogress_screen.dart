@@ -77,6 +77,7 @@ class _RiwayatInProgressState extends State<RiwayatInProgress> {
                                 builder: (context) => InvestorDetail(
                                   title: 'Detail UMKM',
                                   id: item.pengajuan.id.toString(),
+                                  pendanaanId: item.id,
                                 ),
                               ),
                             );
