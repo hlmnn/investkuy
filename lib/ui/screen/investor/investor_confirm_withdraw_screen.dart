@@ -5,7 +5,8 @@ import 'package:investkuy/ui/cubit/detail_umkm_cubit.dart';
 import 'package:investkuy/ui/cubit/pendanaan_cubit.dart';
 
 class InvestorConfirmWithdrawScreen extends StatelessWidget {
-  const InvestorConfirmWithdrawScreen({super.key, required this.pendanaanId, required this.id});
+  const InvestorConfirmWithdrawScreen(
+      {super.key, required this.pendanaanId, required this.id});
 
   final int pendanaanId;
   final int id;
@@ -25,6 +26,29 @@ class InvestorConfirmWithdrawScreen extends StatelessWidget {
               return const Center(
                 child: CircularProgressIndicator(),
               );
+            } else if (state is SuccessState) {
+              SnackBar snackBar = const SnackBar(
+                duration: Duration(seconds: 5),
+                content: Text(
+                  "Anda berhasil melakukan withdraw!",
+                ),
+              );
+              Future.delayed(const Duration(milliseconds: 500), () {
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                BlocProvider.of<DetailUmkmCubit>(context)
+                    .getDetailUmkm(id.toString());
+                context.read<PendanaanCubit>().resetState();
+                Navigator.pop(context);
+              });
+            } else if (state is ErrorState) {
+              SnackBar snackBar = SnackBar(
+                duration: const Duration(seconds: 5),
+                content: Text(state.message),
+              );
+              Future.delayed(const Duration(milliseconds: 500), () {
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                context.read<PendanaanCubit>().resetState();
+              });
             }
 
             return Center(
@@ -45,29 +69,6 @@ class InvestorConfirmWithdrawScreen extends StatelessWidget {
                           context
                               .read<PendanaanCubit>()
                               .withdrawPendanaan(pendanaanId);
-                          if (state is SuccessState) {
-                            SnackBar snackBar = const SnackBar(
-                              duration: Duration(seconds: 5),
-                              content: Text(
-                                "Anda berhasil melakukan withdraw!",
-                              ),
-                            );
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar);
-                            Future.delayed(const Duration(seconds: 1), () {
-                              BlocProvider.of<DetailUmkmCubit>(context)
-                                  .getDetailUmkm(id.toString());
-                              context.read<PendanaanCubit>().resetState();
-                              Navigator.pop(context);
-                            });
-                          } else if (state is ErrorState) {
-                            SnackBar snackBar = SnackBar(
-                              duration: const Duration(seconds: 5),
-                              content: Text(state.message),
-                            );
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar);
-                          }
                         },
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size(100, 35),

@@ -10,6 +10,7 @@ import 'package:investkuy/ui/cubit/detail_umkm_cubit.dart';
 import 'package:investkuy/ui/cubit/faq_cubit.dart';
 import 'package:investkuy/ui/cubit/article_cubit.dart';
 import 'package:investkuy/ui/cubit/investor_riwayat_cubit.dart';
+import 'package:investkuy/ui/cubit/wallet_cubit.dart';
 import 'package:investkuy/ui/cubit/list_investor_cubit.dart';
 import 'package:investkuy/ui/cubit/list_laporan_cubit.dart';
 import 'package:investkuy/ui/cubit/list_umkm_cubit.dart';
@@ -122,6 +123,24 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<BayarCicilanCubit>(
           create: (context) => BayarCicilanCubit(),
+        ),
+        BlocProvider<WalletCubit>(
+          create: (context) => WalletCubit(),
+        ),
+        BlocProvider<CreditHistoryCubit>(
+          create: (context) => CreditHistoryCubit(),
+        ),
+        BlocProvider<DebitHistoryCubit>(
+          create: (context) => DebitHistoryCubit(),
+        ),
+        BlocProvider<MerchantCubit>(
+          create: (context) => MerchantCubit(),
+        ),
+        BlocProvider<TopUpCubit>(
+          create: (context) => TopUpCubit(),
+        ),
+        BlocProvider<WithdrawCubit>(
+          create: (context) => WithdrawCubit(),
         ),
       ],
       child: const MaterialApp(

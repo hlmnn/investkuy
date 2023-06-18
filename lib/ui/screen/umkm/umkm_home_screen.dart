@@ -5,7 +5,7 @@ import 'package:investkuy/ui/cubit/umkm_home_cubit.dart';
 import 'package:investkuy/ui/screen/history/history_screen.dart';
 import 'package:investkuy/ui/screen/history/history_withdraw_screen.dart';
 import 'package:investkuy/ui/screen/history/history_withdraw_umkm_screen.dart';
-import 'package:investkuy/ui/screen/investor/topup_screen.dart';
+import 'package:investkuy/ui/screen/topup/topup_screen.dart';
 import 'package:investkuy/ui/screen/notification/notifikasi_screen.dart';
 import 'package:investkuy/ui/screen/umkm/umkm_ajukan_pendanaan_screen.dart';
 import 'package:investkuy/ui/screen/withdraw/withdraw_screen.dart';
@@ -92,12 +92,12 @@ class _UmkmHomeState extends State<UmkmHome> {
                               children: [
                                 TextButton(
                                   onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const Withdraw(
-                                                    title: 'Withdraw')));
+                                    // Navigator.push(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //         builder: (context) =>
+                                    //             const Withdraw(
+                                    //                 title: 'Withdraw')));
                                   },
                                   child: const Column(
                                     mainAxisAlignment:

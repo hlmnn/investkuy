@@ -1,10 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:investkuy/ui/screen/history/history_screen.dart';
-import 'package:investkuy/ui/screen/investor/topup_screen.dart';
+import 'package:investkuy/ui/screen/topup/topup_screen.dart';
 import 'package:investkuy/ui/screen/withdraw/withdraw_screen.dart';
 import 'package:investkuy/ui/screen/visitor/visitor_articles_screen.dart';
 import 'package:investkuy/ui/screen/visitor/visitor_faq_screen.dart';
+import 'package:investkuy/utils/currency_format.dart';
 
 class VisitorHome extends StatefulWidget {
   const VisitorHome({super.key, required this.title});
@@ -46,102 +47,166 @@ class _VisitorHomeState extends State<VisitorHome> {
                 width: double.infinity,
                 color: const Color(0xff90E7FF),
                 margin: const EdgeInsets.only(bottom: 20),
-                child: Column(
-                  children: const [
-                    Text('BANNER',
-                      style: TextStyle(
-                        fontSize: 17,
-                          fontWeight: FontWeight.bold
-                      ),
-                    )
-                  ],
-                )
+                child: const Text(
+                  'BANNER',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
-
               Container(
-                  padding: const EdgeInsets.all(20),
-                  width: double.infinity,
-                  color: const Color(0xffE4F9FF),
-                  margin: const EdgeInsets.only(bottom: 10),
-                  child: Column(
-                    children: [
-                      const Text('Total saldo yang tersedia (Rp)'),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 5),
-                        child: Text('0',
-                          style: TextStyle(
-                              fontSize: 35,
-                              fontWeight: FontWeight.bold
-                          ),
+                padding: const EdgeInsets.all(20),
+                width: double.infinity,
+                margin: const EdgeInsets.only(bottom: 8),
+                decoration: BoxDecoration(
+                    color: const Color(0xffE4F9FF),
+                    borderRadius: BorderRadius.circular(15.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.4),
+                        spreadRadius: 1,
+                        blurRadius: 1,
+                        offset:
+                            const Offset(2, 2), // changes position of shadow
+                      ),
+                    ]),
+                child: Column(
+                  children: [
+                    const Text('Total saldo yang tersedia'),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: Text(
+                        CurrencyFormat.convertToIdr(0, 0),
+                        style: const TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Row(
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 16.0,
+                        bottom: 8.0,
+                      ),
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          TextButton(
+                          ElevatedButton(
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => const TopUp(title: 'Top Up'))
+                              SnackBar snackBar = const SnackBar(
+                                duration: Duration(seconds: 5),
+                                content: Text(
+                                    "Silahkan melakukan login terlebih dahulu."),
                               );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
                             },
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                Icon(Icons.add_box_outlined,
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                  15.0,
+                                ),
+                              ),
+                              backgroundColor: const Color(0xff90E7FF),
+                              fixedSize: const Size(75, 75),
+                            ),
+                            child: const Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.add_box_outlined,
                                   color: Colors.black,
                                 ),
-                                Text("Top Up",
+                                Text(
+                                  "Top Up",
+                                  textAlign: TextAlign.center,
                                   style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 13
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 10,
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => const Withdraw(title: 'Withdraw'))
-                              );
-                            },
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                Icon(Icons.price_change_outlined,
-                                  color: Colors.black,
-                                ),
-                                Text("Withdraw",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 13
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 32.0,
+                            ),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                SnackBar snackBar = const SnackBar(
+                                  duration: Duration(seconds: 5),
+                                  content: Text(
+                                      "Silahkan melakukan login terlebih dahulu."),
+                                );
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    15.0,
                                   ),
                                 ),
-                              ],
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => const History(title: 'History'))
-                              );
-                            },
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                Icon(Icons.sticky_note_2_outlined,
-                                  color: Colors.black,
-                                ),
-                                Text("History",
-                                  style: TextStyle(
+                                backgroundColor: const Color(0xff90E7FF),
+                                fixedSize: const Size(75, 75),
+                              ),
+                              child: const Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.price_change_outlined,
+                                    color: Colors.black,
+                                  ),
+                                  Text(
+                                    "Withdraw",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.normal,
-                                      fontSize: 13
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              SnackBar snackBar = const SnackBar(
+                                duration: Duration(seconds: 5),
+                                content: Text(
+                                    "Silahkan melakukan login terlebih dahulu."),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                  15.0,
+                                ),
+                              ),
+                              backgroundColor: const Color(0xff90E7FF),
+                              fixedSize: const Size(75, 75),
+                            ),
+                            child: const Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.sticky_note_2_outlined,
+                                  color: Colors.black,
+                                ),
+                                Text(
+                                  "History",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 10,
                                   ),
                                 ),
                               ],
@@ -149,65 +214,111 @@ class _VisitorHomeState extends State<VisitorHome> {
                           ),
                         ],
                       ),
-                    ],
-                  )
-              ),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const Faqs(title: 'FAQ'))
-                      );
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Icon(Icons.menu_book_outlined,
-                          color: Colors.black,
-                          size: 35,
-                        ),
-                        Text("FAQ",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 15
-                          ),
-                        ),
-                      ],
                     ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const Articles(title: 'Artikel'))
-                      );
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Icon(Icons.article_outlined,
-                          color: Colors.black,
-                          size: 35,
-                        ),
-                        Text("Artikel",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 15
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10.0,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                      ),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const Faqs(title: 'FAQ'),
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                              15.0,
+                            ),
+                          ),
+                          backgroundColor: const Color(0xff90E7FF),
+                          fixedSize: const Size(75, 75),
+                        ),
+                        child: const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.menu_book_outlined,
+                              color: Colors.black,
+                              size: 35,
+                            ),
+                            Text(
+                              "FAQ",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 15,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                      ),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const Articles(title: 'Artikel'),
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                              15.0,
+                            ),
+                          ),
+                          backgroundColor: const Color(0xff90E7FF),
+                          fixedSize: const Size(75, 75),
+                        ),
+                        child: const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.article_outlined,
+                              color: Colors.black,
+                              size: 35,
+                            ),
+                            Text(
+                              "Artikel",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 15,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               const Padding(
-                padding: EdgeInsets.only(top: 10, bottom: 10),
-                child: Text("Rekomendasi UMKM",
+                padding: EdgeInsets.only(top: 10, bottom: 5),
+                child: Text(
+                  "Rekomendasi UMKM",
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
@@ -220,34 +331,32 @@ class _VisitorHomeState extends State<VisitorHome> {
                 child: CarouselSlider(
                   options: CarouselOptions(
                     height: 150.0,
-                    viewportFraction: 0.6,
+                    aspectRatio: 16 / 9,
+                    enlargeCenterPage: true,
+                    viewportFraction: 1.0,
                     enableInfiniteScroll: false,
-                    autoPlay: false,
-                    initialPage: 1,
+                    autoPlay: true,
+                    initialPage: 0,
                   ),
-                  items: [1,2,3,4].map((i) {
+                  items: [1, 2, 3, 4].map((i) {
                     return Builder(
                       builder: (BuildContext context) {
                         return Container(
                           width: MediaQuery.of(context).size.width,
                           margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                          decoration: const BoxDecoration(
-                              color: Color(0xffE4F9FF)
-                          ),
+                          decoration:
+                              const BoxDecoration(color: Color(0xffE4F9FF)),
                           child: Center(
                             child: Text(
                               'REKOMENDASI UMKM $i',
                               style: const TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold
-                              ),
+                                  fontSize: 16.0, fontWeight: FontWeight.bold),
                             ),
                           ),
                         );
                       },
                     );
-                  }
-                  ).toList(),
+                  }).toList(),
                 ),
               ),
             ],

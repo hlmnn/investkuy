@@ -1,5 +1,8 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
+import 'package:investkuy/data/model/merchant_model.dart';
+import 'package:investkuy/data/model/rekening_model.dart';
+import 'package:investkuy/data/model/wallet_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class WalletRepository {
@@ -32,7 +35,7 @@ class WalletRepository {
       rethrow;
     }
   }
-  
+
   Future<bool> cancelPendanaan(int pengajuanId) async {
     try {
       final id = await getId();
@@ -49,6 +52,162 @@ class WalletRepository {
     try {
       await _dio.put("/pendanaan/$pendanaanId/tarik-pendanaan");
       return true;
+    } on DioException catch (e) {
+      log(e.response!.statusCode.toString());
+      log(e.message.toString());
+      rethrow;
+    }
+  }
+
+  Future<WalletModel> getWallet() async {
+    try {
+      final token = await getToken();
+      final username = await getUsername();
+      final response = await _dio.get(
+        "/wallet/$username",
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $token",
+          },
+        ),
+      );
+      final data = WalletModel.fromJson(response.data['data']);
+      return data;
+    } on DioException catch (e) {
+      log(e.response!.statusCode.toString());
+      log(e.message.toString());
+      rethrow;
+    }
+  }
+
+  Future<List<CreditTransactionModel>> getCreditTransactions(int id) async {
+    try {
+      final token = await getToken();
+      final response = await _dio.get(
+        "/wallet/credits/$id",
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $token",
+          },
+        ),
+      );
+      List<CreditTransactionModel> data = [];
+      for (var val in response.data['data']) {
+        data.add(CreditTransactionModel.fromJson(val));
+      }
+      return data;
+    } on DioException catch (e) {
+      log(e.response!.statusCode.toString());
+      log(e.message.toString());
+      rethrow;
+    }
+  }
+
+  Future<List<DebitTransactionModel>> getDebitTransactions(int id) async {
+    try {
+      final token = await getToken();
+      final response = await _dio.get(
+        "/wallet/debits/$id",
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $token",
+          },
+        ),
+      );
+      List<DebitTransactionModel> data = [];
+      for (var val in response.data['data']) {
+        data.add(DebitTransactionModel.fromJson(val));
+      }
+      return data;
+    } on DioException catch (e) {
+      log(e.response!.statusCode.toString());
+      log(e.message.toString());
+      rethrow;
+    }
+  }
+
+  Future<List<MerchantModel>> getAllMerchants() async {
+    try {
+      final response = await _dio.get('/merchants');
+      List<MerchantModel> data = [];
+      for (var val in response.data['data']) {
+        data.add(MerchantModel.fromJson(val));
+      }
+      return data;
+    } on DioException catch (e) {
+      log(e.response!.statusCode.toString());
+      log(e.message.toString());
+      rethrow;
+    }
+  }
+
+  Future<bool> topUp(int walletId, int merchantId, int amount) async {
+    try {
+      final token = await getToken();
+      await _dio.post(
+        "/wallet/debits",
+        data: {
+          "walletId": walletId,
+          "merchantId": merchantId,
+          "amount": amount,
+          "type": "TopUp"
+        },
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $token",
+          },
+        ),
+      );
+      return true;
+    } on DioException catch (e) {
+      log(e.response!.statusCode.toString());
+      log(e.message.toString());
+      rethrow;
+    }
+  }
+
+  Future<bool> withdraw(int walletId, int merchantId, int amount) async {
+    try {
+      final token = await getToken();
+      await _dio.post(
+        "/wallet/credits",
+        data: {
+          "walletId": walletId,
+          "merchantId": merchantId,
+          "amount": amount,
+          "type": "Withdraw"
+        },
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $token",
+          },
+        ),
+      );
+      return true;
+    } on DioException catch (e) {
+      log(e.response!.statusCode.toString());
+      log(e.message.toString());
+      rethrow;
+    }
+  }
+
+  Future<List<RekeningModel>> getAllRekening() async {
+    try {
+      final id = await getId();
+      final token = await getToken();
+      final response = await _dio.get(
+        "/rekenings/$id",
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $token",
+          },
+        ),
+      );
+      List<RekeningModel> data = [];
+      for (var val in response.data['data']) {
+        data.add(RekeningModel.fromJson(val));
+      }
+      return data;
     } on DioException catch (e) {
       log(e.response!.statusCode.toString());
       log(e.message.toString());

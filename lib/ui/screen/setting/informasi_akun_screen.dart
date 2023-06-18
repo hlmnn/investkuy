@@ -336,7 +336,7 @@ class _InformasiAkunState extends State<InformasiAkun> {
                       duration: Duration(seconds: 5),
                       content: Text("Anda berhasil mengubah informasi akun"),
                     );
-                    Future.delayed(const Duration(seconds: 5), () {
+                    Future.delayed(const Duration(seconds: 1), () {
                       BlocProvider.of<ProfileCubit>(context).getUser();
                       Navigator.pop(context);
                     });
