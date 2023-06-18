@@ -78,7 +78,7 @@ class UmkmRepository {
     }
   }
 
-  Future<List<DaftarInvestorModel>> getListInvestor(int id) async {
+  Future<List<DaftarInvestorModel>> getListInvestor(String id) async {
     try {
       final response = await _dio.get("/pengajuan/$id/list-investor");
       List<DaftarInvestorModel> data = [];
@@ -92,15 +92,16 @@ class UmkmRepository {
       rethrow;
     }
   }
-  
-  Future<String> addLaporan(
-      String fileLaporan, int id) async {
+
+  Future<String> addLaporan(String fileLaporan, String id) async {
     try {
       FormData formData = FormData();
 
-      formData.files.add(MapEntry('laporan', await MultipartFile.fromFile(fileLaporan)));
+      formData.files
+          .add(MapEntry('laporan', await MultipartFile.fromFile(fileLaporan)));
       log(formData.toString());
-      final response = await _dio.post('/pengajuan/$id/tambah-laporan', data: formData);
+      final response =
+          await _dio.post('/pengajuan/$id/tambah-laporan', data: formData);
       return response.data['message'];
     } on DioException catch (e) {
       log(e.response!.statusCode.toString());
@@ -109,7 +110,7 @@ class UmkmRepository {
     }
   }
 
-  Future<List<LaporanModel>> getListLaporan(int id) async {
+  Future<List<LaporanModel>> getListLaporan(String id) async {
     try {
       final response = await _dio.get("/pengajuan/$id/laporan-keuangan");
       List<LaporanModel> data = [];
@@ -117,6 +118,39 @@ class UmkmRepository {
         data.add(LaporanModel.fromJson(value));
       }
       return data;
+    } on DioException catch (e) {
+      log(e.response!.statusCode.toString());
+      log(e.message.toString());
+      rethrow;
+    }
+  }
+
+  Future<bool> cancelPengajuan(String id) async {
+    try {
+      await _dio.put("/pengajuan/$id/cancel");
+      return true;
+    } on DioException catch (e) {
+      log(e.response!.statusCode.toString());
+      log(e.message.toString());
+      rethrow;
+    }
+  }
+
+  Future<bool> tarikDanaCf(String id) async {
+    try {
+      await _dio.put("/pengajuan/$id/tarik-pendanaan");
+      return true;
+    } on DioException catch (e) {
+      log(e.response!.statusCode.toString());
+      log(e.message.toString());
+      rethrow;
+    }
+  }
+
+  Future<bool> bayarCicilan(String id) async {
+    try {
+      await _dio.put("/pengajuan/$id/bayar-cicilan");
+      return true;
     } on DioException catch (e) {
       log(e.response!.statusCode.toString());
       log(e.message.toString());

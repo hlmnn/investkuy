@@ -50,26 +50,23 @@ class _RiwayatCrowdfundingState extends State<RiwayatCrowdfunding>
           if (listRiwayatCrowdfunding.isEmpty) {
             return RefreshIndicator(
                 onRefresh: refresh,
-                child: ListView ( 
-                  children: [ Center(
-                    child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 50, bottom: 5, left: 20, right: 20),
-                        child: Column(
-                          children: [
-                            const Text(
-                                "Anda tidak memiliki riwayat crowdfunding saat ini!",
-                                style: TextStyle(fontSize: 15)),
-                            Image.network(
-                              'https://thumb1.shutterstock.com/mosaic_250/255170779/2172684639/stock-vector-document-file-not-found-search-no-result-concept-illustration-flat-design-vector-eps-modern-2172684639.jpg',
-                              fit: BoxFit.fill,
-                            ),
-                          ],
-                        )
-                      )
-                    )
-                  ]
-                ));
+                child: ListView(children: [
+                  Center(
+                      child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 50, bottom: 5, left: 20, right: 20),
+                          child: Column(
+                            children: [
+                              const Text(
+                                  "Anda tidak memiliki riwayat crowdfunding saat ini!",
+                                  style: TextStyle(fontSize: 15)),
+                              Image.asset(
+                                'assets/images/empty.png',
+                                fit: BoxFit.fill,
+                              ),
+                            ],
+                          )))
+                ]));
           }
 
           return RefreshIndicator(
@@ -81,6 +78,7 @@ class _RiwayatCrowdfundingState extends State<RiwayatCrowdfunding>
                   itemCount: listRiwayatCrowdfunding.length,
                   itemBuilder: (context, index) {
                     final itemRiwayatCF = listRiwayatCrowdfunding[index];
+                    String pengajuanId = itemRiwayatCF.id.toString();
 
                     return InkWell(
                       onTap: () {
@@ -88,8 +86,7 @@ class _RiwayatCrowdfundingState extends State<RiwayatCrowdfunding>
                             context,
                             MaterialPageRoute(
                                 builder: (context) => UmkmDetail(
-                                    title: 'Detail UMKM',
-                                    id: itemRiwayatCF.id)));
+                                    title: 'Detail UMKM', id: pengajuanId)));
                       },
                       child: Card(
                         color: const Color(0xffE4F9FF),

@@ -79,6 +79,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/plcholder.png
+    - assets/images/empty.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

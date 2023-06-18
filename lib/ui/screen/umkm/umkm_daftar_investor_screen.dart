@@ -11,7 +11,7 @@ class UmkmDaftarInvestor extends StatefulWidget {
   const UmkmDaftarInvestor({super.key, required this.title, required this.id});
 
   final String title;
-  final int id;
+  final String id;
 
   @override
   _UmkmDaftarInvestorState createState() => _UmkmDaftarInvestorState();
@@ -59,8 +59,8 @@ class _UmkmDaftarInvestorState extends State<UmkmDaftarInvestor> {
                                 const Text(
                                     "Pengajuan tidak memiliki investor/pendana!",
                                     style: TextStyle(fontSize: 15)),
-                                Image.network(
-                                  'https://thumb1.shutterstock.com/mosaic_250/255170779/2172684639/stock-vector-document-file-not-found-search-no-result-concept-illustration-flat-design-vector-eps-modern-2172684639.jpg',
+                                Image.asset(
+                                  'assets/images/empty.png',
                                   fit: BoxFit.fill,
                                 ),
                               ],

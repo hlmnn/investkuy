@@ -200,7 +200,6 @@ class _UmkmHomeState extends State<UmkmHome> {
                               );
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(snackBar);
-                              context.read<UmkmHomeCubit>().resetState();
                             }
                           },
                           child: const Column(
