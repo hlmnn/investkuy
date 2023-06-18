@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:investkuy/data/data_state.dart';
 import 'package:investkuy/ui/cubit/add_laporan_cubit.dart';
-import 'package:investkuy/ui/cubit/addnewpengajuan.cubit.dart';
+import 'package:investkuy/ui/cubit/add_pengajuan_cubit.dart';
 import 'package:investkuy/ui/cubit/bayar_cicilan_cubit.dart';
 import 'package:investkuy/ui/cubit/cancel_pengajuan_cubit.dart';
 import 'package:investkuy/ui/cubit/detail_umkm_cubit.dart';

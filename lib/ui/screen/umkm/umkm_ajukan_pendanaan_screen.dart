@@ -3,8 +3,10 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:investkuy/ui/cubit/addnewpengajuan.cubit.dart';
+import 'package:investkuy/ui/cubit/add_pengajuan_cubit.dart';
 import 'package:investkuy/data/data_state.dart';
+
+import '../../cubit/add_pengajuan_cubit.dart';
 
 class UmkmAjukanPendanaan extends StatefulWidget {
   const UmkmAjukanPendanaan({super.key, required this.title});
@@ -24,7 +26,7 @@ class _UmkmAjukanPendanaanState extends State<UmkmAjukanPendanaan> {
   final textEditingFilePickerController = TextEditingController();
   final textEditingImagePickerController = TextEditingController();
   TextEditingController textEditingAkadController = TextEditingController();
-  
+
   String _pekerjaan = "";
   String _deskripsi = "";
   String _akad = "";
@@ -87,12 +89,15 @@ class _UmkmAjukanPendanaanState extends State<UmkmAjukanPendanaan> {
     textEditingPenghasilanController.dispose();
     textEditingDeskripsiController.dispose();
     textEditingFilePickerController.dispose();
+    textEditingImagePickerController.dispose();
+    textEditingAkadController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     textEditingAkadController.text = "Jual Beli";
+    String snackbarText = "";
 
     List<DropdownMenuItem<String>> sectorItems = [
       const DropdownMenuItem<String>(
@@ -196,11 +201,29 @@ class _UmkmAjukanPendanaanState extends State<UmkmAjukanPendanaan> {
       ),
       body: BlocBuilder<AddNewPengajuanCubit, DataState>(
           builder: (context, state) {
-            
-        /* if (state is LoadingState) {
+        if (state is LoadingState) {
           log("TES");
           return const Center(child: CircularProgressIndicator());
-        } */
+        } else if (state is SuccessState) {
+          var snackBar = const SnackBar(
+            duration: Duration(seconds: 5),
+            content: Text("Membuat pengajuan pendanaan Berhasil!"),
+          );
+          Future.delayed(const Duration(milliseconds: 500), () {
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            context.read<AddNewPengajuanCubit>().resetState();
+            Navigator.pop(context);
+          });
+        } else if (state is ErrorState) {
+          var snackBar = SnackBar(
+            duration: const Duration(seconds: 5),
+            content: Text(state.message),
+          );
+          Future.delayed(const Duration(milliseconds: 500), () {
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            context.read<AddNewPengajuanCubit>().resetState();
+          });
+        }
 
         return SingleChildScrollView(
           scrollDirection: Axis.vertical,
@@ -725,61 +748,24 @@ class _UmkmAjukanPendanaanState extends State<UmkmAjukanPendanaan> {
                       onPressed: () {
                         // var snackBar;
                         if (_formKey.currentState!.validate()) {
-                          setState(() {
-                            _pekerjaan = textEditingPekerjaanController.text;
-                            _deskripsi = textEditingDeskripsiController.text;
-                            _akad = textEditingAkadController.text;
-                            selectedSectorValueOut = selectedSectorValue;
-                            selectedPenghasilanValueOut =
-                                selectedPenghasilanValue;
-                            selectedTenorValueOut =
-                                int.parse(selectedTenorValue!).toString();
-                            selectedPlafondValueOut =
-                                int.parse(selectedPlafondValue!).toString();
-                            selectedImbahValueOut =
-                                int.parse(selectedImbahValue!).toString();
-                            selectedAngsuranValueOut = selectedAngsuranValue;
-                          }); //refresh
-
                           FormData formData = FormData();
                           formData.fields.addAll([
-                            MapEntry('pekerjaan', _pekerjaan),
-                            MapEntry('sektor', selectedSectorValueOut!),
-                            MapEntry('deskripsi', _deskripsi),
-                            MapEntry(
-                                'penghasilan', selectedPenghasilanValueOut!),
-                            MapEntry('plafond', selectedPlafondValueOut!),
-                            MapEntry('tenor', selectedTenorValueOut!),
-                            MapEntry('bagi_hasil', selectedImbahValueOut!),
-                            MapEntry(
-                                'jenis_angsuran', selectedAngsuranValueOut!),
-                            MapEntry('akad', _akad),
+                            MapEntry('pekerjaan',
+                                textEditingPekerjaanController.text),
+                            MapEntry('sektor', selectedSectorValue!),
+                            MapEntry('deskripsi',
+                                textEditingDeskripsiController.text),
+                            MapEntry('penghasilan', selectedPenghasilanValue!),
+                            MapEntry('plafond', selectedPlafondValue!),
+                            MapEntry('tenor', selectedTenorValue!),
+                            MapEntry('bagi_hasil', selectedImbahValue!),
+                            MapEntry('jenis_angsuran', selectedAngsuranValue!),
+                            MapEntry('akad', textEditingAkadController.text),
                           ]);
 
                           context.read<AddNewPengajuanCubit>().addPengajuan(
                               formData, fileImages!, fileLaporan!);
-                          
                         }
-
-                        var snackBar;
-                        if (state is ErrorState) {
-                          log("TES3");
-                          snackBar = SnackBar(
-                            duration: const Duration(seconds: 5),
-                            content: Text(state.message),
-                          );
-                          context.read<AddNewPengajuanCubit>().resetState();
-                        } if (state is SuccessState) {
-                          log("TES2");
-                          snackBar = SnackBar(
-                            duration: const Duration(seconds: 5),
-                            content: Text(state.data),
-                          );
-                          Navigator.pop(context);
-                          context.read<AddNewPengajuanCubit>().resetState();
-                        }
-                        
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xff19A7CE),

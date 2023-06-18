@@ -445,9 +445,25 @@ class _VisitorUmkmState extends State<VisitorUmkm> {
                   if (items.isEmpty) {
                     return RefreshIndicator(
                       onRefresh: refresh,
-                      child: const Center(
-                        child: Text("Tidak ada data."),
-                      ),
+                      child: ListView(children: [
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 50, bottom: 5, left: 20, right: 20),
+                            child: Column(
+                              children: [
+                                const Text(
+                                    "Tidak ada daftar pengajuan saat ini!",
+                                    style: TextStyle(fontSize: 15)),
+                                Image.asset(
+                                  'assets/images/empty.png',
+                                  fit: BoxFit.fill,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ]),
                     );
                   }
 
@@ -476,8 +492,10 @@ class _VisitorUmkmState extends State<VisitorUmkm> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      VisitorDetail(title: 'Detail UMKM', id: item.id.toString(),),
+                                  builder: (context) => VisitorDetail(
+                                    title: 'Detail UMKM',
+                                    id: item.id.toString(),
+                                  ),
                                 ),
                               );
                             },

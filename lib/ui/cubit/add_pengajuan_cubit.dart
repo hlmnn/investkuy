@@ -17,7 +17,7 @@ class AddNewPengajuanCubit extends Cubit<DataState> {
       emit(LoadingState());
       final data =
           await repository.addPengajuan(formData, fileImages, fileLaporan);
-      emit(SuccessState<String>(data));
+      emit(SuccessState<bool>(data));
     } on DioException catch (e) {
       log(e.response!.data['message'].toString());
       emit(ErrorState(e.response!.data['message'].toString()));

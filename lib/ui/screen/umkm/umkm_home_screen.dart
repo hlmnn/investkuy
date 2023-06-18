@@ -26,6 +26,8 @@ class UmkmHome extends StatefulWidget {
 class _UmkmHomeState extends State<UmkmHome> {
   @override
   Widget build(BuildContext context) {
+    bool verifiedState = false;
+    
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -51,6 +53,11 @@ class _UmkmHomeState extends State<UmkmHome> {
         ),
         body: BlocBuilder<UmkmHomeCubit, DataState>(
           builder: ((context, state) {
+            context.read<UmkmHomeCubit>().getVerifiedState();
+            
+            if (state is SuccessState<bool>) {
+              verifiedState = state.data;
+            }
             return SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Padding(
@@ -178,13 +185,7 @@ class _UmkmHomeState extends State<UmkmHome> {
                         ),
                         TextButton(
                           onPressed: () {
-                            context.read<UmkmHomeCubit>().getVerifiedState();
-                            bool verifiedState = false;
-
-                            if (state is SuccessState<bool>) {
-                              verifiedState = state.data;
-                            }
-
+                            
                             if (verifiedState) {
                               Navigator.push(
                                   context,
