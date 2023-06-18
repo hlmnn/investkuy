@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:investkuy/data/data_state.dart';
@@ -637,7 +636,7 @@ class _InvestorDetailState extends State<InvestorDetail> {
 
             return Container(
               padding: const EdgeInsets.all(20),
-              height: isFunded || isInvestorWd || !isInvestorWd ? 90 : 114,
+              height: isFunded || !isInvestorWd ? 90 : 114,
               width: double.maxFinite,
               decoration: const BoxDecoration(
                 color: Colors.white,
