@@ -36,11 +36,33 @@ class _RekeningBankState extends State<RekeningBank> {
               child: CircularProgressIndicator(),
             );
           } else if (state is SuccessState) {
-              if (state.data is bool) {
-                context.read<SettingCubit>().resetState();
-              } else {
-                data = state.data;
-              }
+            if (state.data is bool) {
+              context.read<SettingCubit>().resetState();
+            } else {
+              data = state.data;
+            }
+          }
+
+          if (data.isEmpty) {
+            return RefreshIndicator(
+                onRefresh: refresh,
+                child: ListView(children: [
+                  Center(
+                      child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 50, bottom: 5, left: 20, right: 20),
+                          child: Column(
+                            children: [
+                              const Text(
+                                  "Anda tidak memiliki rekening saat ini!",
+                                  style: TextStyle(fontSize: 15)),
+                              Image.asset(
+                                'assets/images/empty.png',
+                                fit: BoxFit.fill,
+                              ),
+                            ],
+                          ),),),
+                ]),);
           }
 
           return Padding(
@@ -60,13 +82,17 @@ class _RekeningBankState extends State<RekeningBank> {
                       subtitle: Text(nomorRekCensored),
                       trailing: IconButton(
                         onPressed: () {
-                          context.read<SettingCubit>().deleteRekening(data[index].id);
+                          context
+                              .read<SettingCubit>()
+                              .deleteRekening(data[index].id);
                           if (state is SuccessState && state.data is bool) {
                             SnackBar snackBar = const SnackBar(
                               duration: Duration(seconds: 5),
-                              content: Text('Anda berhasil menghapus rekening.'),
+                              content:
+                                  Text('Anda berhasil menghapus rekening.'),
                             );
-                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
                             context.read<SettingCubit>().resetState();
                           }
                         },
@@ -103,7 +129,7 @@ class _RekeningBankState extends State<RekeningBank> {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                      const TambahRekening(title: 'Tambah Rekening'),
+                          const TambahRekening(title: 'Tambah Rekening'),
                     ),
                   );
                 },

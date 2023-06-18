@@ -18,14 +18,12 @@ class VisitorLaporanScreen extends StatefulWidget {
 
 class _VisitorLaporanScreenState extends State<VisitorLaporanScreen> {
   Future refresh() async {
-    BlocProvider.of<ListLaporanCubit>(context)
-        .getAllLaporan(widget.id);
+    BlocProvider.of<ListLaporanCubit>(context).getAllLaporan(widget.id);
   }
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<ListLaporanCubit>(context)
-        .getAllLaporan(widget.id);
+    BlocProvider.of<ListLaporanCubit>(context).getAllLaporan(widget.id);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -47,6 +45,30 @@ class _VisitorLaporanScreenState extends State<VisitorLaporanScreen> {
             if (state.data is List<LaporanModel>) {
               items = state.data;
             }
+          }
+
+          if (items.isEmpty) {
+            return RefreshIndicator(
+              onRefresh: refresh,
+              child: ListView(children: [
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        top: 50, bottom: 5, left: 20, right: 20),
+                    child: Column(
+                      children: [
+                        const Text("Tidak ada daftar pengajuan saat ini!",
+                            style: TextStyle(fontSize: 15)),
+                        Image.asset(
+                          'assets/images/empty.png',
+                          fit: BoxFit.fill,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ]),
+            );
           }
 
           return Padding(
