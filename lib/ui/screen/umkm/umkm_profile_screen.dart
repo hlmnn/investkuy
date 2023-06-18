@@ -30,23 +30,6 @@ class _UmkmProfileState extends State<UmkmProfile> {
         title: Text(widget.title),
         backgroundColor: const Color(0xff19A7CE),
         automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.message_rounded),
-          ),
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const Notifikasi(title: 'Notifikasi'),
-                ),
-              );
-            },
-            icon: const Icon(Icons.notifications),
-          ),
-        ],
       ),
       body: BlocBuilder<ProfileCubit, DataState>(
         builder: (context, state) {

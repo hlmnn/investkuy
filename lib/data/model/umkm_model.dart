@@ -69,61 +69,66 @@ class DetailUmkmModel extends UmkmModel {
   String tanggalMulaiBayar;
   String status;
   bool isWithdraw;
+  bool isInvestorWd;
   int angsuranDibayar;
   int pemilikId;
   int jumlahAngsuran;
   FotoUmkmModel fotoUmkm;
 
-  DetailUmkmModel(
-      {required super.id,
-      required super.sektor,
-      required super.plafond,
-      required super.bagiHasil,
-      required super.tenor,
-      required super.jumlahPendanaan,
-      required super.tanggalMulai,
-      required super.tanggalBerakhir,
-      required super.lunasDiniCount,
-      required super.detailPemilik,
-      required this.isFunded,
-      required this.pekerjaan,
-      required this.akad,
-      required this.angsuranDibayar,
-      required this.deskripsi,
-      required this.fotoUmkm,
-      required this.isWithdraw,
-      required this.jenisAngsuran,
-      required this.pemilikId,
-      required this.penghasilan,
-      required this.status,
-      required this.tanggalMulaiBayar,
-      required this.jumlahAngsuran});
+  DetailUmkmModel({
+    required super.id,
+    required super.sektor,
+    required super.plafond,
+    required super.bagiHasil,
+    required super.tenor,
+    required super.jumlahPendanaan,
+    required super.tanggalMulai,
+    required super.tanggalBerakhir,
+    required super.lunasDiniCount,
+    required super.detailPemilik,
+    required this.isFunded,
+    required this.pekerjaan,
+    required this.akad,
+    required this.angsuranDibayar,
+    required this.deskripsi,
+    required this.fotoUmkm,
+    required this.isWithdraw,
+    required this.jenisAngsuran,
+    required this.pemilikId,
+    required this.penghasilan,
+    required this.status,
+    required this.tanggalMulaiBayar,
+    required this.jumlahAngsuran,
+    required this.isInvestorWd,
+  });
 
   factory DetailUmkmModel.fromJson(Map<String, dynamic> json) {
     return DetailUmkmModel(
-        id: json['id'],
-        sektor: json['sektor'],
-        plafond: json['plafond'],
-        bagiHasil: json['bagi_hasil'],
-        tenor: json['tenor'],
-        jumlahPendanaan: json['jml_pendanaan'],
-        tanggalMulai: json['tgl_mulai'],
-        tanggalBerakhir: json['tgl_berakhir'],
-        lunasDiniCount: json['lunas_dini_count'] ?? 0,
-        detailPemilik: DetailPemilikUmkmModel.fromJson(json['pemilikDetails']),
-        isFunded: json['isFunded'],
-        pekerjaan: json['pekerjaan'],
-        akad: json['akad'],
-        angsuranDibayar: json['angsuran_dibayar'],
-        deskripsi: json['deskripsi'],
-        fotoUmkm: FotoUmkmModel.fromJson(json['foto_umkm']),
-        isWithdraw: json['is_withdraw'],
-        jenisAngsuran: json['jenis_angsuran'],
-        pemilikId: json['pemilikId'],
-        penghasilan: json['penghasilan'],
-        status: json['status'],
-        tanggalMulaiBayar: json['tgl_mulai_bayar'],
-        jumlahAngsuran: json['jml_angsuran']);
+      id: json['id'],
+      sektor: json['sektor'],
+      plafond: json['plafond'],
+      bagiHasil: json['bagi_hasil'],
+      tenor: json['tenor'],
+      jumlahPendanaan: json['jml_pendanaan'],
+      tanggalMulai: json['tgl_mulai'],
+      tanggalBerakhir: json['tgl_berakhir'],
+      lunasDiniCount: json['lunas_dini_count'] ?? 0,
+      detailPemilik: DetailPemilikUmkmModel.fromJson(json['pemilikDetails']),
+      isFunded: json['isFunded'],
+      pekerjaan: json['pekerjaan'],
+      akad: json['akad'],
+      angsuranDibayar: json['angsuran_dibayar'],
+      deskripsi: json['deskripsi'],
+      fotoUmkm: FotoUmkmModel.fromJson(json['foto_umkm']),
+      isWithdraw: json['is_withdraw'],
+      jenisAngsuran: json['jenis_angsuran'],
+      pemilikId: json['pemilikId'],
+      penghasilan: json['penghasilan'],
+      status: json['status'],
+      tanggalMulaiBayar: json['tgl_mulai_bayar'],
+      jumlahAngsuran: json['jml_angsuran'],
+      isInvestorWd: json['isInvestorWd'],
+    );
   }
 }
 
@@ -266,7 +271,7 @@ class LaporanModel {
 
   LaporanModel({required this.id, required this.laporanUrl});
 
-  factory LaporanModel.fromJson(Map<String, dynamic> json){
+  factory LaporanModel.fromJson(Map<String, dynamic> json) {
     return LaporanModel(id: json['id'], laporanUrl: json['laporan_url']);
   }
 }

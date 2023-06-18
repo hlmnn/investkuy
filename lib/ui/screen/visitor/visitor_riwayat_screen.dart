@@ -1,7 +1,4 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:investkuy/ui/screen/login/login_screen.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:investkuy/ui/screen/visitor/login_choice_screen.dart';
 
 class VisitorRiwayat extends StatefulWidget {
@@ -22,16 +19,6 @@ class _VisitorRiwayatState extends State<VisitorRiwayat> {
         title: Text(widget.title),
         backgroundColor: const Color(0xff19A7CE),
         automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.message_rounded),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.notifications),
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,

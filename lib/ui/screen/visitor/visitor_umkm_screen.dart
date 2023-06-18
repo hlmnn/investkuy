@@ -1,13 +1,11 @@
 import 'dart:async';
 
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:investkuy/data/data_state.dart';
 import 'package:investkuy/data/model/umkm_model.dart';
 import 'package:investkuy/ui/cubit/list_umkm_cubit.dart';
-import 'package:investkuy/ui/screen/login/login_screen.dart';
 import 'package:investkuy/ui/screen/visitor/visitor_detail_screen.dart';
 import 'package:investkuy/utils/currency_format.dart';
 import 'package:investkuy/utils/string_format.dart';
@@ -73,16 +71,6 @@ class _VisitorUmkmState extends State<VisitorUmkm> {
         title: Text(widget.title),
         backgroundColor: const Color(0xff19A7CE),
         automaticallyImplyLeading: true,
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.message_rounded),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.notifications),
-          ),
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 20, bottom: 5, left: 20, right: 20),

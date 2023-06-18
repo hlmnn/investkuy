@@ -1,8 +1,5 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:investkuy/data/model/umkm_model.dart';
 import 'package:investkuy/ui/cubit/umkm_riwayat_cubit.dart';
 import 'package:investkuy/ui/screen/umkm/umkm_detail_cicilan_screen.dart';

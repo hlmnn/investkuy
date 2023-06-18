@@ -1,17 +1,16 @@
-
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:investkuy/data/model/umkm_model.dart';
+import 'package:investkuy/ui/cubit/detail_umkm_cubit.dart';
+import 'package:investkuy/ui/screen/umkm/confirmation_cancel_screen.dart';
+import 'package:investkuy/ui/screen/umkm/confirmation_tarikdana_screen.dart';
 import 'package:investkuy/ui/screen/umkm/umkm_daftar_investor_screen.dart';
 import 'package:investkuy/data/data_state.dart';
-import '../../../utils/currency_format.dart';
-import '../../../utils/date_formatter.dart';
-import '../../../utils/string_format.dart';
-import '../../cubit/detail_umkm_cubit.dart';
-import 'confirmation_cancel_screen.dart';
-import 'confirmation_tarikdana_screen.dart';
+import 'package:investkuy/utils/currency_format.dart';
+import 'package:investkuy/utils/date_formatter.dart';
+import 'package:investkuy/utils/string_format.dart';
 
 class UmkmDetail extends StatefulWidget {
   const UmkmDetail({super.key, required this.title, required this.id});
@@ -132,7 +131,8 @@ class _UmkmDetailState extends State<UmkmDetail> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Padding(
-                                          padding: EdgeInsets.only(bottom: 6),
+                                          padding:
+                                              const EdgeInsets.only(bottom: 6),
                                           child: Text(
                                             nama,
                                             style: const TextStyle(
@@ -155,7 +155,8 @@ class _UmkmDetailState extends State<UmkmDetail> {
                                           ),
                                         ),
                                         Padding(
-                                            padding: EdgeInsets.only(bottom: 6),
+                                            padding: const EdgeInsets.only(
+                                                bottom: 6),
                                             child: Text(
                                               alamat != ""
                                                   ? StringFormat
@@ -525,26 +526,33 @@ class _UmkmDetailState extends State<UmkmDetail> {
                         onPressed: () {
                           if (crowdfundingState) {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        ConfirmationTarikDanaScreen(
-                                            id: pengajuanId)));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ConfirmationTarikDanaScreen(
+                                  id: pengajuanId,
+                                ),
+                              ),
+                            );
                           } else {
                             //ketika menekan tombol batalkan pendanaan
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        ConfirmationCancelPage(
-                                            id: pengajuanId)));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ConfirmationCancelPage(
+                                  id: pengajuanId,
+                                ),
+                              ),
+                            );
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xff19A7CE),
-                            fixedSize: const Size(double.maxFinite, 40),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10))),
+                          backgroundColor: const Color(0xff19A7CE),
+                          fixedSize: const Size(double.maxFinite, 40),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
                         child: Text(
                           crowdfundingState
                               ? "Tarik Dana"

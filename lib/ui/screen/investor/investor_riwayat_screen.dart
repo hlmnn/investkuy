@@ -1,10 +1,6 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:investkuy/ui/screen/investor/investor_riwayat_completed_screen.dart';
 import 'package:investkuy/ui/screen/investor/investor_riwayat_inprogress_screen.dart';
-import 'package:investkuy/ui/screen/login/login_screen.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:investkuy/ui/screen/visitor/login_choice_screen.dart';
 
 class InvestorRiwayat extends StatefulWidget {
   const InvestorRiwayat({super.key, required this.title});
@@ -24,16 +20,6 @@ class _InvestorRiwayatState extends State<InvestorRiwayat> {
         appBar: AppBar(
           title: Text(widget.title),
           backgroundColor: const Color(0xff19A7CE),
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.message_rounded),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.notifications),
-            ),
-          ],
           bottom: const TabBar(
             indicatorColor: Color(0xff19A7CE),
             indicatorWeight: 5,

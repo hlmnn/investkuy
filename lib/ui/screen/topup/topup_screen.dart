@@ -6,7 +6,6 @@ import 'package:investkuy/data/data_state.dart';
 import 'package:investkuy/data/model/merchant_model.dart';
 import 'package:investkuy/ui/cubit/wallet_cubit.dart';
 import 'package:investkuy/ui/screen/topup/topup_confirm_screen.dart';
-import 'package:investkuy/utils/currency_format.dart';
 
 class TopUp extends StatefulWidget {
   const TopUp({super.key, required this.title, required this.walletId});

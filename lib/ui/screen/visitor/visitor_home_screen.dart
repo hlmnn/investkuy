@@ -4,11 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:investkuy/data/data_state.dart';
 import 'package:investkuy/data/model/umkm_model.dart';
 import 'package:investkuy/ui/cubit/umkm_home_cubit.dart';
-import 'package:investkuy/ui/screen/history/history_screen.dart';
-import 'package:investkuy/ui/screen/investor/investor_detail_screen.dart';
-import 'package:investkuy/ui/screen/topup/topup_screen.dart';
 import 'package:investkuy/ui/screen/visitor/visitor_detail_screen.dart';
-import 'package:investkuy/ui/screen/withdraw/withdraw_screen.dart';
 import 'package:investkuy/ui/screen/visitor/visitor_articles_screen.dart';
 import 'package:investkuy/ui/screen/visitor/visitor_faq_screen.dart';
 import 'package:investkuy/utils/currency_format.dart';
@@ -44,16 +40,6 @@ class _VisitorHomeState extends State<VisitorHome> {
         title: Text(widget.title),
         backgroundColor: const Color(0xff19A7CE),
         automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.message_rounded),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.notifications),
-          ),
-        ],
       ),
       body: RefreshIndicator(
         onRefresh: refresh,

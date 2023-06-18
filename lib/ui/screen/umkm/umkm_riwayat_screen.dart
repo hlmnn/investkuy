@@ -22,22 +22,6 @@ class _UmkmRiwayatState extends State<UmkmRiwayat> {
         appBar: AppBar(
           title: Text(widget.title),
           backgroundColor: const Color(0xff19A7CE),
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.message_rounded),
-            ),
-            IconButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            const Notifikasi(title: 'Notifikasi')));
-              },
-              icon: const Icon(Icons.notifications),
-            ),
-          ],
           bottom: const TabBar(
             indicatorColor: Color(0xff19A7CE),
             indicatorWeight: 5,

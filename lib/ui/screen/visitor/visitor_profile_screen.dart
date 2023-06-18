@@ -20,16 +20,6 @@ class _VisitorProfileState extends State<VisitorProfile> {
         title: Text(widget.title),
         backgroundColor: const Color(0xff19A7CE),
         automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.message_rounded),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.notifications),
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,

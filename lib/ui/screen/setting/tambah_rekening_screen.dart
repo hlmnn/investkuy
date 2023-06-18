@@ -119,6 +119,7 @@ class _TambahRekeningState extends State<TambahRekening> {
                         }
                         return null;
                       },
+                      keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -167,12 +168,15 @@ class _TambahRekeningState extends State<TambahRekening> {
                     context.read<RekeningCubit>().addRekening(int.parse(selectedValue!), _rekening.value.text);
                   }
                   if (state is SuccessState) {
-                    BlocProvider.of<SettingCubit>(context).getAllRekening();
                     SnackBar snackBar = const SnackBar(
                       duration: Duration(seconds: 5),
                       content: Text('Anda berhasil menambahkan rekening baru.'),
                     );
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    Future.delayed(const Duration(milliseconds: 500), () {
+                      BlocProvider.of<SettingCubit>(context).getAllRekening();
+                      Navigator.pop(context);
+                    });
                   } else if (state is ErrorState) {
                     SnackBar snackBar = SnackBar(
                       duration: const Duration(seconds: 5),

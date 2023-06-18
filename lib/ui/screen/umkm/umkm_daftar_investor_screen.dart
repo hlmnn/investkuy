@@ -3,9 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:investkuy/data/model/umkm_model.dart';
 import 'package:investkuy/ui/cubit/list_investor_cubit.dart';
 import 'package:investkuy/data/data_state.dart';
+import 'package:investkuy/utils/currency_format.dart';
 import 'package:investkuy/utils/string_format.dart';
-
-import '../../../utils/currency_format.dart';
 
 class UmkmDaftarInvestor extends StatefulWidget {
   const UmkmDaftarInvestor({super.key, required this.title, required this.id});

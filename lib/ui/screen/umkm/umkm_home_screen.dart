@@ -7,11 +7,11 @@ import 'package:investkuy/ui/cubit/article_cubit.dart';
 import 'package:investkuy/ui/cubit/umkm_home_cubit.dart';
 import 'package:investkuy/ui/cubit/wallet_cubit.dart';
 import 'package:investkuy/ui/screen/history/history_screen.dart';
-import 'package:investkuy/ui/screen/history/history_withdraw_umkm_screen.dart';
 import 'package:investkuy/ui/screen/notification/notifikasi_screen.dart';
 import 'package:investkuy/ui/screen/topup/topup_screen.dart';
 import 'package:investkuy/ui/screen/umkm/umkm_ajukan_pendanaan_screen.dart';
 import 'package:investkuy/ui/screen/visitor/visitor_articles_screen.dart';
+import 'package:investkuy/ui/screen/visitor/visitor_detailArticles_screen.dart';
 import 'package:investkuy/ui/screen/visitor/visitor_faq_screen.dart';
 import 'package:investkuy/ui/screen/withdraw/withdraw_screen.dart';
 import 'package:investkuy/utils/currency_format.dart';
@@ -52,28 +52,15 @@ class _UmkmHomeState extends State<UmkmHome> {
         title: Text(widget.title),
         backgroundColor: const Color(0xff19A7CE),
         automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.message_rounded),
-          ),
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const Notifikasi(title: 'Notifikasi'),
-                ),
-              );
-            },
-            icon: const Icon(Icons.notifications),
-          ),
-        ],
       ),
       body: BlocBuilder<UmkmHomeCubit, DataState>(
         builder: (context, state) {
-          if (state is SuccessState<bool>) {
-            verifiedState = state.data;
+          if (state is SuccessState) {
+            if (state.data is bool) {
+              verifiedState = state.data;
+            } else {
+              context.read<UmkmHomeCubit>().getVerifiedState();
+            }
           }
           return RefreshIndicator(
             onRefresh: refresh,
@@ -344,7 +331,7 @@ class _UmkmHomeState extends State<UmkmHome> {
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.normal,
-                                      fontSize: 15,
+                                      fontSize: 14,
                                     ),
                                   ),
                                 ],
@@ -357,13 +344,25 @@ class _UmkmHomeState extends State<UmkmHome> {
                             ),
                             child: ElevatedButton(
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        const Articles(title: 'Artikel'),
-                                  ),
-                                );
+                                if (verifiedState) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const UmkmAjukanPendanaan(
+                                              title: 'Ajukan Pendanaan'),
+                                    ),
+                                  );
+                                } else {
+                                  SnackBar snackBar = const SnackBar(
+                                    duration: Duration(seconds: 5),
+                                    content: Text(
+                                      "Anda harus melakukan verifikasi akun!",
+                                    ),
+                                  );
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                                }
                               },
                               style: ElevatedButton.styleFrom(
                                 shape: RoundedRectangleBorder(
@@ -378,17 +377,17 @@ class _UmkmHomeState extends State<UmkmHome> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Icon(
-                                    Icons.article_outlined,
+                                    Icons.add_business_outlined,
                                     color: Colors.black,
                                     size: 35,
                                   ),
                                   Text(
-                                    "Artikel",
+                                    "Ajukan",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.normal,
-                                      fontSize: 15,
+                                      fontSize: 14,
                                     ),
                                   ),
                                 ],
@@ -432,56 +431,70 @@ class _UmkmHomeState extends State<UmkmHome> {
                           items: listRekomendasiArticle.map((itemArticle) {
                             return Builder(
                               builder: (BuildContext context) {
-                                return Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 5.0),
-                                  decoration: BoxDecoration(
+                                return InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => DetailArticles(
+                                          id: itemArticle.id,
+                                          title: "Detail Artikel",
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 5.0),
+                                    decoration: BoxDecoration(
                                       color: const Color(0xffE4F9FF),
-                                      borderRadius:
-                                          BorderRadius.circular(10.0)),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius:
-                                            const BorderRadius.vertical(
-                                                top: Radius.circular(10)),
-                                        child: SizedBox(
-                                          height: 90,
-                                          width: double.maxFinite,
-                                          child: Image.network(
-                                            itemArticle.imgUrl,
-                                            fit: BoxFit.cover,
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              const BorderRadius.vertical(
+                                            top: Radius.circular(10),
+                                          ),
+                                          child: SizedBox(
+                                            height: 90,
+                                            width: double.maxFinite,
+                                            child: Image.network(
+                                              itemArticle.imgUrl,
+                                              fit: BoxFit.cover,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      const SizedBox(height: 10),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 8.0),
-                                        child: Text(
-                                          itemArticle.title,
-                                          style: const TextStyle(
-                                            fontSize: 16.0,
-                                            fontWeight: FontWeight.bold,
+                                        const SizedBox(height: 10),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 8.0),
+                                          child: Text(
+                                            itemArticle.title,
+                                            style: const TextStyle(
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      const SizedBox(height: 5),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 8.0),
-                                        child: Text(
-                                          'Tanggal: ${DateFormatter.convertToDate(itemArticle.tglTerbit)}',
-                                          style: const TextStyle(
-                                            fontSize: 14.0,
-                                            color: Colors.grey,
+                                        const SizedBox(height: 5),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 8.0),
+                                          child: Text(
+                                            'Tanggal: ${DateFormatter.convertToDate(itemArticle.tglTerbit)}',
+                                            style: const TextStyle(
+                                              fontSize: 14.0,
+                                              color: Colors.grey,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 );
                               },

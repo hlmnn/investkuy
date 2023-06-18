@@ -29,16 +29,6 @@ class _InvestorProfileState extends State<InvestorProfile> {
         title: Text(widget.title),
         backgroundColor: const Color(0xff19A7CE),
         automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.message_rounded),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.notifications),
-          ),
-        ],
       ),
       body: BlocBuilder<ProfileCubit, DataState>(
         builder: (context, state) {

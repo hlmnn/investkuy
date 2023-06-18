@@ -1,16 +1,11 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
+import 'package:investkuy/data/model/umkm_model.dart';
 import 'package:investkuy/ui/cubit/umkm_riwayat_cubit.dart';
 import 'package:investkuy/ui/screen/umkm/umkm_detail_screen.dart';
 import 'package:investkuy/utils/currency_format.dart';
 import 'package:investkuy/utils/date_formatter.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 import 'package:investkuy/data/data_state.dart';
-
-import '../../../data/model/umkm_model.dart';
 
 class RiwayatCrowdfunding extends StatefulWidget {
   const RiwayatCrowdfunding({super.key, required this.title});

@@ -20,6 +20,35 @@ class ConfirmationCancelPage extends StatelessWidget {
           builder: (context, state) {
         if (state is LoadingState) {
           return const Center(child: CircularProgressIndicator());
+        } else if (state is SuccessState) {
+          if (state.data is bool) {
+            SnackBar snackBar = const SnackBar(
+              duration: Duration(seconds: 5),
+              content: Text("Pembatalan pengajuan berhasil!"),
+            );
+            Future.delayed(const Duration(milliseconds: 500), () {
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              context.read<CancelPengajuanCubit>().resetState();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const UmkmNavigation(
+                    title: "UMKM Navigation",
+                  ),
+                ),
+              );
+            });
+          }
+        } else if (state is ErrorState) {
+          SnackBar snackBar = SnackBar(
+            duration: const Duration(seconds: 5),
+            content: Text(state.message),
+          );
+          Future.delayed(const Duration(milliseconds: 500), () {
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            context.read<CancelPengajuanCubit>().resetState();
+            Navigator.pop(context);
+          });
         }
 
         return Center(
@@ -38,34 +67,6 @@ class ConfirmationCancelPage extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       context.read<CancelPengajuanCubit>().cancelPengajuan(id);
-
-                      if (state is SuccessState) {
-                        if (state.data is bool) {
-                          SnackBar snackBar = const SnackBar(
-                            duration: Duration(seconds: 5),
-                            content: Text("Pembatalan pengajuan berhasil!"),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                          Future.delayed(const Duration(seconds: 1), () {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const UmkmNavigation(
-                                      title: "UMKM Navigation",
-                                      )));
-                          });
-                          
-                          // BlocProvider.of<UmkmRiwayatCfCubit>(context)
-                          //     .getAllRiwayatCrowdfunding();
-                        }
-                      } else if (state is ErrorState) {
-                        SnackBar snackBar = SnackBar(
-                          duration: const Duration(seconds: 5),
-                          content: Text(state.message),
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        Navigator.pop(context);
-                      }
                     },
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(100, 35),

@@ -4,7 +4,6 @@ import 'package:investkuy/data/data_state.dart';
 import 'package:investkuy/data/model/pendanaan_model.dart';
 import 'package:investkuy/ui/cubit/investor_riwayat_cubit.dart';
 import 'package:investkuy/ui/screen/investor/investor_detail_screen.dart';
-import 'package:investkuy/ui/screen/register/register_screen.dart';
 import 'package:investkuy/utils/currency_format.dart';
 import 'package:investkuy/utils/string_format.dart';
 
@@ -45,27 +44,26 @@ class _RiwayatInProgressState extends State<RiwayatInProgress> {
 
           if (data.isEmpty) {
             return RefreshIndicator(
-                      onRefresh: refresh,
-                      child: ListView(children: [
-                        Center(
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 50, bottom: 5, left: 20, right: 20),
-                            child: Column(
-                              children: [
-                                const Text(
-                                    "Tidak ada daftar pengajuan saat ini!",
-                                    style: TextStyle(fontSize: 15)),
-                                Image.asset(
-                                  'assets/images/empty.png',
-                                  fit: BoxFit.fill,
-                                ),
-                              ],
-                            ),
-                          ),
+              onRefresh: refresh,
+              child: ListView(children: [
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        top: 50, bottom: 5, left: 20, right: 20),
+                    child: Column(
+                      children: [
+                        const Text("Tidak ada daftar pengajuan saat ini!",
+                            style: TextStyle(fontSize: 15)),
+                        Image.asset(
+                          'assets/images/empty.png',
+                          fit: BoxFit.fill,
                         ),
-                      ]),
-                    );
+                      ],
+                    ),
+                  ),
+                ),
+              ]),
+            );
           }
 
           return RefreshIndicator(

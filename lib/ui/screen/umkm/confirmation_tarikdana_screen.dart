@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:investkuy/data/data_state.dart';
 import 'package:investkuy/ui/cubit/tarik_dana_cubit.dart';
+import 'package:investkuy/ui/cubit/wallet_cubit.dart';
 import 'package:investkuy/ui/screen/umkm/umkm_navigation.dart';
 
 class ConfirmationTarikDanaScreen extends StatelessWidget {
@@ -19,6 +20,36 @@ class ConfirmationTarikDanaScreen extends StatelessWidget {
       body: BlocBuilder<TarikDanaCubit, DataState>(builder: (context, state) {
         if (state is LoadingState) {
           return const Center(child: CircularProgressIndicator());
+        } else if (state is SuccessState) {
+          if (state.data is bool) {
+            SnackBar snackBar = const SnackBar(
+              duration: Duration(seconds: 5),
+              content: Text("Tarik Dana Berhasil!"),
+            );
+            Future.delayed(const Duration(milliseconds: 500), () {
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              BlocProvider.of<WalletCubit>(context).getWallet();
+              context.read<TarikDanaCubit>().resetState();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const UmkmNavigation(
+                    title: "UMKM Navigation",
+                  ),
+                ),
+              );
+            });
+          }
+        } else if (state is ErrorState) {
+          SnackBar snackBar = SnackBar(
+            duration: const Duration(seconds: 5),
+            content: Text(state.message),
+          );
+          Future.delayed(const Duration(milliseconds: 500), () {
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            context.read<TarikDanaCubit>().resetState();
+            Navigator.pop(context);
+          });
         }
 
         return Center(
@@ -37,34 +68,6 @@ class ConfirmationTarikDanaScreen extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       context.read<TarikDanaCubit>().tarikDanaCf(id);
-
-                      if (state is SuccessState) {
-                        if (state.data is bool) {
-                          SnackBar snackBar = const SnackBar(
-                            duration: Duration(seconds: 5),
-                            content: Text("Tarik Dana Berhasil!"),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                          Future.delayed(const Duration(seconds: 1), () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const UmkmNavigation(
-                                          title: "UMKM Navigation",
-                                        )));
-                          });
-
-                          // BlocProvider.of<UmkmRiwayatCfCubit>(context)
-                          //     .getAllRiwayatCrowdfunding();
-                        }
-                      } else if (state is ErrorState) {
-                        SnackBar snackBar = SnackBar(
-                          duration: const Duration(seconds: 5),
-                          content: Text(state.message),
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        Navigator.pop(context);
-                      }
                     },
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(100, 35),

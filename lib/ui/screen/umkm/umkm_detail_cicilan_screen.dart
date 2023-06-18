@@ -1,17 +1,15 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:investkuy/data/data_state.dart';
+import 'package:investkuy/data/model/umkm_model.dart';
+import 'package:investkuy/ui/cubit/detail_umkm_cubit.dart';
+import 'package:investkuy/ui/screen/umkm/confirmation_bayar_cicilan_screen.dart';
 import 'package:investkuy/ui/screen/umkm/umkm_daftar_investor_screen.dart';
 import 'package:investkuy/ui/screen/umkm/umkm_laporan_keuangan_screen.dart';
-
-import '../../../data/data_state.dart';
-import '../../../data/model/umkm_model.dart';
-import '../../../utils/currency_format.dart';
-import '../../../utils/date_formatter.dart';
-import '../../../utils/string_format.dart';
-import '../../cubit/detail_umkm_cubit.dart';
-import 'confirmation_bayar_cicilan_screen.dart';
+import 'package:investkuy/utils/currency_format.dart';
+import 'package:investkuy/utils/date_formatter.dart';
+import 'package:investkuy/utils/string_format.dart';
 
 class UmkmDetailCicilan extends StatefulWidget {
   const UmkmDetailCicilan({super.key, required this.title, required this.id});

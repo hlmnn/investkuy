@@ -38,6 +38,7 @@ class _RekeningBankState extends State<RekeningBank> {
           } else if (state is SuccessState) {
             if (state.data is bool) {
               context.read<SettingCubit>().resetState();
+              context.read<SettingCubit>().getAllRekening();
             } else {
               data = state.data;
             }

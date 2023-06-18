@@ -7,7 +7,6 @@ import 'package:investkuy/ui/cubit/detail_umkm_cubit.dart';
 import 'package:investkuy/ui/screen/investor/investor_confirm_cancel_screen.dart';
 import 'package:investkuy/ui/screen/investor/investor_confirm_pendanaan_screen.dart';
 import 'package:investkuy/ui/screen/investor/investor_confirm_withdraw_screen.dart';
-import 'package:investkuy/ui/screen/login/login_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:investkuy/ui/screen/visitor/visitor_laporan_screen.dart';
@@ -75,6 +74,7 @@ class _InvestorDetailState extends State<InvestorDetail> {
           String imgUmkmUrl2 = "";
           String imgUmkmUrl3 = "";
           bool isWithdraw = false;
+          bool isInvestorWd = false;
           String jenisAngsuran = "";
           String penghasilan = "";
           String status = "";
@@ -119,6 +119,7 @@ class _InvestorDetailState extends State<InvestorDetail> {
             status = data.status;
             tanggalMulaiBayar = data.tanggalMulaiBayar;
             jumlahAngsuran = data.jumlahAngsuran;
+            isInvestorWd = data.isInvestorWd;
 
             if (data.detailPemilik.img != "") {
               img = CircleAvatar(
@@ -424,7 +425,7 @@ class _InvestorDetailState extends State<InvestorDetail> {
                         ),
                       ),
                     ),
-                    if (!isFunded && status == "In Progress")
+                    if (!isFunded && status == "In Progress" && !isWithdraw)
                       Padding(
                         padding: const EdgeInsets.only(top: 10, bottom: 10),
                         child: Form(
@@ -500,6 +501,7 @@ class _InvestorDetailState extends State<InvestorDetail> {
           builder: (context, state) {
             bool isFunded = false;
             bool isWithdraw = false;
+            bool isInvestorWd = false;
             bool isVerified = false;
             String status = "";
             String name = "";
@@ -511,6 +513,7 @@ class _InvestorDetailState extends State<InvestorDetail> {
               status = state.data['data'].status;
               name = state.data['data'].detailPemilik.name;
               id = state.data['data'].id;
+              isInvestorWd = state.data['data'].isInvestorWd;
             }
             Widget data = Column(
               children: [
@@ -594,7 +597,7 @@ class _InvestorDetailState extends State<InvestorDetail> {
             }
             if (status != "In Progress" && status != "Payment Period") {
               data = ElevatedButton(
-                onPressed: isWithdraw
+                onPressed: isInvestorWd
                     ? null
                     : () {
                         Navigator.push(
@@ -634,7 +637,7 @@ class _InvestorDetailState extends State<InvestorDetail> {
 
             return Container(
               padding: const EdgeInsets.all(20),
-              height: isFunded || isWithdraw || !isWithdraw ? 90 : 114,
+              height: isFunded || isInvestorWd || !isInvestorWd ? 90 : 114,
               width: double.maxFinite,
               decoration: const BoxDecoration(
                 color: Colors.white,

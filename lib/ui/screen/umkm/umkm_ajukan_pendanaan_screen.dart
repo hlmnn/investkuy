@@ -6,8 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:investkuy/ui/cubit/add_pengajuan_cubit.dart';
 import 'package:investkuy/data/data_state.dart';
 
-import '../../cubit/add_pengajuan_cubit.dart';
-
 class UmkmAjukanPendanaan extends StatefulWidget {
   const UmkmAjukanPendanaan({super.key, required this.title});
 
