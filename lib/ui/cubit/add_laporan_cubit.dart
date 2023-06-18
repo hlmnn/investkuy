@@ -16,7 +16,7 @@ class AddLaporanCubit extends Cubit<DataState> {
     try {
       emit(LoadingState());
       final data = await repository.addLaporan(fileLaporan, id);
-      emit(SuccessState<String>(data));
+      emit(SuccessState<bool>(data));
     } on DioException catch (e) {
       log(e.response!.data['message'].toString());
       emit(ErrorState(e.response!.data['message'].toString()));

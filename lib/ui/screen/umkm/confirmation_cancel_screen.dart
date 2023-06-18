@@ -52,7 +52,7 @@ class ConfirmationCancelPage extends StatelessWidget {
                               MaterialPageRoute(
                                   builder: (context) => const UmkmNavigation(
                                       title: "UMKM Navigation",
-                                      indexOther: 1)));
+                                      )));
                           });
                           
                           // BlocProvider.of<UmkmRiwayatCfCubit>(context)

@@ -20,7 +20,7 @@ class UmkmRepository {
         .add(LogInterceptor(requestBody: true, responseBody: true));
   }
 
-  Future<String> addPengajuan(
+  Future<bool> addPengajuan(
       FormData formData, List<String> fileImages, String fileLaporan) async {
     try {
       formData.files.addAll([
@@ -31,9 +31,8 @@ class UmkmRepository {
       ]);
 
       formData.fields.add(MapEntry('username', await getUsername()));
-      log(formData.toString());
-      final response = await _dio.post('/pengajuan', data: formData);
-      return response.data['message'];
+      await _dio.post('/pengajuan', data: formData);
+      return true;
     } on DioException catch (e) {
       log(e.response!.statusCode.toString());
       log(e.message.toString());
@@ -93,16 +92,15 @@ class UmkmRepository {
     }
   }
 
-  Future<String> addLaporan(String fileLaporan, String id) async {
+  Future<bool> addLaporan(String fileLaporan, String id) async {
     try {
       FormData formData = FormData();
 
       formData.files
           .add(MapEntry('laporan', await MultipartFile.fromFile(fileLaporan)));
       log(formData.toString());
-      final response =
-          await _dio.post('/pengajuan/$id/tambah-laporan', data: formData);
-      return response.data['message'];
+      await _dio.post('/pengajuan/$id/tambah-laporan', data: formData);
+      return true;
     } on DioException catch (e) {
       log(e.response!.statusCode.toString());
       log(e.message.toString());

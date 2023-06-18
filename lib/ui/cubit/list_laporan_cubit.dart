@@ -9,7 +9,7 @@ class ListLaporanCubit extends Cubit<DataState> {
 
   ListLaporanCubit() : super(InitialState());
 
-  void getAllLaporan(int id) async {
+  void getAllLaporan(String id) async {
     try {
       emit(LoadingState());
       final data = await repository.getListLaporan(id);
