@@ -13,6 +13,7 @@ import 'package:investkuy/ui/cubit/list_laporan_cubit.dart';
 import 'package:investkuy/ui/cubit/list_umkm_cubit.dart';
 import 'package:investkuy/ui/cubit/login_cubit.dart';
 import 'package:investkuy/ui/cubit/pdf_cubit.dart';
+import 'package:investkuy/ui/cubit/pendanaan_cubit.dart';
 import 'package:investkuy/ui/cubit/profile_cubit.dart';
 import 'package:investkuy/ui/cubit/register_cubit.dart';
 import 'package:investkuy/ui/cubit/rekening_cubit.dart';
@@ -106,6 +107,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<UmkmHomeCubit>(
           create: (context) => UmkmHomeCubit(),
+        ),
+        BlocProvider<PendanaanCubit>(
+          create: (context) => PendanaanCubit(),
         ),
       ],
       child: const MaterialApp(

@@ -76,6 +76,7 @@ class _RiwayatCompletedState extends State<RiwayatCompleted> {
                                 builder: (context) => InvestorDetail(
                                   title: 'Detail UMKM',
                                   id: item.pengajuan.id.toString(),
+                                  pendanaanId: item.id,
                                 ),
                               ),
                             );

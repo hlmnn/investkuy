@@ -4,6 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:investkuy/data/data_state.dart';
 import 'package:investkuy/data/model/umkm_model.dart';
 import 'package:investkuy/ui/cubit/detail_umkm_cubit.dart';
+import 'package:investkuy/ui/screen/investor/investor_confirm_cancel_screen.dart';
+import 'package:investkuy/ui/screen/investor/investor_confirm_pendanaan_screen.dart';
+import 'package:investkuy/ui/screen/investor/investor_confirm_withdraw_screen.dart';
 import 'package:investkuy/ui/screen/login/login_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -12,10 +15,12 @@ import 'package:investkuy/utils/currency_format.dart';
 import 'package:investkuy/utils/string_format.dart';
 
 class InvestorDetail extends StatefulWidget {
-  const InvestorDetail({super.key, required this.title, required this.id});
+  const InvestorDetail(
+      {super.key, required this.title, required this.id, this.pendanaanId});
 
   final String title;
   final String id;
+  final int? pendanaanId;
 
   @override
   _InvestorDetailState createState() => _InvestorDetailState();
@@ -25,6 +30,7 @@ class _InvestorDetailState extends State<InvestorDetail> {
   final List<String> nominal = ['100000', '250000', '500000', '1000000'];
 
   String selectedValue = '0';
+  int idPendanaan = 0;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -36,6 +42,11 @@ class _InvestorDetailState extends State<InvestorDetail> {
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<DetailUmkmCubit>(context).getDetailUmkm(widget.id);
+    if (widget.pendanaanId != null) {
+      setState(() {
+        idPendanaan = widget.pendanaanId!;
+      });
+    }
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -69,6 +80,7 @@ class _InvestorDetailState extends State<InvestorDetail> {
           String status = "";
           String tanggalMulaiBayar = "";
           int jumlahAngsuran = 0;
+          bool test = false;
           Widget img = const Icon(
             Icons.account_circle_rounded,
             size: 70,
@@ -412,7 +424,7 @@ class _InvestorDetailState extends State<InvestorDetail> {
                         ),
                       ),
                     ),
-                    if (!isFunded)
+                    if (!isFunded && status == "In Progress")
                       Padding(
                         padding: const EdgeInsets.only(top: 10, bottom: 10),
                         child: Form(
@@ -431,6 +443,7 @@ class _InvestorDetailState extends State<InvestorDetail> {
                                 fontSize: 15,
                               ),
                             ),
+                            value: selectedValue != "0" ? selectedValue : null,
                             items: nominal
                                 .map(
                                   (item) => DropdownMenuItem<String>(
@@ -446,7 +459,7 @@ class _InvestorDetailState extends State<InvestorDetail> {
                                 .toList(),
                             validator: (value) {
                               if (value == null) {
-                                return 'Mohon pilih No. rekening tujuan anda!';
+                                return 'Mohon pilih nominal pendanaan';
                               }
                               return null;
                             },
@@ -483,127 +496,159 @@ class _InvestorDetailState extends State<InvestorDetail> {
         },
       ),
       bottomNavigationBar: BottomAppBar(
-        child: Container(
-          padding: const EdgeInsets.all(20),
-          height: 114,
-          width: double.maxFinite,
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey,
-                offset: Offset(0.0, 1.0), //(x,y)
-                blurRadius: 5.0,
-              ),
-            ],
-          ),
-          child: BlocBuilder<DetailUmkmCubit, DataState>(
-            builder: (context, state) {
-              bool isFunded = false;
-              bool isWithdraw = false;
-              bool isVerified = false;
-              String status = "";
-              if (state is SuccessState) {
-                isFunded = state.data['data'].isFunded;
-                isWithdraw = state.data['data'].isWithdraw;
-                isVerified = state.data['isVerified'];
-                status = state.data['data'].status;
-              }
-              Widget data = Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text('Total Tagihan'),
-                        Text(
-                          selectedValue != '0'
-                              ? CurrencyFormat.convertToIdr(
-                                  int.parse(selectedValue), 0)
-                              : "Rp 0",
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
+        child: BlocBuilder<DetailUmkmCubit, DataState>(
+          builder: (context, state) {
+            bool isFunded = false;
+            bool isWithdraw = false;
+            bool isVerified = false;
+            String status = "";
+            String name = "";
+            int id = 0;
+            if (state is SuccessState) {
+              isFunded = state.data['data'].isFunded;
+              isWithdraw = state.data['data'].isWithdraw;
+              isVerified = state.data['isVerified'];
+              status = state.data['data'].status;
+              name = state.data['data'].detailPemilik.name;
+              id = state.data['data'].id;
+            }
+            Widget data = Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('Total Tagihan'),
+                      Text(
+                        selectedValue != '0'
+                            ? CurrencyFormat.convertToIdr(
+                                int.parse(selectedValue), 0)
+                            : "Rp 0",
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => InvestorConfirmPendanaanScreen(
+                            nominal: int.parse(selectedValue),
+                            name: name,
+                            id: id,
                           ),
                         ),
-                      ],
+                      );
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xff19A7CE),
+                    fixedSize: const Size(double.maxFinite, 40),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        _formKey.currentState!.save();
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xff19A7CE),
-                      fixedSize: const Size(double.maxFinite, 40),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                  child: const Text(
+                    "Beri Modal Sekarang!",
+                    style: TextStyle(
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+              ],
+            );
+            if (isFunded) {
+              data = ElevatedButton(
+                onPressed: status == "In Progress" ? () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => InvestorConfirmCancelScreen(
+                        name: name,
+                        id: id,
                       ),
                     ),
-                    child: const Text(
-                      "Beri Modal Sekarang!",
-                      style: TextStyle(
-                        fontSize: 15,
-                      ),
+                  );
+                } : null,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xff19A7CE),
+                  fixedSize: const Size(double.maxFinite, 30),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  disabledBackgroundColor: const Color(0xff5b7882),
+                ),
+                child: const Text(
+                  "Batalkan Investasi",
+                  style: TextStyle(
+                    fontSize: 15,
+                  ),
+                ),
+              );
+            }
+            if (status != "In Progress" && status != "Payment Period") {
+              data = ElevatedButton(
+                onPressed: isWithdraw
+                    ? null
+                    : () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => InvestorConfirmWithdrawScreen(
+                              pendanaanId: idPendanaan,
+                              id: id,
+                            ),
+                          ),
+                        );
+                      },
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xff19A7CE),
+                    fixedSize: const Size(double.maxFinite, 30),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
+                    disabledBackgroundColor: const Color(0xff5b7882)),
+                child: const Text(
+                  "Withdraw Profit",
+                  style: TextStyle(
+                    fontSize: 15,
+                  ),
+                ),
+              );
+            }
+            if (!isVerified) {
+              data = const Center(
+                child: Text(
+                  "Akun anda belum terverifikasi, silahkan melakukan verifikasi akun terlebih dahulu.",
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
+                ),
+              );
+            }
+
+            return Container(
+              padding: const EdgeInsets.all(20),
+              height: isFunded || isWithdraw || !isWithdraw ? 90 : 114,
+              width: double.maxFinite,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey,
+                    offset: Offset(0.0, 1.0), //(x,y)
+                    blurRadius: 5.0,
                   ),
                 ],
-              );
-              // TODO
-              if (isFunded) {
-                if (status == 'Payment Period' ||
-                    status == 'Lunas' ||
-                    status == 'Lunas Dini' ||
-                    status == 'Tepat Waktu') {
-                  data = ElevatedButton(
-                    onPressed: isWithdraw ? null : () {},
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xff19A7CE),
-                        fixedSize: const Size(double.maxFinite, 30),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        disabledBackgroundColor: const Color(0xff5b7882)),
-                    child: const Text(
-                      "Withdraw Profit",
-                      style: TextStyle(
-                        fontSize: 15,
-                      ),
-                    ),
-                  );
-                } else {
-                  data = ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xff19A7CE),
-                      fixedSize: const Size(double.maxFinite, 30),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: const Text(
-                      "Batalkan Investasi",
-                      style: TextStyle(
-                        fontSize: 15,
-                      ),
-                    ),
-                  );
-                }
-              }
-              if (!isVerified) {
-                data = const Center(
-                  child: Text(
-                    "Akun anda belum terverifikasi, silahkan melakukan verifikasi akun terlebih dahulu.",
-                    maxLines: 2,
-                    textAlign: TextAlign.center,
-                  ),
-                );
-              }
-              return data;
-            },
-          ),
+              ),
+              child: data,
+            );
+          },
         ),
       ),
     );
