@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:investkuy/data/data_state.dart';
 import 'package:investkuy/ui/cubit/detail_umkm_cubit.dart';
 import 'package:investkuy/ui/cubit/pendanaan_cubit.dart';
+import 'package:investkuy/ui/cubit/wallet_cubit.dart';
 
 class InvestorConfirmWithdrawScreen extends StatelessWidget {
   const InvestorConfirmWithdrawScreen(
@@ -37,6 +38,7 @@ class InvestorConfirmWithdrawScreen extends StatelessWidget {
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 BlocProvider.of<DetailUmkmCubit>(context)
                     .getDetailUmkm(id.toString());
+                BlocProvider.of<WalletCubit>(context).getWallet();
                 context.read<PendanaanCubit>().resetState();
                 Navigator.pop(context);
               });
