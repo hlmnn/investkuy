@@ -265,6 +265,7 @@ class _RegisterState extends State<Register> {
                               inputFormatters: <TextInputFormatter>[
                                 FilteringTextInputFormatter.digitsOnly
                               ],
+                              keyboardType: TextInputType.number,
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(
                                   borderSide:
@@ -305,6 +306,7 @@ class _RegisterState extends State<Register> {
                               inputFormatters: <TextInputFormatter>[
                                 FilteringTextInputFormatter.digitsOnly
                               ],
+                              keyboardType: TextInputType.number,
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(
                                   borderSide:

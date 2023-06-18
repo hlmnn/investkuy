@@ -35,28 +35,36 @@ class _LoginState extends State<Login> {
       body: Center(
         child: BlocBuilder<LoginCubit, DataState>(
           builder: (context, state) {
-            if (state is LoadingState) { // Loading State
+            if (state is LoadingState) {
+              // Loading State
               return const CircularProgressIndicator();
-            } else if (state is SuccessState) { // Success State
+            } else if (state is SuccessState) {
+              // Success State
               if (state.data.role == 'Investor') {
                 context.read<LoginCubit>().resetState();
-                Future.delayed(Duration.zero,() {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const InvestorNavigation(title: 'Investor Navigation')),
-                  );
-                });
+                Future.delayed(
+                  Duration.zero,
+                  () {
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                          builder: (context) => const InvestorNavigation(
+                              title: 'Investor Navigation'),
+                        ),
+                        (Route<dynamic> route) => false);
+                  },
+                );
               } else {
                 context.read<LoginCubit>().resetState();
-                Future.delayed(Duration.zero,() {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const UmkmNavigation(title: 'UMKM Navigation')),
-                  );
+                Future.delayed(Duration.zero, () {
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                        builder: (context) => const UmkmNavigation(title: 'UMKM Navigation'),
+                      ),
+                          (Route<dynamic> route) => false);
                 });
               }
             }
-            
+
             return SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(20),
@@ -79,7 +87,9 @@ class _LoginState extends State<Login> {
                             child: TextFormField(
                               controller: _username,
                               validator: (value) {
-                                return (value == null || value.isEmpty) ? 'Username tidak boleh kosong!' : null;
+                                return (value == null || value.isEmpty)
+                                    ? 'Username tidak boleh kosong!'
+                                    : null;
                               },
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(
@@ -153,14 +163,16 @@ class _LoginState extends State<Login> {
                       child: ElevatedButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            context.read<LoginCubit>().login(_username.value.text, _password.value.text);
+                            context.read<LoginCubit>().login(
+                                _username.value.text, _password.value.text);
                           }
                           if (state is ErrorState) {
                             var snackBar = SnackBar(
                               duration: const Duration(seconds: 5),
                               content: Text(state.message),
                             );
-                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
                           }
                         },
                         style: ElevatedButton.styleFrom(

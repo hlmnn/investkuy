@@ -8,7 +8,6 @@ import 'package:investkuy/ui/screen/setting/informasi_akun_screen.dart';
 import 'package:investkuy/ui/screen/setting/password_screen.dart';
 import 'package:investkuy/ui/screen/setting/pin_screen.dart';
 import 'package:investkuy/ui/screen/setting/rekening_bank.dart';
-import 'package:investkuy/ui/screen/setting/tambah_rekening_screen.dart';
 import 'package:investkuy/ui/screen/setting/verifikasi_akun.dart';
 
 class UmkmProfile extends StatefulWidget {
@@ -68,13 +67,12 @@ class _UmkmProfileState extends State<UmkmProfile> {
             if (state.data is bool) {
               context.read<ProfileCubit>().resetState();
               Future.delayed(Duration.zero, () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        const SplashScreen(title: 'SplashScreen'),
-                  ),
-                );
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: (context) =>
+                      const SplashScreen(title: 'SplashScreen'),
+                    ),
+                        (Route<dynamic> route) => false);
               });
             } else {
               name = state.data.name;
