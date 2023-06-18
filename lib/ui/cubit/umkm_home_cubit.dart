@@ -22,6 +22,16 @@ class UmkmHomeCubit extends Cubit<DataState> {
     }
   }
 
+  void getRekomendasi() async {
+    try {
+      emit(LoadingState());
+      final data = await repository.getRekomendasiPengajuan();
+      emit(SuccessState<List<UmkmModel>>(data));
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   void resetState() async {
     emit(InitialState());
   }

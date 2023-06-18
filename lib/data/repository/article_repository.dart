@@ -33,6 +33,21 @@ class ArticleRepository {
     }
   }
 
+  Future<List<ArticleModel>> getLimit() async {
+    try {
+      final response = await _dio.get('/articles?limit=5');
+      List<ArticleModel> data = [];
+      for (var val in response.data['data']) {
+        data.add(ArticleModel.fromJson(val));
+      }
+      return data;
+    } on DioException catch (e) {
+      log(e.response!.statusCode.toString());
+      log(e.message.toString());
+      rethrow;
+    }
+  }
+
   Future<ArticleModel> getDetails(int id) async {
     try {
       final response = await _dio.get('/articles/$id');

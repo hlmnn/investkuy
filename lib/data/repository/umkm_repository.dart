@@ -64,6 +64,22 @@ class UmkmRepository {
     }
   }
 
+  Future<List<UmkmModel>> getRekomendasiPengajuan() async {
+    try {
+      final response = await _dio.get(
+          "/pengajuan/rekomendasi");
+      List<UmkmModel> data = [];
+      for (var val in response.data['data']) {
+        data.add(UmkmModel.fromJson(val));
+      }
+      return data;
+    } on DioException catch (e) {
+      log(e.response!.statusCode.toString());
+      log(e.message.toString());
+      rethrow;
+    }
+  }
+
   Future<DetailUmkmModel> getDetailUmkm(String id) async {
     try {
       final userId = await getId();
