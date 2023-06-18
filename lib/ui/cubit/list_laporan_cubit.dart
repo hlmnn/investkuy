@@ -12,7 +12,7 @@ class ListLaporanCubit extends Cubit<DataState> {
   void getAllLaporan(int id) async {
     try {
       emit(LoadingState());
-      final data = await repository.getListLaporan(id);
+      final data = await repository.getListLaporan(id.toString());
       emit(SuccessState<List<LaporanModel>>(data));
     } on DioException catch (e) {
       emit(ErrorState(e.response!.data['message'].toString()));
