@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:investkuy/data/data_state.dart';
 import 'package:investkuy/ui/cubit/detail_umkm_cubit.dart';
 import 'package:investkuy/ui/cubit/pendanaan_cubit.dart';
+import 'package:investkuy/ui/cubit/wallet_cubit.dart';
 import 'package:investkuy/utils/currency_format.dart';
 
 class InvestorConfirmPendanaanScreen extends StatelessWidget {
@@ -28,6 +29,30 @@ class InvestorConfirmPendanaanScreen extends StatelessWidget {
               return const Center(
                 child: CircularProgressIndicator(),
               );
+            } else if (state is SuccessState) {
+              SnackBar snackBar = const SnackBar(
+                duration: Duration(seconds: 5),
+                content: Text(
+                  "Anda berhasil melakukan pendanaan!",
+                ),
+              );
+              Future.delayed(const Duration(milliseconds: 500), () {
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                BlocProvider.of<DetailUmkmCubit>(context)
+                    .getDetailUmkm(id.toString());
+                BlocProvider.of<WalletCubit>(context).getWallet();
+                context.read<PendanaanCubit>().resetState();
+                Navigator.pop(context);
+              });
+            } else if (state is ErrorState) {
+              SnackBar snackBar = SnackBar(
+                duration: const Duration(seconds: 5),
+                content: Text(state.message),
+              );
+              Future.delayed(const Duration(milliseconds: 500), () {
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                context.read<PendanaanCubit>().resetState();
+              });
             }
 
             return Center(
@@ -48,29 +73,6 @@ class InvestorConfirmPendanaanScreen extends StatelessWidget {
                           context
                               .read<PendanaanCubit>()
                               .postPendanaan(nominal.toString(), id);
-                          if (state is SuccessState) {
-                            SnackBar snackBar = const SnackBar(
-                              duration: Duration(seconds: 5),
-                              content: Text(
-                                "Anda berhasil melakukan pendanaan!",
-                              ),
-                            );
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar);
-                            Future.delayed(const Duration(seconds: 1), () {
-                              BlocProvider.of<DetailUmkmCubit>(context)
-                                  .getDetailUmkm(id.toString());
-                              context.read<PendanaanCubit>().resetState();
-                              Navigator.pop(context);
-                            });
-                          } else if (state is ErrorState) {
-                            SnackBar snackBar = SnackBar(
-                              duration: const Duration(seconds: 5),
-                              content: Text(state.message),
-                            );
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar);
-                          }
                         },
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size(100, 35),

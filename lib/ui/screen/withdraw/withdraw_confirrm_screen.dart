@@ -1,47 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:investkuy/data/data_state.dart';
-import 'package:investkuy/ui/cubit/detail_umkm_cubit.dart';
-import 'package:investkuy/ui/cubit/pendanaan_cubit.dart';
 import 'package:investkuy/ui/cubit/wallet_cubit.dart';
 
-class InvestorConfirmCancelScreen extends StatelessWidget {
-  const InvestorConfirmCancelScreen(
-      {super.key, required this.name, required this.id});
+class WithdrawConfirmScreen extends StatefulWidget {
+  const WithdrawConfirmScreen({
+    super.key,
+    required this.title,
+    required this.walletId,
+    required this.merchantId,
+    required this.nominal,
+  });
 
-  final String name;
-  final int id;
+  final String title;
+  final int walletId;
+  final int nominal;
+  final int merchantId;
 
+  @override
+  State<WithdrawConfirmScreen> createState() => _WithdrawConfirmScreenState();
+}
+
+class _WithdrawConfirmScreenState extends State<WithdrawConfirmScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Konfirmasi'),
+        title: Text(widget.title),
         backgroundColor: const Color(0xff19A7CE),
+        automaticallyImplyLeading: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: BlocBuilder<PendanaanCubit, DataState>(
+        child: BlocBuilder<WithdrawCubit, DataState>(
           builder: (context, state) {
-            if (state is LoadingState) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (state is SuccessState) {
+            if (state is SuccessState) {
               SnackBar snackBar = const SnackBar(
                 duration: Duration(seconds: 5),
-                content: Text(
-                  "Anda berhasil membatalkan pendanaan!",
-                ),
+                content: Text("Anda berhasil melakukan withdraw!"),
               );
               Future.delayed(const Duration(milliseconds: 500), () {
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                BlocProvider.of<DetailUmkmCubit>(context)
-                    .getDetailUmkm(id.toString());
                 BlocProvider.of<WalletCubit>(context).getWallet();
-                context.read<PendanaanCubit>().resetState();
                 Navigator.pop(context);
               });
+              context.read<WithdrawCubit>().resetState();
             } else if (state is ErrorState) {
               SnackBar snackBar = SnackBar(
                 duration: const Duration(seconds: 5),
@@ -49,7 +53,7 @@ class InvestorConfirmCancelScreen extends StatelessWidget {
               );
               Future.delayed(const Duration(milliseconds: 500), () {
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                context.read<PendanaanCubit>().resetState();
+                context.read<WithdrawCubit>().resetState();
               });
             }
 
@@ -57,9 +61,9 @@ class InvestorConfirmCancelScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    "Apakah Anda yakin melakukan pembatalan pendanaan untuk $name?",
-                    style: const TextStyle(fontSize: 20),
+                  const Text(
+                    "Apakah Anda ingin melakukan withdraw?",
+                    style: TextStyle(fontSize: 20),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 20),
@@ -68,7 +72,11 @@ class InvestorConfirmCancelScreen extends StatelessWidget {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          context.read<PendanaanCubit>().cancelPendanaan(id);
+                          context.read<WithdrawCubit>().withdraw(
+                            widget.walletId,
+                            widget.merchantId,
+                            widget.nominal,
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size(100, 35),

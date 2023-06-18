@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:investkuy/data/data_state.dart';
-import 'package:investkuy/data/model/merchant_model.dart';
 import 'package:investkuy/data/model/rekening_model.dart';
 import 'package:investkuy/data/repository/profile_repository.dart';
 

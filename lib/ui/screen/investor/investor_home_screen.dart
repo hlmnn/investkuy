@@ -1,10 +1,14 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:investkuy/data/data_state.dart';
+import 'package:investkuy/ui/cubit/wallet_cubit.dart';
 import 'package:investkuy/ui/screen/history/history_screen.dart';
-import 'package:investkuy/ui/screen/investor/topup_screen.dart';
+import 'package:investkuy/ui/screen/topup/topup_screen.dart';
 import 'package:investkuy/ui/screen/withdraw/withdraw_screen.dart';
 import 'package:investkuy/ui/screen/visitor/visitor_articles_screen.dart';
 import 'package:investkuy/ui/screen/visitor/visitor_faq_screen.dart';
+import 'package:investkuy/utils/currency_format.dart';
 
 class InvestorHome extends StatefulWidget {
   const InvestorHome({super.key, required this.title});
@@ -18,6 +22,7 @@ class InvestorHome extends StatefulWidget {
 class _InvestorHomeState extends State<InvestorHome> {
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<WalletCubit>(context).getWallet();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -42,172 +47,304 @@ class _InvestorHomeState extends State<InvestorHome> {
           child: Column(
             children: [
               Container(
-                  padding: const EdgeInsets.all(40),
-                  width: double.infinity,
-                  color: const Color(0xff90E7FF),
-                  margin: const EdgeInsets.only(bottom: 20),
-                  child: Column(
-                    children: const [
-                      Text('BANNER',
-                        style: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold
-                        ),
-                      )
-                    ],
-                  )
+                padding: const EdgeInsets.all(40),
+                width: double.infinity,
+                color: const Color(0xff90E7FF),
+                margin: const EdgeInsets.only(bottom: 20),
+                child: const Text(
+                  'BANNER',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
-
               Container(
-                  padding: const EdgeInsets.all(20),
-                  width: double.infinity,
+                padding: const EdgeInsets.all(20),
+                width: double.infinity,
+                margin: const EdgeInsets.only(bottom: 8),
+                decoration: BoxDecoration(
                   color: const Color(0xffE4F9FF),
-                  margin: const EdgeInsets.only(bottom: 10),
-                  child: Column(
+                  borderRadius: BorderRadius.circular(15.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.4),
+                      spreadRadius: 1,
+                      blurRadius: 1,
+                      offset: const Offset(2, 2), // changes position of shadow
+                    ),
+                  ],
+                ),
+                child: BlocBuilder<WalletCubit, DataState>(
+                    builder: (context, state) {
+                  int id = 0;
+                  int balance = 0;
+                  if (state is LoadingState) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (state is SuccessState) {
+                    id = state.data.id;
+                    balance = state.data.balance;
+                  }
+                  return Column(
                     children: [
-                      const Text('Total saldo yang tersedia (Rp)'),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 5),
-                        child: Text('10.000.000',
-                          style: TextStyle(
-                              fontSize: 35,
-                              fontWeight: FontWeight.bold
+                      const Text('Total saldo yang tersedia'),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 5),
+                        child: Text(
+                          CurrencyFormat.convertToIdr(
+                            balance,
+                            0,
+                          ),
+                          style: const TextStyle(
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.push(
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          top: 16.0,
+                          bottom: 8.0,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => const TopUp(title: 'Top Up'))
-                              );
-                            },
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                Icon(Icons.add_box_outlined,
-                                  color: Colors.black,
-                                ),
-                                Text("Top Up",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 13
+                                  MaterialPageRoute(
+                                    builder: (context) => TopUp(
+                                      title: 'Top Up',
+                                      walletId: id,
+                                    ),
+                                  ),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    15.0,
                                   ),
                                 ),
-                              ],
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => const Withdraw(title: 'Withdraw'))
-                              );
-                            },
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                Icon(Icons.price_change_outlined,
-                                  color: Colors.black,
-                                ),
-                                Text("Withdraw",
-                                  style: TextStyle(
+                                backgroundColor: const Color(0xff90E7FF),
+                                fixedSize: const Size(75, 75),
+                              ),
+                              child: const Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.add_box_outlined,
+                                    color: Colors.black,
+                                  ),
+                                  Text(
+                                    "Top Up",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.normal,
-                                      fontSize: 13
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 32.0,
+                              ),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Withdraw(
+                                        title: 'Withdraw',
+                                        walletId: id,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                      15.0,
+                                    ),
+                                  ),
+                                  backgroundColor: const Color(0xff90E7FF),
+                                  fixedSize: const Size(75, 75),
+                                ),
+                                child: const Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.price_change_outlined,
+                                      color: Colors.black,
+                                    ),
+                                    Text(
+                                      "Withdraw",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 10,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => History(
+                                      title: 'History',
+                                      walletId: id,
+                                    ),
+                                  ),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    15.0,
                                   ),
                                 ),
-                              ],
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => const History(title: 'History'))
-                              );
-                            },
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                Icon(Icons.sticky_note_2_outlined,
-                                  color: Colors.black,
-                                ),
-                                Text("History",
-                                  style: TextStyle(
+                                backgroundColor: const Color(0xff90E7FF),
+                                fixedSize: const Size(75, 75),
+                              ),
+                              child: const Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.sticky_note_2_outlined,
+                                    color: Colors.black,
+                                  ),
+                                  Text(
+                                    "History",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.normal,
-                                      fontSize: 13
+                                      fontSize: 10,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ],
-                  )
+                  );
+                }),
               ),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const Faqs(title: 'FAQ'))
-                      );
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Icon(Icons.menu_book_outlined,
-                          color: Colors.black,
-                          size: 35,
-                        ),
-                        Text("FAQ",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 15
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10.0,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                      ),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const Faqs(title: 'FAQ'),
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                              15.0,
+                            ),
                           ),
+                          backgroundColor: const Color(0xff90E7FF),
+                          fixedSize: const Size(75, 75),
                         ),
-                      ],
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const Articles(title: 'Artikel'))
-                      );
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Icon(Icons.article_outlined,
-                          color: Colors.black,
-                          size: 35,
-                        ),
-                        Text("Artikel",
-                          style: TextStyle(
+                        child: const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.menu_book_outlined,
                               color: Colors.black,
-                              fontSize: 15
-                          ),
+                              size: 35,
+                            ),
+                            Text(
+                              "FAQ",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 15,
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                      ),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const Articles(title: 'Artikel'),
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                              15.0,
+                            ),
+                          ),
+                          backgroundColor: const Color(0xff90E7FF),
+                          fixedSize: const Size(75, 75),
+                        ),
+                        child: const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.article_outlined,
+                              color: Colors.black,
+                              size: 35,
+                            ),
+                            Text(
+                              "Artikel",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 15,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-
               const Padding(
                 padding: EdgeInsets.only(top: 10, bottom: 5),
-                child: Text("Rekomendasi UMKM",
+                child: Text(
+                  "Rekomendasi UMKM",
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
@@ -220,34 +357,32 @@ class _InvestorHomeState extends State<InvestorHome> {
                 child: CarouselSlider(
                   options: CarouselOptions(
                     height: 150.0,
-                    viewportFraction: 0.6,
+                    aspectRatio: 16 / 9,
+                    enlargeCenterPage: true,
+                    viewportFraction: 1.0,
                     enableInfiniteScroll: false,
-                    autoPlay: false,
-                    initialPage: 1,
+                    autoPlay: true,
+                    initialPage: 0,
                   ),
-                  items: [1,2,3,4].map((i) {
+                  items: [1, 2, 3, 4].map((i) {
                     return Builder(
                       builder: (BuildContext context) {
                         return Container(
                           width: MediaQuery.of(context).size.width,
                           margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                          decoration: const BoxDecoration(
-                              color: Color(0xffE4F9FF)
-                          ),
+                          decoration:
+                              const BoxDecoration(color: Color(0xffE4F9FF)),
                           child: Center(
                             child: Text(
                               'REKOMENDASI UMKM $i',
                               style: const TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold
-                              ),
+                                  fontSize: 16.0, fontWeight: FontWeight.bold),
                             ),
                           ),
                         );
                       },
                     );
-                  }
-                  ).toList(),
+                  }).toList(),
                 ),
               ),
             ],
