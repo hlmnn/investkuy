@@ -4,11 +4,10 @@ import 'package:investkuy/ui/screen/umkm/umkm_profile_screen.dart';
 import 'package:investkuy/ui/screen/umkm/umkm_riwayat_screen.dart';
 
 class UmkmNavigation extends StatefulWidget {
-  const UmkmNavigation({super.key, required this.title, this.indexOther});
+  const UmkmNavigation({super.key, required this.title});
 
   final String title;
-  final int? indexOther;
-
+  
   @override
   _UmkmNavigationState createState() => _UmkmNavigationState();
 }
@@ -24,9 +23,6 @@ class _UmkmNavigationState extends State<UmkmNavigation> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.indexOther != null) {
-      onItemTap(widget.indexOther!);
-    }
     return MaterialApp(
         home: Scaffold(
       body: pages(pageIndex),

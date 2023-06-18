@@ -19,13 +19,13 @@ class VisitorLaporanScreen extends StatefulWidget {
 class _VisitorLaporanScreenState extends State<VisitorLaporanScreen> {
   Future refresh() async {
     BlocProvider.of<ListLaporanCubit>(context)
-        .getAllLaporan(int.parse(widget.id));
+        .getAllLaporan(widget.id);
   }
 
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<ListLaporanCubit>(context)
-        .getAllLaporan(int.parse(widget.id));
+        .getAllLaporan(widget.id);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

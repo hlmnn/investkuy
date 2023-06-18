@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:investkuy/ui/screen/umkm/umkm_bayar_cicilan_screen.dart';
 import 'package:investkuy/ui/screen/umkm/umkm_daftar_investor_screen.dart';
 import 'package:investkuy/ui/screen/umkm/umkm_laporan_keuangan_screen.dart';
 
