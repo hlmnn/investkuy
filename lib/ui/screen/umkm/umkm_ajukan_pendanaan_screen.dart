@@ -204,12 +204,25 @@ class _UmkmAjukanPendanaanState extends State<UmkmAjukanPendanaan> {
         if (state is LoadingState) {
           log("TES");
           return const Center(child: CircularProgressIndicator());
-        }
-        if (state is SuccessState) {
-          snackbarText = "Membuat pengajuan pendanaan Berhasil!";
-        }
-        if (state is ErrorState) {
-          snackbarText = state.message;
+        } else if (state is SuccessState) {
+          var snackBar = const SnackBar(
+            duration: Duration(seconds: 5),
+            content: Text("Membuat pengajuan pendanaan Berhasil!"),
+          );
+          Future.delayed(const Duration(milliseconds: 500), () {
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            context.read<AddNewPengajuanCubit>().resetState();
+            Navigator.pop(context);
+          });
+        } else if (state is ErrorState) {
+          var snackBar = SnackBar(
+            duration: const Duration(seconds: 5),
+            content: Text(state.message),
+          );
+          Future.delayed(const Duration(milliseconds: 500), () {
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            context.read<AddNewPengajuanCubit>().resetState();
+          });
         }
 
         return SingleChildScrollView(
@@ -749,21 +762,6 @@ class _UmkmAjukanPendanaanState extends State<UmkmAjukanPendanaan> {
                             MapEntry('jenis_angsuran', selectedAngsuranValue!),
                             MapEntry('akad', textEditingAkadController.text),
                           ]);
-
-                          if (state is SuccessState) {
-                            if (state.data is bool) {
-                              Future.delayed(const Duration(seconds: 3), () {
-                                Navigator.pop(context);
-                              });
-                            }
-                          }
-
-                          var snackBar = SnackBar(
-                            duration: const Duration(seconds: 5),
-                            content: Text(snackbarText),
-                          );
-
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
                           context.read<AddNewPengajuanCubit>().addPengajuan(
                               formData, fileImages!, fileLaporan!);
